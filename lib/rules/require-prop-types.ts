@@ -73,22 +73,22 @@ const rule = {
         return
       }
       const hasType =
-        prop.type === 'array' ? false : (optionHasType(prop.value) ?? true)
+        prop.type !== 'array' && (optionHasType(prop.value) ?? true)
 
-      if (!hasType) {
-        const { node, propName } = prop
-        const name =
-          propName ||
-          (node.type === 'Identifier' && node.name) ||
-          'Unknown prop'
-        context.report({
-          node,
-          messageId: 'requireType',
-          data: {
-            name
-          }
-        })
+      if (hasType) {
+        return
       }
+
+      const { node, propName } = prop
+      const name =
+        propName || (node.type === 'Identifier' && node.name) || 'Unknown prop'
+      context.report({
+        node,
+        messageId: 'requireType',
+        data: {
+          name
+        }
+      })
     }
 
     return compositingVisitors(
@@ -99,8 +99,10 @@ const rule = {
           }
         },
         onDefineModelEnter(node: any, model: any) {
-          if (model.typeNode) return
-          if (model.options && (optionHasType(model.options) ?? true)) {
+          if (
+            model.typeNode ||
+            (model.options && (optionHasType(model.options) ?? true))
+          ) {
             return
           }
           context.report({

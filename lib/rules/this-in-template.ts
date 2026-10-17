@@ -106,10 +106,7 @@ const rule = {
           }
         : {
             VExpressionContainer(node: VExpressionContainer) {
-              if (!scopeStack) {
-                return
-              }
-              if (node.parent.type === 'VDirectiveKey') {
+              if (!scopeStack || node.parent.type === 'VDirectiveKey') {
                 // We cannot use `.` in dynamic arguments because the right of the `.` becomes a modifier.
                 // For example, In `:[this.prop]` case, `:[this` is an argument and `prop]` is a modifier.
                 return

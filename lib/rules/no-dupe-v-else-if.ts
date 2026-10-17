@@ -90,19 +90,13 @@ const rule = {
         return false
       }
 
-      if (
-        a.type === 'LogicalExpression' &&
+      return a.type === 'LogicalExpression' &&
         b.type === 'LogicalExpression' &&
         (a.operator === '||' || a.operator === '&&') &&
         a.operator === b.operator
-      ) {
-        return (
-          (isEqual(a.left, b.left) && isEqual(a.right, b.right)) ||
-          (isEqual(a.left, b.right) && isEqual(a.right, b.left))
-        )
-      }
-
-      return equalTokens(a, b, tokenStore)
+        ? (isEqual(a.left, b.left) && isEqual(a.right, b.right)) ||
+            (isEqual(a.left, b.right) && isEqual(a.right, b.left))
+        : equalTokens(a, b, tokenStore)
     }
 
     /**

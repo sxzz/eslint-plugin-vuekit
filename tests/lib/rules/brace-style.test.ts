@@ -54,7 +54,7 @@ tester.run('brace-style', rule, {
       output: `
         <template>
           <div :attr="function foo() {
- return true;\u{20}
+ return true; 
 }" />
         </template>`,
       errors: [

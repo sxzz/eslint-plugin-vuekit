@@ -62,13 +62,15 @@ function checkMetaValidity(context: any, exportsNode: any) {
     'recommended',
     metaDocs.value
   )
-  if (metaDocsRecommended) {
-    context.report({
-      node: metaDocsRecommended,
-      messageId: 'invalidMetaDocsRecommended'
-    })
+  if (!metaDocsRecommended) {
     return
   }
+
+  context.report({
+    node: metaDocsRecommended,
+    messageId: 'invalidMetaDocsRecommended'
+  })
+  return
 }
 
 export default {

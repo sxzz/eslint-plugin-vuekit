@@ -71,10 +71,9 @@ const rule = {
       sourceCode.parserServices.getDocumentFragment()
 
     function getTopLevelHTMLElements() {
-      if (documentFragment) {
-        return documentFragment.children.filter(isVElement)
-      }
-      return []
+      return documentFragment
+        ? documentFragment.children.filter(isVElement)
+        : []
     }
 
     return {
@@ -84,14 +83,15 @@ const rule = {
         }
         for (const block of getTopLevelHTMLElements()) {
           const option = options.find((option) => option.test(block))
-          if (option) {
-            const message = option.message || defaultMessage(block)
-            context.report({
-              node: block.startTag,
-              messageId: 'restrictedBlock',
-              data: { message }
-            })
+          if (!option) {
+            continue
           }
+          const message = option.message || defaultMessage(block)
+          context.report({
+            node: block.startTag,
+            messageId: 'restrictedBlock',
+            data: { message }
+          })
         }
       }
     }

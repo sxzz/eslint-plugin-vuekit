@@ -40,9 +40,7 @@ const rule = {
           lastLeftNode ?? tokenStore.getFirstToken(node),
           (token: any) => token.type !== 'Punctuator'
         )
-        if (!delimiterToken) return
-
-        if (delimiterToken.value === preferredDelimiter) {
+        if (!delimiterToken || delimiterToken.value === preferredDelimiter) {
           return
         }
 

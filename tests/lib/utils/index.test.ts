@@ -468,9 +468,6 @@ function nodeToJson(nodes: ESNode[], ignores: string[] = []) {
     if (['parent', 'start', 'end'].includes(key)) {
       return undefined
     }
-    if (ignores.includes(key)) {
-      return undefined
-    }
-    return value
+    return ignores.includes(key) ? undefined : value
   }
 }

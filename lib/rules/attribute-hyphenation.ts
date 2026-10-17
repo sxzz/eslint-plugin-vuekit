@@ -14,15 +14,11 @@ function getAttributeName(node: VDirective | VAttribute): string | null {
     return node.key.rawName
   }
 
-  if (
-    (node.key.name.name === 'bind' || node.key.name.name === 'model') &&
+  return (node.key.name.name === 'bind' || node.key.name.name === 'model') &&
     node.key.argument &&
     node.key.argument.type === 'VIdentifier'
-  ) {
-    return node.key.argument.rawName
-  }
-
-  return null
+    ? node.key.argument.rawName
+    : null
 }
 
 const rule = {
@@ -96,22 +92,16 @@ const rule = {
           text
         },
         fix: (fixer) => {
-          if (text.includes('_')) {
+          if (text.includes('_') || text.endsWith('.sync')) {
             return null
           }
 
-          if (text.endsWith('.sync')) {
-            return null
-          }
-
-          if (/^[A-Z]/.test(name)) {
-            return null
-          }
-
-          return fixer.replaceText(
-            node.key,
-            text.replace(name, () => caseConverter(name))
-          )
+          return /^[A-Z]/.test(name)
+            ? null
+            : fixer.replaceText(
+                node.key,
+                text.replace(name, () => caseConverter(name))
+              )
         }
       })
     }

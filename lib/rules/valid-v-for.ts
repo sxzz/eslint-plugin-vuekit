@@ -79,7 +79,7 @@ function checkKey(context: RuleContext, vFor: VDirective, element: VElement) {
     return
   }
 
-  if (isCustomComponent(element) && vBindKey == null) {
+  if (vBindKey == null && isCustomComponent(element)) {
     context.report({
       node: element.startTag,
       messageId: 'requireKey'
@@ -200,14 +200,16 @@ const rule = {
           })
         }
 
-        if (index !== undefined && !isValidAlias(index)) {
-          const isEmptyAlias = !index
-          context.report({
-            node: index || expr,
-            messageId: isEmptyAlias ? 'invalidEmptyAlias' : 'invalidAlias',
-            data: isEmptyAlias ? {} : { text: sourceCode.getText(index) }
-          })
+        if (index === undefined || isValidAlias(index)) {
+          return
         }
+
+        const isEmptyAlias = !index
+        context.report({
+          node: index || expr,
+          messageId: isEmptyAlias ? 'invalidEmptyAlias' : 'invalidAlias',
+          data: isEmptyAlias ? {} : { text: sourceCode.getText(index) }
+        })
       }
     })
   }

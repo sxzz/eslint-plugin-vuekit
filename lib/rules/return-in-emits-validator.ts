@@ -109,25 +109,26 @@ const rule = {
             possibleOfReturnTrue: false
           }
 
-          if (node.type === 'ArrowFunctionExpression' && node.expression) {
-            scopeStack.hasReturnValue = true
+          if (!(node.type === 'ArrowFunctionExpression' && node.expression)) {
+            return
+          }
 
-            if (!isFalsy(node.body)) {
-              scopeStack.possibleOfReturnTrue = true
-            }
+          scopeStack.hasReturnValue = true
+
+          if (!isFalsy(node.body)) {
+            scopeStack.possibleOfReturnTrue = true
           }
         },
 
         ReturnStatement(node: ReturnStatement) {
-          if (!scopeStack) {
+          if (!scopeStack || !node.argument) {
             return
           }
-          if (node.argument) {
-            scopeStack.hasReturnValue = true
 
-            if (!isFalsy(node.argument)) {
-              scopeStack.possibleOfReturnTrue = true
-            }
+          scopeStack.hasReturnValue = true
+
+          if (!isFalsy(node.argument)) {
+            scopeStack.possibleOfReturnTrue = true
           }
         },
 

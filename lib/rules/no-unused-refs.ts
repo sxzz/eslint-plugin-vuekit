@@ -222,10 +222,7 @@ const rule = {
         }),
         {
           Identifier(id: any) {
-            if (hasUnknown) {
-              return
-            }
-            if (id.name !== '$refs') {
+            if (hasUnknown || id.name !== '$refs') {
               return
             }
 
@@ -238,10 +235,10 @@ const rule = {
           CallExpression(callExpression: any) {
             const firstArgument = callExpression.arguments[0]
             if (
-              callExpression.callee.type !== 'Identifier' ||
-              callExpression.callee.name !== 'useTemplateRef' ||
               !firstArgument ||
-              !isStringLiteral(firstArgument)
+              !isStringLiteral(firstArgument) ||
+              callExpression.callee.type !== 'Identifier' ||
+              callExpression.callee.name !== 'useTemplateRef'
             ) {
               return
             }

@@ -101,8 +101,7 @@ const rule = {
       executeOnVue(context, (obj) => {
         const node = findProperty(obj, 'name')
 
-        if (!node) return
-        if (!canConvert(node.value)) return
+        if (!node || !canConvert(node.value)) return
         convertName(node.value)
       }),
       defineScriptSetupVisitor(context, {
@@ -111,8 +110,7 @@ const rule = {
           const define = node.arguments[0]
           if (define.type !== 'ObjectExpression') return
           const nameNode = findProperty(define, 'name')
-          if (!nameNode) return
-          if (!canConvert(nameNode.value)) return
+          if (!nameNode || !canConvert(nameNode.value)) return
           convertName(nameNode.value)
         }
       })

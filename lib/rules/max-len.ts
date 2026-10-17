@@ -284,7 +284,7 @@ const rule = {
       const scriptTokens = sourceCode.ast.tokens
       const scriptComments = sourceCode.getAllComments()
 
-      if (sourceCode.parserServices.getTemplateBodyTokenStore && templateBody) {
+      if (templateBody && sourceCode.parserServices.getTemplateBodyTokenStore) {
         const tokenStore = sourceCode.parserServices.getTemplateBodyTokenStore()
 
         const templateTokens = tokenStore.getTokens(templateBody, {
@@ -378,12 +378,9 @@ const rule = {
           templateLinesRange &&
           templateLinesRange[0] <= lineNumber &&
           lineNumber <= templateLinesRange[1]
-        // check if line is inside a script or template.
-        if (!inScript && !inTemplate) {
-          // out of range.
-          continue
-        }
+        // check if line is inside a script or template and not ignored
         if (
+          (!inScript && !inTemplate) ||
           (shouldIgnoreStrings && stringsByLine[lineNumber]) ||
           (shouldIgnoreTemplateLiterals &&
             templateLiteralsByLine[lineNumber]) ||
@@ -392,7 +389,6 @@ const rule = {
             htmlAttributeValuesByLine[lineNumber]) ||
           (shouldIgnoreHTMLTextContents && htmlTextContentsByLine[lineNumber])
         ) {
-          // ignore this line
           continue
         }
 

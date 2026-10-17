@@ -314,48 +314,49 @@ const rule = {
 
         const firstUnorderedProperty = unorderedProperties[0]
 
-        if (firstUnorderedProperty) {
-          const line = firstUnorderedProperty.node.loc.start.line
-          const propertyNode = property.node
-          const firstUnorderedPropertyNode = firstUnorderedProperty.node
-          const hasSideEffectsPossibility = propertiesNodes
-            .slice(
-              propertiesNodes.indexOf(firstUnorderedPropertyNode),
-              propertiesNodes.indexOf(propertyNode) + 1
-            )
-            .some(
-              (property: any) =>
-                !isNotSideEffectsNode(property, sourceCode.visitorKeys)
-            )
-
-          context.report({
-            node: property.node,
-            messageId: 'order',
-            data: {
-              name: property.name,
-              firstUnorderedPropertyName: firstUnorderedProperty.name,
-              line
-            },
-            fix: hasSideEffectsPossibility
-              ? undefined
-              : (fixer: any) =>
-                  handleFix(fixer, propertyNode, firstUnorderedPropertyNode),
-            suggest: hasSideEffectsPossibility
-              ? [
-                  {
-                    messageId: 'reorderWithSideEffects',
-                    data: {
-                      name: property.name,
-                      firstUnorderedPropertyName: firstUnorderedProperty.name,
-                      line
-                    },
-                    fix: (fixer: any) =>
-                      handleFix(fixer, propertyNode, firstUnorderedPropertyNode)
-                  }
-                ]
-              : undefined
-          })
+        if (!firstUnorderedProperty) {
+          continue
         }
+        const line = firstUnorderedProperty.node.loc.start.line
+        const propertyNode = property.node
+        const firstUnorderedPropertyNode = firstUnorderedProperty.node
+        const hasSideEffectsPossibility = propertiesNodes
+          .slice(
+            propertiesNodes.indexOf(firstUnorderedPropertyNode),
+            propertiesNodes.indexOf(propertyNode) + 1
+          )
+          .some(
+            (property: any) =>
+              !isNotSideEffectsNode(property, sourceCode.visitorKeys)
+          )
+
+        context.report({
+          node: property.node,
+          messageId: 'order',
+          data: {
+            name: property.name,
+            firstUnorderedPropertyName: firstUnorderedProperty.name,
+            line
+          },
+          fix: hasSideEffectsPossibility
+            ? undefined
+            : (fixer: any) =>
+                handleFix(fixer, propertyNode, firstUnorderedPropertyNode),
+          suggest: hasSideEffectsPossibility
+            ? [
+                {
+                  messageId: 'reorderWithSideEffects',
+                  data: {
+                    name: property.name,
+                    firstUnorderedPropertyName: firstUnorderedProperty.name,
+                    line
+                  },
+                  fix: (fixer: any) =>
+                    handleFix(fixer, propertyNode, firstUnorderedPropertyNode)
+                }
+              ]
+            : undefined
+        })
       }
     }
 

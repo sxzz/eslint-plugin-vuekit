@@ -145,16 +145,13 @@ const rule = {
       onSetupFunctionEnter(node: any, { node: vueNode }: any) {
         setupFunctions.set(node, vueNode)
         const contextParam = node.params[1]
-        if (!contextParam) {
+        if (
           // no arguments
-          return
-        }
-        if (contextParam.type === 'RestElement') {
+          !contextParam ||
           // cannot check
-          return
-        }
-        if (contextParam.type === 'ArrayPattern') {
-          // cannot check
+          contextParam.type === 'RestElement' ||
+          contextParam.type === 'ArrayPattern'
+        ) {
           return
         }
 
@@ -179,8 +176,10 @@ const rule = {
             return
           }
           for (const reference of variable.references) {
-            if (reference.identifier.type !== 'Identifier') continue
-            if (!reference.isRead()) {
+            if (
+              reference.identifier.type !== 'Identifier' ||
+              !reference.isRead()
+            ) {
               continue
             }
             exposeReferenceIds.add(reference.identifier)
@@ -194,8 +193,10 @@ const rule = {
             return
           }
           for (const reference of variable.references) {
-            if (reference.identifier.type !== 'Identifier') continue
-            if (!reference.isRead()) {
+            if (
+              reference.identifier.type !== 'Identifier' ||
+              !reference.isRead()
+            ) {
               continue
             }
             contextReferenceIds.add(reference.identifier)
@@ -213,25 +214,26 @@ const rule = {
         }
         // find setup context
         const setupContext = setupContexts.get(vueNode)
-        if (setupContext) {
-          const { contextReferenceIds, exposeReferenceIds } = setupContext
+        if (!setupContext) {
+          return
+        }
+
+        const { contextReferenceIds, exposeReferenceIds } = setupContext
+        if (
+          node.callee.type === 'Identifier' &&
+          exposeReferenceIds.has(node.callee)
+        ) {
+          // setup(props,{expose}) {expose()}
+          calledExpose.add(vueNode)
+        } else {
+          const expose = getCalleeMemberNode(node)
           if (
-            node.callee.type === 'Identifier' &&
-            exposeReferenceIds.has(node.callee)
+            expose?.name === 'expose' &&
+            expose.member.object.type === 'Identifier' &&
+            contextReferenceIds.has(expose.member.object)
           ) {
-            // setup(props,{expose}) {expose()}
+            // setup(props,context) {context.emit()}
             calledExpose.add(vueNode)
-          } else {
-            const expose = getCalleeMemberNode(node)
-            if (
-              expose &&
-              expose.name === 'expose' &&
-              expose.member.object.type === 'Identifier' &&
-              contextReferenceIds.has(expose.member.object)
-            ) {
-              // setup(props,context) {context.emit()}
-              calledExpose.add(vueNode)
-            }
           }
         }
       },
@@ -273,12 +275,8 @@ const rule = {
         scopeStack &&= scopeStack.upper
       },
       onVueObjectExit(component: any, { type }: any) {
-        if (calledExpose.has(component)) {
-          // `expose` function is called
-          return
-        }
-        if (setupRender.has(component)) {
-          // `setup` function is render function
+        // `expose` function is called or `setup` function is render function
+        if (calledExpose.has(component) || setupRender.has(component)) {
           return
         }
         if (type === 'definition') {

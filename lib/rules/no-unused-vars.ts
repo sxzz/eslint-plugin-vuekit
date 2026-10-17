@@ -58,12 +58,11 @@ function isUsedAsComponentTag(variableName: string, element: VElement) {
       continue
     }
 
-    // Check if the tag name matches the variable name (PascalCase component)
-    if (child.rawName === variableName) {
-      return true
-    }
-    // Recursively check children
-    if (isUsedAsComponentTag(variableName, child)) {
+    // Check if the tag name matches the variable name (PascalCase component), otherwise recursively check children
+    if (
+      child.rawName === variableName ||
+      isUsedAsComponentTag(variableName, child)
+    ) {
       return true
     }
   }
@@ -115,17 +114,11 @@ const rule = {
           continue
         }
 
-        if (ignoreRegEx != null && ignoreRegEx.test(variable.id.name)) {
-          continue
-        }
-
-        if (hasAfterUsed && !isDestructuringVar(variable)) {
-          // If a variable after the variable is used, it will be skipped.
-          continue
-        }
-
-        // Check if the variable is used as a component tag in descendants
-        if (isUsedAsComponentTag(variable.id.name, node)) {
+        if (
+          (ignoreRegEx != null && ignoreRegEx.test(variable.id.name)) ||
+          (hasAfterUsed && !isDestructuringVar(variable)) || // skip If a variable after the variable is used
+          isUsedAsComponentTag(variable.id.name, node) // check if the variable is used as a component tag in descendants
+        ) {
           continue
         }
 

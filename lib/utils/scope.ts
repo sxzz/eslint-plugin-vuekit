@@ -12,10 +12,9 @@ export function getScope(context: RuleContext, currentNode: ESNode) {
     const scope = scopeManager.acquire(node as ESNode, isInner)
 
     if (scope) {
-      if (scope.type === 'function-expression-name') {
-        return scope.childScopes[0]
-      }
-      return scope
+      return scope.type === 'function-expression-name'
+        ? scope.childScopes[0]
+        : scope
     }
   }
 

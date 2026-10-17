@@ -89,7 +89,7 @@ const rule = {
             const variable = (
               findVariable as unknown as WithVue<typeof findVariable>
             )(getScope(context, node), node)
-            if (
+            if (!(
               variable &&
               variable.references.some((ref) => ref.identifier === node) &&
               variable.defs.length > 0 &&
@@ -99,16 +99,18 @@ const rule = {
                   inRange(scriptSetup.range, def.name) &&
                   !inRange(defineProps.range, def.name)
               )
-            ) {
-              if (withinTypeNode(node)) {
-                continue
-              }
-              //`defineProps` is referencing locally declared variables.
-              context.report({
-                node,
-                messageId: 'referencingLocally'
-              })
+            )) {
+              continue
             }
+
+            if (withinTypeNode(node)) {
+              continue
+            }
+            //`defineProps` is referencing locally declared variables.
+            context.report({
+              node,
+              messageId: 'referencingLocally'
+            })
           }
         }
       }),

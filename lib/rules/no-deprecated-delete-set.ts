@@ -37,17 +37,13 @@ function getVueDeprecatedCallExpression(
   context: RuleContext
 ) {
   // Instance API: this.$set()
-  if (
-    deprecatedDollarApis.has(identifier.name) &&
+  return deprecatedDollarApis.has(identifier.name) &&
     identifier.parent.type === 'MemberExpression' &&
     isThis(identifier.parent.object, context) &&
     identifier.parent.parent.type === 'CallExpression' &&
     identifier.parent.parent.callee === identifier.parent
-  ) {
-    return identifier.parent.parent
-  }
-
-  return undefined
+    ? identifier.parent.parent
+    : undefined
 }
 
 const rule = {

@@ -70,10 +70,9 @@ function getPropertyDataFromObjectProperty(
   return {
     hasNestProperty: Boolean(propertyMap),
     get(name) {
-      if (!propertyMap) {
-        return null
-      }
-      return getPropertyDataFromObjectProperty(propertyMap.get(name))
+      return propertyMap
+        ? getPropertyDataFromObjectProperty(propertyMap.get(name))
+        : null
     }
   }
 }
@@ -318,11 +317,7 @@ const rule = {
         if (
           reserved.includes(name) ||
           isIgnored(name) ||
-          propertiesDefinedByStoreHelpers.has(name)
-        ) {
-          return
-        }
-        if (
+          propertiesDefinedByStoreHelpers.has(name) ||
           // Prevents reporting to the same node.
           this.reported.has(node) ||
           // Prevents reports with the same name.
@@ -375,10 +370,7 @@ const rule = {
         return null
       }
       const property = node.parent
-      if (!utils.isProperty(property)) {
-        return null
-      }
-      return property
+      return utils.isProperty(property) ? property : null
     }
 
     const scriptVisitor = utils.compositingVisitors(
@@ -390,17 +382,19 @@ const rule = {
 
           const ctx = getVueComponentContext(programNode)
           const globalScope = context.sourceCode.scopeManager.globalScope
-          if (globalScope) {
-            for (const variable of globalScope.variables) {
-              ctx.defineProperties.set(variable.name, {})
-            }
-            const moduleScope = globalScope.childScopes.find(
-              (scope) => scope.type === 'module'
-            )
-            const moduleVariables = (moduleScope && moduleScope.variables) || []
-            for (const variable of moduleVariables) {
-              ctx.defineProperties.set(variable.name, {})
-            }
+          if (!globalScope) {
+            return
+          }
+
+          for (const variable of globalScope.variables) {
+            ctx.defineProperties.set(variable.name, {})
+          }
+          const moduleScope = globalScope.childScopes.find(
+            (scope) => scope.type === 'module'
+          )
+          const moduleVariables = (moduleScope && moduleScope.variables) || []
+          for (const variable of moduleVariables) {
+            ctx.defineProperties.set(variable.name, {})
           }
         }
       },
@@ -521,10 +515,9 @@ const rule = {
               hasNestProperty: Boolean(propertyMap),
               isProps: prop.groupName === GROUP_PROPERTY,
               get(name) {
-                if (!propertyMap) {
-                  return null
-                }
-                return getPropertyDataFromObjectProperty(propertyMap.get(name))
+                return propertyMap
+                  ? getPropertyDataFromObjectProperty(propertyMap.get(name))
+                  : null
               }
             })
           }

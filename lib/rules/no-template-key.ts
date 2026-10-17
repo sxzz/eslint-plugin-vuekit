@@ -33,19 +33,17 @@ const rule = {
       "VElement[name='template']"(node: VElement) {
         const keyNode =
           getAttribute(node, 'key') || getDirective(node, 'bind', 'key')
-        if (keyNode) {
-          if (hasDirective(node, 'for')) {
-            // It's valid for Vue.js 3.x.
-            // <template v-for="item in list" :key="item.id"> ... </template>
-            // see https://github.com/vuejs/vue-next/issues/1734
-            return
-          }
-          context.report({
-            node: keyNode,
-            loc: keyNode.loc,
-            messageId: 'disallow'
-          })
+        if (!keyNode || hasDirective(node, 'for')) {
+          // v-for on template is valid for Vue.js 3.x.
+          // <template v-for="item in list" :key="item.id"> ... </template>
+          // see https://github.com/vuejs/vue-next/issues/1734
+          return
         }
+        context.report({
+          node: keyNode,
+          loc: keyNode.loc,
+          messageId: 'disallow'
+        })
       }
     })
   }

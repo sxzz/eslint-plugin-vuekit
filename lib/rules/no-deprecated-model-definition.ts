@@ -28,14 +28,11 @@ function findPropertyValue(node: ObjectExpression, key: string) {
       property.key.type === 'Identifier' &&
       property.key.name === key
   )
-  if (
-    !property ||
-    property.type !== 'Property' ||
-    !isStringLiteral(property.value)
-  ) {
-    return undefined
-  }
-  return property.value
+  return property &&
+    property.type === 'Property' &&
+    isStringLiteral(property.value)
+    ? property.value
+    : undefined
 }
 
 function replaceLiteral(

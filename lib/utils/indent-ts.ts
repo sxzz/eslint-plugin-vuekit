@@ -162,12 +162,14 @@ export function defineVisitor({
           tokenStore.getFirstToken(node.superClass)
         )
       }
-      if (node.implements != null && node.implements.length > 0) {
-        const classToken = tokenStore.getFirstToken(node)
-        const implementsToken = tokenStore.getTokenBefore(node.implements[0])
-        setOffset(implementsToken, 1, classToken)
-        processNodeList(node.implements, implementsToken, null, 1)
+      if (node.implements == null || node.implements.length === 0) {
+        return
       }
+
+      const classToken = tokenStore.getFirstToken(node)
+      const implementsToken = tokenStore.getTokenBefore(node.implements[0])
+      setOffset(implementsToken, 1, classToken)
+      processNodeList(node.implements, implementsToken, null, 1)
     },
     // Process semicolons.
     ['TSTypeAliasDeclaration, TSCallSignatureDeclaration, TSConstructSignatureDeclaration, TSImportEqualsDeclaration,' +
@@ -193,10 +195,10 @@ export function defineVisitor({
       processSemicolons(node)
     },
     '*[type=/^TS/]'(node: ASTNode) {
-      if (!isTypeNode(node)) {
-        return
-      }
-      if ((node.parent as any).type === 'TSParenthesizedType') {
+      if (
+        !isTypeNode(node) ||
+        (node.parent as any).type === 'TSParenthesizedType'
+      ) {
         return
       }
       // Process parentheses.
@@ -302,10 +304,12 @@ export function defineVisitor({
         'typeArguments' in node
           ? node.typeArguments
           : /** typescript-eslint v5 */ (node as any).typeParameters
-      if (typeArguments) {
-        const firstToken = tokenStore.getFirstToken(node)
-        setOffset(tokenStore.getFirstToken(typeArguments), 1, firstToken)
+      if (!typeArguments) {
+        return
       }
+
+      const firstToken = tokenStore.getFirstToken(node)
+      setOffset(tokenStore.getFirstToken(typeArguments), 1, firstToken)
     },
     /**
      * Process type parameter instantiation and type parameter declaration
@@ -469,20 +473,20 @@ export function defineVisitor({
         >
       )!
       processNodeList(node.parameters, leftBracketToken, rightBracketToken, 1)
-      const keyLast = rightBracketToken
-      if (node.typeAnnotation) {
-        const typeAnnotationToken = tokenStore.getFirstToken(
-          node.typeAnnotation
-        )
-        setOffset(
-          [
-            ...tokenStore.getTokensBetween(keyLast, typeAnnotationToken),
-            typeAnnotationToken
-          ],
-          1,
-          leftBracketToken
-        )
+      if (!node.typeAnnotation) {
+        return
       }
+
+      const keyLast = rightBracketToken
+      const typeAnnotationToken = tokenStore.getFirstToken(node.typeAnnotation)
+      setOffset(
+        [
+          ...tokenStore.getTokensBetween(keyLast, typeAnnotationToken),
+          typeAnnotationToken
+        ],
+        1,
+        leftBracketToken
+      )
     },
     /**
      * Process array type
@@ -837,18 +841,20 @@ export function defineVisitor({
       )
       setOffset(prefixTokens, 0, firstToken)
       setOffset(idTokens.firstToken, 1, firstToken)
-      if (node.body) {
-        const bodyFirstToken = tokenStore.getFirstToken(node.body)
-        setOffset(
-          bodyFirstToken,
-          isOpeningBraceToken(
-            bodyFirstToken as Parameters<typeof isOpeningBraceToken>[0]
-          )
-            ? 0
-            : 1,
-          firstToken
-        )
+      if (!node.body) {
+        return
       }
+
+      const bodyFirstToken = tokenStore.getFirstToken(node.body)
+      setOffset(
+        bodyFirstToken,
+        isOpeningBraceToken(
+          bodyFirstToken as Parameters<typeof isOpeningBraceToken>[0]
+        )
+          ? 0
+          : 1,
+        firstToken
+      )
     },
     TSMethodSignature(node) {
       // fn(arg: A): R | null;
@@ -879,17 +885,19 @@ export function defineVisitor({
         isClosingParenToken as unknown as WithVue<typeof isClosingParenToken>
       )
       processNodeList(node.params, leftParenToken, rightParenToken, 1)
-      if (node.returnType) {
-        const typeAnnotationToken = tokenStore.getFirstToken(node.returnType)
-        setOffset(
-          [
-            ...tokenStore.getTokensBetween(keyLast, typeAnnotationToken),
-            typeAnnotationToken
-          ],
-          1,
-          firstToken
-        )
+      if (!node.returnType) {
+        return
       }
+
+      const typeAnnotationToken = tokenStore.getFirstToken(node.returnType)
+      setOffset(
+        [
+          ...tokenStore.getTokensBetween(keyLast, typeAnnotationToken),
+          typeAnnotationToken
+        ],
+        1,
+        firstToken
+      )
     },
     /**
      * Process call signature declaration and construct signature declaration
@@ -940,20 +948,19 @@ export function defineVisitor({
         isClosingParenToken as unknown as WithVue<typeof isClosingParenToken>
       )!
       processNodeList(node.params, leftParenToken, rightParenToken, 1)
-      if (node.returnType) {
-        const typeAnnotationToken = tokenStore.getFirstToken(node.returnType)
-        setOffset(
-          [
-            ...tokenStore.getTokensBetween(
-              rightParenToken,
-              typeAnnotationToken
-            ),
-            typeAnnotationToken
-          ],
-          1,
-          firstToken
-        )
+      if (!node.returnType) {
+        return
       }
+
+      const typeAnnotationToken = tokenStore.getFirstToken(node.returnType)
+      setOffset(
+        [
+          ...tokenStore.getTokensBetween(rightParenToken, typeAnnotationToken),
+          typeAnnotationToken
+        ],
+        1,
+        firstToken
+      )
     },
     /**
      * Process declare function and empty body function
@@ -1135,14 +1142,16 @@ export function defineVisitor({
         lastKeyToken = keyTokens.lastToken
       }
 
-      if (valueNode != null) {
-        const initToken = tokenStore.getFirstToken(valueNode)
-        setOffset(
-          [...tokenStore.getTokensBetween(lastKeyToken, initToken), initToken],
-          1,
-          lastKeyToken
-        )
+      if (valueNode == null) {
+        return
       }
+
+      const initToken = tokenStore.getFirstToken(valueNode)
+      setOffset(
+        [...tokenStore.getTokensBetween(lastKeyToken, initToken), initToken],
+        1,
+        lastKeyToken
+      )
     },
 
     /**
@@ -1196,15 +1205,11 @@ export function defineVisitor({
       )
       setOffset(leftParenToken, 1, firstToken)
 
-      const args = []
-      if (node.source) {
-        args.push(node.source)
-      } else {
-        // For old typescript-eslint parser
-        args.push(
-          node.argument || /** typescript-eslint v5 */ (node as any).parameter
-        )
-      }
+      const args: MaybeNode[] = [
+        node.source ||
+          node.argument || // old typescript-eslint parser
+          /** typescript-eslint v5 */ (node as any).parameter // typescript-eslint v5
+      ]
       if (node.options) {
         args.push(node.options)
       }

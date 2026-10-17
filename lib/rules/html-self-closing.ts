@@ -59,18 +59,12 @@ function getElementType(node: VElement): keyof Options {
     return 'COMPONENT'
   }
   if (isHtmlElementNode(node)) {
-    if (isHtmlVoidElementName(node.name)) {
-      return 'VOID'
-    }
-    return 'NORMAL'
+    return isHtmlVoidElementName(node.name) ? 'VOID' : 'NORMAL'
   }
   if (isSvgElementNode(node)) {
     return 'SVG'
   }
-  if (isMathElementNode(node)) {
-    return 'MATH'
-  }
-  return 'UNKNOWN'
+  return isMathElementNode(node) ? 'MATH' : 'UNKNOWN'
 }
 
 /**
@@ -160,13 +154,12 @@ const rule = {
                 const tokens =
                   sourceCode.parserServices.getTemplateBodyTokenStore()
                 const close = tokens.getLastToken(node.startTag)
-                if (close.type !== 'HTMLTagClose') {
-                  return null
-                }
-                return fixer.replaceTextRange(
-                  [close.range[0], node.range[1]],
-                  '/>'
-                )
+                return close.type === 'HTMLTagClose'
+                  ? fixer.replaceTextRange(
+                      [close.range[0], node.range[1]],
+                      '/>'
+                    )
+                  : null
               }
             })
           }

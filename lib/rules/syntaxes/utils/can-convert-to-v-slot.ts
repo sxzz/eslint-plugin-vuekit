@@ -48,11 +48,11 @@ export default function canConvertToVSlot(
     return false
   }
   const slot = getSlotContext(element, sourceCode)
-  if (slot.vFor && !slot.slotVForVars) {
+  return (
     // E.g., <template v-for="x of xs" #one></template>
-    return false
-  }
-  return !hasSameSlotDirective(ownerElement, slot, sourceCode, tokenStore)
+    !(slot.vFor && !slot.slotVForVars) &&
+    !hasSameSlotDirective(ownerElement, slot, sourceCode, tokenStore)
+  )
 }
 
 function getSlotContext(element: VElement, sourceCode: SourceCode) {
@@ -171,10 +171,10 @@ function equalSlotVForVariables(
   b: SlotVForVariables,
   tokenStore: ParserServices.TokenStore
 ) {
-  if (a.variables.length !== b.variables.length) {
-    return false
-  }
-  if (!equal(a.expr.right, b.expr.right)) {
+  if (
+    a.variables.length !== b.variables.length ||
+    !equal(a.expr.right, b.expr.right)
+  ) {
     return false
   }
 
@@ -193,10 +193,7 @@ function equalSlotVForVariables(
         bPtn.range[0] <= v.id.range[0] && v.id.range[1] <= bPtn.range[1]
     )
     if (aVar && bVar) {
-      if (aVar.id.name !== bVar.id.name) {
-        return false
-      }
-      if (!equal(aPtn, bPtn)) {
+      if (aVar.id.name !== bVar.id.name || !equal(aPtn, bPtn)) {
         return false
       }
       checkedVarNames.add(aVar.id.name)
@@ -214,9 +211,6 @@ function equalSlotVForVariables(
    * Determines whether the two given nodes are considered to be equal.
    */
   function equal(a: ASTNode, b: ASTNode) {
-    if (a.type !== b.type) {
-      return false
-    }
-    return equalTokens(a, b, tokenStore)
+    return a.type === b.type ? equalTokens(a, b, tokenStore) : false
   }
 }

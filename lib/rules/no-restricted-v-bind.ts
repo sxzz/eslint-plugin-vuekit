@@ -47,14 +47,12 @@ function parseOption(option: any): ParsedOption {
   const parsed = parseOption(option.argument)
   if (option.modifiers) {
     const argTest = parsed.test
-    parsed.test = (key) => {
-      if (!argTest(key)) {
-        return false
-      }
-      return (option.modifiers as string[]).every((modName) =>
-        key.modifiers.some((mid) => mid.name === modName)
-      )
-    }
+    parsed.test = (key) =>
+      argTest(key)
+        ? (option.modifiers as string[]).every((modName) =>
+            key.modifiers.some((mid) => mid.name === modName)
+          )
+        : false
     parsed.modifiers = option.modifiers
   }
   if (option.element) {

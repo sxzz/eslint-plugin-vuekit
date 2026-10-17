@@ -26,10 +26,9 @@ const GROUP_NAMES: GroupName[] = [
 ]
 
 function isAllowedVarName(context: RuleContext, variableName: string) {
-  if (context.options[0] && context.options[0].allow) {
-    return context.options[0].allow.includes(variableName)
-  }
-  return false
+  return context.options[0] && context.options[0].allow
+    ? context.options[0].allow.includes(variableName)
+    : false
 }
 
 const rule = {

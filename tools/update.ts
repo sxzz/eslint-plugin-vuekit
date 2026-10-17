@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-top-level-side-effects -- CLI entry point. */
 /**
  * @author Toru Nagashima
  * @copyright 2017 Toru Nagashima. All rights reserved.

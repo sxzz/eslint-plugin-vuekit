@@ -30,11 +30,9 @@ function isStaticClassTemplateElement(
   templateLiteral: TemplateLiteral
 ) {
   const value = templateElement.value.cooked
-  if (!value || value.trim() === '') {
-    return false
-  }
-
   return (
+    !!value &&
+    value.trim() !== '' &&
     (index === 0 || /^\s/u.test(value)) &&
     (index === templateLiteral.expressions.length || /\s$/u.test(value))
   )
@@ -56,28 +54,26 @@ function findStaticClasses(
     return [expressionNode]
   }
 
-  if (expressionNode.type === 'ArrayExpression') {
-    return expressionNode.elements.flatMap((element: any) => {
-      if (element === null || element.type === 'SpreadElement') {
-        return []
-      }
-      return findStaticClasses(element)
-    })
-  }
+  switch (expressionNode.type) {
+    case 'ArrayExpression': {
+      return expressionNode.elements.flatMap((element: any) =>
+        element === null || element.type === 'SpreadElement'
+          ? []
+          : findStaticClasses(element)
+      )
+    }
 
-  if (expressionNode.type === 'ObjectExpression') {
-    return expressionNode.properties.flatMap((property: any) => {
-      if (
+    case 'ObjectExpression': {
+      return expressionNode.properties.flatMap((property: any) =>
         property.type === 'Property' &&
         property.value.type === 'Literal' &&
         property.value.value === true &&
         (isStringLiteral(property.key) ||
           (property.key.type === 'Identifier' && !property.computed))
-      ) {
-        return [property.key]
-      }
-      return []
-    })
+          ? [property.key]
+          : []
+      )
+    }
   }
 
   return []
@@ -204,31 +200,33 @@ const rule = {
 
                 const listNode = listElement.parent
                 if (
-                  listNode.type === 'ArrayExpression' ||
-                  listNode.type === 'ObjectExpression'
+                  listNode.type !== 'ArrayExpression' &&
+                  listNode.type !== 'ObjectExpression'
                 ) {
-                  const elements =
-                    listNode.type === 'ObjectExpression'
-                      ? listNode.properties
-                      : listNode.elements
-
-                  if (elements.length === 1 && listNode === expressionNode) {
-                    yield fixer.remove(attributeNode)
-                    isDynamicClassDirectiveRemoved = true
-                    return
-                  }
-
-                  const sourceCode = context.sourceCode
-                  const tokenStore =
-                    sourceCode.parserServices.getTemplateBodyTokenStore()
-
-                  if (elements.length === 1) {
-                    yield* removeNodeWithComma(fixer, tokenStore, listNode)
-                    return
-                  }
-
-                  yield* removeNodeWithComma(fixer, tokenStore, listElement)
+                  return
                 }
+
+                const elements =
+                  listNode.type === 'ObjectExpression'
+                    ? listNode.properties
+                    : listNode.elements
+
+                if (listNode === expressionNode && elements.length === 1) {
+                  yield fixer.remove(attributeNode)
+                  isDynamicClassDirectiveRemoved = true
+                  return
+                }
+
+                const sourceCode = context.sourceCode
+                const tokenStore =
+                  sourceCode.parserServices.getTemplateBodyTokenStore()
+
+                if (elements.length === 1) {
+                  yield* removeNodeWithComma(fixer, tokenStore, listNode)
+                  return
+                }
+
+                yield* removeNodeWithComma(fixer, tokenStore, listElement)
               }
 
               /**

@@ -40,13 +40,10 @@ function parseOptions(options: Options, tokens: ParserServices.TokenStore) {
       if (openType === 'HTMLTagOpen' && closeType === 'HTMLTagClose') {
         return opts.startTag
       }
-      if (
-        openType === 'HTMLTagOpen' &&
+      return openType === 'HTMLTagOpen' &&
         closeType === 'HTMLSelfClosingTagClose'
-      ) {
-        return opts.selfClosingTag
-      }
-      return null
+        ? opts.selfClosingTag
+        : null
     }
   })
 }

@@ -30,8 +30,7 @@ export function getPresetIds(categoryIds: string[]): string[] {
       }
     }
   }
-  if (subsetCategoryIds.length === 0) {
-    return categoryIds
-  }
-  return [...new Set([...categoryIds, ...getPresetIds(subsetCategoryIds)])]
+  return subsetCategoryIds.length === 0
+    ? categoryIds
+    : [...new Set([...categoryIds, ...getPresetIds(subsetCategoryIds)])]
 }

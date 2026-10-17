@@ -90,16 +90,14 @@ function getTargetStatementPosition(scriptSetup: VElement, program: Program) {
  * Define macros must be used only on top, so we can look for "Program" type
  * inside node.parent.type
  */
-function getDefineMacrosStatement(node: CallExpression | ASTNode) {
+function getDefineMacrosStatement(node: CallExpression | ASTNode): ASTNode {
   if (!node.parent) {
     throw new Error('Node has no parent')
   }
 
-  if (node.parent.type === 'Program') {
-    return node
-  }
-
-  return getDefineMacrosStatement(node.parent)
+  return node.parent.type === 'Program'
+    ? node
+    : getDefineMacrosStatement(node.parent)
 }
 
 function create(context: RuleContext) {
@@ -114,7 +112,7 @@ function create(context: RuleContext) {
   const order = (options[0] && options[0].order) || DEFAULT_ORDER
 
   const defineExposeLast = (options[0] && options[0].defineExposeLast) || false
-  if (order.includes(MACROS_EXPOSE) && defineExposeLast) {
+  if (defineExposeLast && order.includes(MACROS_EXPOSE)) {
     throw new Error(
       "`defineExpose` macro can't be in the `order` array if `defineExposeLast` is true."
     )

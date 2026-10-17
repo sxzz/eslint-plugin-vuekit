@@ -304,7 +304,7 @@ const rule = {
               (parentExpr.type === 'BinaryExpression' ||
                 parentExpr.type === 'TemplateLiteral')
 
-            if (existing.isUnconditional || isUnconditional || isSameParent) {
+            if (isUnconditional || isSameParent || existing.isUnconditional) {
               duplicatesInExpression.add(className)
             }
           } else {
@@ -347,22 +347,21 @@ const rule = {
           }
 
           // report cross attribute duplicates
-          if (staticClasses) {
-            const intersection = classNames.filter((n: any) =>
-              staticClasses.has(n)
-            )
-            if (intersection.length > 0 && parent) {
-              context.report({
-                node: parent,
-                messageId: 'duplicateClassNames',
-                data: {
-                  names: intersection
-                    .map((name: any) => `'${name}'`)
-                    .join(', '),
-                  plural: intersection.length > 1 ? 's' : ''
-                }
-              })
-            }
+          if (!staticClasses) {
+            continue
+          }
+          const intersection = classNames.filter((n: any) =>
+            staticClasses.has(n)
+          )
+          if (parent && intersection.length > 0) {
+            context.report({
+              node: parent,
+              messageId: 'duplicateClassNames',
+              data: {
+                names: intersection.map((name: any) => `'${name}'`).join(', '),
+                plural: intersection.length > 1 ? 's' : ''
+              }
+            })
           }
         }
 

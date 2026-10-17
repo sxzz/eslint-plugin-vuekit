@@ -63,13 +63,11 @@ const rule = {
       canFix: () => boolean,
       names: string[]
     ) {
-      if (!TARGET_AT_VUE_MODULES.has(source.value)) {
-        return
-      }
       // Don't report when none of the named bindings are re-exported by 'vue'.
       if (
-        names.length > 0 &&
-        names.every((name: any) => !vue3ExportNames.has(name))
+        !TARGET_AT_VUE_MODULES.has(source.value) ||
+        (names.length > 0 &&
+          names.every((name: any) => !vue3ExportNames.has(name)))
       ) {
         return
       }
@@ -105,11 +103,10 @@ const rule = {
           node.source,
           () => {
             for (const name of extractImportNames(node)) {
-              if (name == null) {
-                return false // import all
-              }
-              if (!vue3ExportNames.has(name)) {
-                // If there is a name that is not exported from 'vue', it will not be auto-fixed.
+              if (
+                name == null || // import all
+                !vue3ExportNames.has(name) // If there is a name that is not exported from 'vue', it will not be auto-fixed.
+              ) {
                 return false
               }
             }

@@ -64,11 +64,11 @@ const rule = {
         return
       }
 
-      if (parent.type !== 'CallExpression' || parent.arguments.includes(node)) {
-        return
-      }
-
-      if (parent.arguments.length === 0) {
+      if (
+        parent.type !== 'CallExpression' ||
+        parent.arguments.includes(node) ||
+        parent.arguments.length === 0
+      ) {
         return
       }
       if (parent.arguments.length > 1) {
@@ -95,8 +95,7 @@ const rule = {
         return
       }
       for (const reference of variable.references) {
-        if (reference.identifier.type !== 'Identifier') continue
-        if (!reference.isRead()) {
+        if (reference.identifier.type !== 'Identifier' || !reference.isRead()) {
           continue
         }
 

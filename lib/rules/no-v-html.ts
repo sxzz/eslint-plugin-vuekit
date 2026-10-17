@@ -67,9 +67,8 @@ const rule = {
         const sourceCode = context.sourceCode
 
         if (
-          node.value &&
-          node.value.expression &&
           sourceCode &&
+          node.value?.expression &&
           shouldIgnore(node.value.expression, sourceCode)
         ) {
           return

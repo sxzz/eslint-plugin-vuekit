@@ -174,16 +174,13 @@ const rule = {
       defineVueVisitor(context, {
         onSetupFunctionEnter(node: any) {
           const contextParam = node.params[1]
-          if (!contextParam) {
+          if (
             // no arguments
-            return
-          }
-          if (contextParam.type === 'RestElement') {
+            !contextParam ||
             // cannot check
-            return
-          }
-          if (contextParam.type === 'ArrayPattern') {
-            // cannot check
+            contextParam.type === 'RestElement' ||
+            contextParam.type === 'ArrayPattern'
+          ) {
             return
           }
 
@@ -211,8 +208,10 @@ const rule = {
               return
             }
             for (const reference of variable.references) {
-              if (reference.identifier.type !== 'Identifier') continue
-              if (!reference.isRead()) {
+              if (
+                reference.identifier.type !== 'Identifier' ||
+                !reference.isRead()
+              ) {
                 continue
               }
               exposeReferenceIds.add(reference.identifier)
@@ -226,8 +225,10 @@ const rule = {
               return
             }
             for (const reference of variable.references) {
-              if (reference.identifier.type !== 'Identifier') continue
-              if (!reference.isRead()) {
+              if (
+                reference.identifier.type !== 'Identifier' ||
+                !reference.isRead()
+              ) {
                 continue
               }
               contextReferenceIds.add(reference.identifier)

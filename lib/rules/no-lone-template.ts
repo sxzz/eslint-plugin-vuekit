@@ -23,18 +23,11 @@ const SPECIAL_TEMPLATE_DIRECTIVES = new Set([
 
 function getKeyName(attr: VAttribute | VDirective) {
   if (attr.directive) {
-    if (attr.key.name.name !== 'bind') {
-      // no v-bind
-      return null
-    }
-    if (
+    return attr.key.name.name !== 'bind' ||
       !attr.key.argument ||
       attr.key.argument.type === 'VExpressionContainer'
-    ) {
-      // unknown
-      return null
-    }
-    return attr.key.argument.name
+      ? null
+      : attr.key.argument.name
   }
   return attr.key.name
 }

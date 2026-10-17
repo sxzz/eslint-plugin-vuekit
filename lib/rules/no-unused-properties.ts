@@ -123,10 +123,9 @@ function findExpression(context: RuleContext, id: Identifier): Expression {
       def.parent.kind === 'const' &&
       def.node.init
     ) {
-      if (def.node.init.type === 'Identifier') {
-        return findExpression(context, def.node.init)
-      }
-      return def.node.init
+      return def.node.init.type === 'Identifier'
+        ? findExpression(context, def.node.init)
+        : def.node.init
     }
   }
   return id
@@ -141,10 +140,7 @@ function getParentProperty(node: ASTNode): Property | null {
     return null
   }
   const property = node.parent
-  if (!isProperty(property)) {
-    return null
-  }
-  return property
+  return isProperty(property) ? property : null
 }
 
 /**
@@ -154,14 +150,12 @@ function isPublicMember(
   property: ComponentPropertyData,
   sourceCode: SourceCode
 ) {
-  if (
+  // Props do not support @public.
+  return (
     property.type === 'object' &&
-    // Props do not support @public.
-    property.groupName !== 'props'
-  ) {
-    return isPublicProperty(property.property, sourceCode)
-  }
-  return false
+    property.groupName !== 'props' &&
+    isPublicProperty(property.property, sourceCode)
+  )
 }
 
 /**
@@ -169,10 +163,7 @@ function isPublicMember(
  */
 function isPublicProperty(node: Property, sourceCode: SourceCode) {
   const jsdoc = getJSDocFromProperty(node, sourceCode)
-  if (jsdoc) {
-    return /(?:^|\s|\*)@public\b/u.test(jsdoc.value)
-  }
-  return false
+  return !!jsdoc && /(?:^|\s|\*)@public\b/u.test(jsdoc.value)
 }
 
 /**
@@ -183,14 +174,10 @@ function getJSDocFromProperty(node: Property, sourceCode: SourceCode) {
   if (jsdoc) {
     return jsdoc
   }
-  if (
-    node.value.type === 'FunctionExpression' ||
+  return node.value.type === 'FunctionExpression' ||
     node.value.type === 'ArrowFunctionExpression'
-  ) {
-    return findJSDocComment(node.value, sourceCode)
-  }
-
-  return null
+    ? findJSDocComment(node.value, sourceCode)
+    : null
 }
 
 /**
@@ -220,11 +207,7 @@ function findJSDocComment(
     break
   }
 
-  if (tokenBefore && isJSDocComment(tokenBefore)) {
-    return tokenBefore
-  }
-
-  return null
+  return tokenBefore && isJSDocComment(tokenBefore) ? tokenBefore : null
 }
 
 const rule = {

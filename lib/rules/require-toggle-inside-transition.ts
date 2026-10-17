@@ -15,14 +15,11 @@ import {
 } from '../utils/index.ts'
 
 function isValidBindAppear(vBindAppear: VDirective) {
-  if (
-    vBindAppear.value?.expression &&
-    vBindAppear.value.expression.type === 'Literal'
-  ) {
-    return vBindAppear.value.expression?.value !== false
-  }
-
-  return true
+  return (
+    !vBindAppear.value?.expression ||
+    vBindAppear.value.expression.type !== 'Literal' ||
+    vBindAppear.value.expression.value !== false
+  )
 }
 
 function createDirectiveList(directives: string[]) {

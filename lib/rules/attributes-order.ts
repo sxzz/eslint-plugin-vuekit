@@ -201,10 +201,9 @@ function getAttributeType(attribute: VAttribute | VDirective) {
       if (isVBind(attribute)) {
         return ATTRS.ATTR_DYNAMIC
       }
-      if (isVShorthandBoolean(attribute)) {
-        return ATTRS.ATTR_SHORTHAND_BOOL
-      }
-      return ATTRS.ATTR_STATIC
+      return isVShorthandBoolean(attribute)
+        ? ATTRS.ATTR_SHORTHAND_BOOL
+        : ATTRS.ATTR_STATIC
     }
   }
 }
@@ -396,22 +395,16 @@ function create(context: RuleContext) {
 
   function getAttributeAndPositionList(node: VStartTag) {
     const attributes = node.attributes.filter(
-      (node: any, index: any, attributes: any) => {
+      (node: any, index: any, attributes: any) =>
         // If ignoreVBindObject is enabled, ignore v-bind="object"
-        if (shouldIgnoreVBindObject && isVBindObject(node)) {
-          return false
-        }
-
+        !(shouldIgnoreVBindObject && isVBindObject(node)) &&
         // In Vue 3, ignore `v-bind="object"`, which is
         // a pair of `v-bind:foo="..."` and `v-bind="object"` and
         // a pair of `v-model="..."` and `v-bind="object"`,
         // because changing the order behaves differently.
-        return (
-          !isVBindObject(node) ||
+        (!isVBindObject(node) ||
           (!isVAttributeOrVBindOrVModel(attributes[index - 1]) &&
-            !isVAttributeOrVBindOrVModel(attributes[index + 1]))
-        )
-      }
+            !isVAttributeOrVBindOrVModel(attributes[index + 1])))
     )
 
     const results = []
