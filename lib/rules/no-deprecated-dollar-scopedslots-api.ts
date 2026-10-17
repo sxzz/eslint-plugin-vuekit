@@ -53,11 +53,9 @@ const rule = {
         MemberExpression(node: any) {
           if (
             node.property.type !== 'Identifier' ||
-            node.property.name !== '$scopedSlots'
+            node.property.name !== '$scopedSlots' ||
+            !isThis(node.object, context)
           ) {
-            return
-          }
-          if (!isThis(node.object, context)) {
             return
           }
 

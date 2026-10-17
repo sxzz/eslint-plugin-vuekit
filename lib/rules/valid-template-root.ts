@@ -51,7 +51,7 @@ const rule = {
               messageId: 'emptySrc'
             })
           }
-        } else if (rootElements.length === 0 && !hasSrc) {
+        } else if (!hasSrc && rootElements.length === 0) {
           context.report({
             node: element,
             loc: element.loc,

@@ -37,7 +37,7 @@ const rule = {
         (e: any) => isVElement(e) && e.name === 'script'
       )
 
-    if (isScriptSetup(context) || !hasScript) {
+    if (!hasScript || isScriptSetup(context)) {
       return {}
     }
 

@@ -26,14 +26,10 @@ function comparePositions(pos1: Position, pos2: Position) {
     return 'less'
   }
 
-  if (
-    pos1.line > pos2.line ||
+  return pos1.line > pos2.line ||
     (pos1.line === pos2.line && pos1.column > pos2.column)
-  ) {
-    return 'greater'
-  }
-
-  return 'equal'
+    ? 'greater'
+    : 'equal'
 }
 
 function getLocationRange(nodes: (VNode | Token)[]) {
@@ -51,11 +47,7 @@ function getLocationRange(nodes: (VNode | Token)[]) {
     }
   }
 
-  if (start === undefined || end === undefined) {
-    return undefined
-  }
-
-  return { start, end }
+  return start === undefined || end === undefined ? undefined : { start, end }
 }
 
 const rule = {

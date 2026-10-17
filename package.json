@@ -103,7 +103,7 @@
     "eslint-plugin-markdown-preferences": "^0.42.0",
     "eslint-plugin-node-dependencies": "^2.3.0",
     "eslint-plugin-prettier": "^5.5.7",
-    "eslint-plugin-unicorn": "^70.0.0",
+    "eslint-plugin-unicorn": "^78.0.0",
     "eslint-scope": "^9.1.2",
     "eslint-typegen": "^2.3.1",
     "eslint-visitor-keys": "^5.0.1",

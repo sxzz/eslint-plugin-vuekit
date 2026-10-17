@@ -230,7 +230,7 @@ const rule = {
 
     function verifyElement(element: VElement, options: ArgsOptions) {
       const { startTag, endTag } = element
-      if (startTag.selfClosing || endTag == null) {
+      if (endTag == null || startTag.selfClosing) {
         return
       }
       const text = sourceCode.text.slice(startTag.range[1], endTag.range[0])

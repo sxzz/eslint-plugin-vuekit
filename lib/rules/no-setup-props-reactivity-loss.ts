@@ -73,10 +73,7 @@ function* iteratePropIds(node: Pattern) {
 }
 
 function unwrapAssignment<T extends Pattern>(node: T): Pattern {
-  if (node.type === 'AssignmentPattern') {
-    return node.left
-  }
-  return node
+  return node.type === 'AssignmentPattern' ? node.left : node
 }
 
 export type ScopePropsReferences = {
@@ -270,13 +267,12 @@ const rule = {
       }
       const propsReferenceIds = scopePropsReferences.refs[kind]
       for (const reference of variable.references) {
-        if (reference.identifier.type !== 'Identifier') continue
-        // If reference is in another scope, we can't check it.
-        if (reference.from !== currentScope) {
-          continue
-        }
-
-        if (!reference.isRead()) {
+        if (
+          reference.identifier.type !== 'Identifier' ||
+          // If reference is in another scope, we can't check it.
+          reference.from !== currentScope ||
+          !reference.isRead()
+        ) {
           continue
         }
 

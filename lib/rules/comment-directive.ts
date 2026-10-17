@@ -159,25 +159,27 @@ function processLine(
   shouldReportUnusedDisableDirectives: boolean
 ) {
   const parsed = parse(COMMENT_DIRECTIVE_L, comment.value)
-  if (parsed != null && comment.loc.start.line === comment.loc.end.line) {
-    const line =
-      comment.loc.start.line + (parsed.type === 'eslint-disable-line' ? 0 : 1)
-    const column = -1
-    if (parsed.rules.length > 0) {
-      const rules = shouldReportUnusedDisableDirectives
-        ? reportUnusedRules(context, comment, parsed.type, parsed.rules)
-        : parsed.rules
-      for (const rule of rules) {
-        disable(context, { line, column }, 'line', rule.ruleId, rule.key || '')
-        enable(context, { line: line + 1, column }, 'line', rule.ruleId)
-      }
-    } else {
-      const key = shouldReportUnusedDisableDirectives
-        ? reportUnused(context, comment, parsed.type)
-        : ''
-      disable(context, { line, column }, 'line', null, key)
-      enable(context, { line: line + 1, column }, 'line', null)
+  if (parsed == null || comment.loc.start.line !== comment.loc.end.line) {
+    return
+  }
+
+  const line =
+    comment.loc.start.line + (parsed.type === 'eslint-disable-line' ? 0 : 1)
+  const column = -1
+  if (parsed.rules.length > 0) {
+    const rules = shouldReportUnusedDisableDirectives
+      ? reportUnusedRules(context, comment, parsed.type, parsed.rules)
+      : parsed.rules
+    for (const rule of rules) {
+      disable(context, { line, column }, 'line', rule.ruleId, rule.key || '')
+      enable(context, { line: line + 1, column }, 'line', rule.ruleId)
     }
+  } else {
+    const key = shouldReportUnusedDisableDirectives
+      ? reportUnused(context, comment, parsed.type)
+      : ''
+    disable(context, { line, column }, 'line', null, key)
+    enable(context, { line: line + 1, column }, 'line', null)
   }
 }
 
@@ -319,22 +321,24 @@ const rule = {
             messageId: 'clear'
           })
         }
-        if (documentFragment) {
-          // Send directives to the post-process.
-          for (const comment of extractTopLevelDocumentFragmentComments(
-            documentFragment
-          )) {
-            processBlock(context, comment, reportUnusedDisableDirectives)
-            processLine(context, comment, reportUnusedDisableDirectives)
-          }
+        if (!documentFragment) {
+          return
+        }
 
-          // Send a clear mark to the post-process.
-          for (const element of extractTopLevelHTMLElements(documentFragment)) {
-            context.report({
-              loc: element.loc.end,
-              messageId: 'clear'
-            })
-          }
+        // Send directives to the post-process.
+        for (const comment of extractTopLevelDocumentFragmentComments(
+          documentFragment
+        )) {
+          processBlock(context, comment, reportUnusedDisableDirectives)
+          processLine(context, comment, reportUnusedDisableDirectives)
+        }
+
+        // Send a clear mark to the post-process.
+        for (const element of extractTopLevelHTMLElements(documentFragment)) {
+          context.report({
+            loc: element.loc.end,
+            messageId: 'clear'
+          })
         }
       }
     }

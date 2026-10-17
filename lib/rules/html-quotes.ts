@@ -52,58 +52,51 @@ const rule = {
       context,
       {
         'VAttribute[value!=null]'(node: any) {
-          if (hasTemplateEOFError) {
-            return
-          }
-
-          if (isVBindSameNameShorthand(node)) {
-            // v-bind same-name shorthand (Vue 3.4+)
+          if (hasTemplateEOFError || isVBindSameNameShorthand(node)) {
             return
           }
 
           const text = sourceCode.getText(node.value)
           const firstChar = text[0]
 
-          if (firstChar !== quoteChar) {
-            const isQuoted = firstChar === "'" || firstChar === '"'
-            if (avoidEscape && isQuoted) {
-              const contentText = text.slice(1, -1)
-              if (contentText.includes(quoteChar)) {
-                return
-              }
-            }
-
-            context.report({
-              node: node.value,
-              loc: node.value.loc,
-              messageId: 'expected',
-              data: { kind: quoteName },
-              fix(fixer: any) {
-                const contentText = isQuoted ? text.slice(1, -1) : text
-
-                let shouldFixToDouble = shouldUseDoubleQuotes
-                if (
-                  avoidEscape &&
-                  !isQuoted &&
-                  contentText.includes(quoteChar)
-                ) {
-                  shouldFixToDouble = shouldUseDoubleQuotes
-                    ? contentText.includes("'")
-                    : !contentText.includes('"')
-                }
-
-                const quotePattern = shouldFixToDouble ? /"/g : /'/g
-                const quoteEscaped = shouldFixToDouble ? '&quot;' : '&apos;'
-                const fixQuoteChar = shouldFixToDouble ? '"' : "'"
-
-                const replacement =
-                  fixQuoteChar +
-                  contentText.replace(quotePattern, () => quoteEscaped) +
-                  fixQuoteChar
-                return fixer.replaceText(node.value, replacement)
-              }
-            })
+          if (firstChar === quoteChar) {
+            return
           }
+
+          const isQuoted = firstChar === "'" || firstChar === '"'
+          if (avoidEscape && isQuoted) {
+            const contentText = text.slice(1, -1)
+            if (contentText.includes(quoteChar)) {
+              return
+            }
+          }
+
+          context.report({
+            node: node.value,
+            loc: node.value.loc,
+            messageId: 'expected',
+            data: { kind: quoteName },
+            fix(fixer: any) {
+              const contentText = isQuoted ? text.slice(1, -1) : text
+
+              let shouldFixToDouble = shouldUseDoubleQuotes
+              if (avoidEscape && !isQuoted && contentText.includes(quoteChar)) {
+                shouldFixToDouble = shouldUseDoubleQuotes
+                  ? contentText.includes("'")
+                  : !contentText.includes('"')
+              }
+
+              const quotePattern = shouldFixToDouble ? /"/g : /'/g
+              const quoteEscaped = shouldFixToDouble ? '&quot;' : '&apos;'
+              const fixQuoteChar = shouldFixToDouble ? '"' : "'"
+
+              const replacement =
+                fixQuoteChar +
+                contentText.replace(quotePattern, () => quoteEscaped) +
+                fixQuoteChar
+              return fixer.replaceText(node.value, replacement)
+            }
+          })
         }
       },
       {

@@ -106,11 +106,10 @@ const rule = {
 
             const lineCountOfPreProperty =
               pre.loc.end.line - pre.loc.start.line + 1
-            if (lineCountOfPreProperty < minLineOfMultilineProperty) {
-              continue
-            }
-
-            if (hasEmptyLine(sourceCode, pre, cur)) {
+            if (
+              lineCountOfPreProperty < minLineOfMultilineProperty ||
+              hasEmptyLine(sourceCode, pre, cur)
+            ) {
               continue
             }
 

@@ -147,10 +147,11 @@ const rule = {
         const visitor = syntax.createTemplateBodyVisitor(context)
         templateBodyVisitor = compositingVisitors(templateBodyVisitor, visitor)
       }
-      if (syntax.createScriptVisitor) {
-        const visitor = syntax.createScriptVisitor(context)
-        scriptVisitor = compositingVisitors(scriptVisitor, visitor)
+      if (!syntax.createScriptVisitor) {
+        continue
       }
+      const visitor = syntax.createScriptVisitor(context)
+      scriptVisitor = compositingVisitors(scriptVisitor, visitor)
     }
 
     return defineTemplateBodyVisitor(

@@ -506,14 +506,12 @@ function inferTypeLiteralType(
 ) {
   const types = new Set<string>()
   for (const m of node.members) {
-    if (
+    types.add(
       m.type === 'TSCallSignatureDeclaration' ||
-      m.type === 'TSConstructSignatureDeclaration'
-    ) {
-      types.add('Function')
-    } else {
-      types.add('Object')
-    }
+        m.type === 'TSConstructSignatureDeclaration'
+        ? 'Function'
+        : 'Object'
+    )
   }
   return types.size > 0 ? [...types] : ['Object']
 }

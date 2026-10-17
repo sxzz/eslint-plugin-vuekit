@@ -15,15 +15,12 @@ function getName(attribute: VAttribute | VDirective) {
   if (!attribute.directive) {
     return attribute.key.name
   }
-  if (attribute.key.name.name === 'bind') {
-    return (
-      (attribute.key.argument &&
+  return attribute.key.name.name === 'bind'
+    ? (attribute.key.argument &&
         attribute.key.argument.type === 'VIdentifier' &&
         attribute.key.argument.name) ||
-      null
-    )
-  }
-  return null
+        null
+    : null
 }
 
 const rule = {

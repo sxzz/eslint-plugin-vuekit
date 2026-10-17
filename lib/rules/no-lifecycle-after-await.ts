@@ -124,23 +124,17 @@ const rule = {
           }
           const setupScope = setupScopes.get(scopeStack.scopeNode)
           if (
-            !setupScope ||
-            !setupScope.afterAwait ||
-            !inRange(setupScope.range, node)
+            !setupScope?.afterAwait ||
+            !inRange(setupScope.range, node) ||
+            !lifecycleHookCallNodes.has(node) ||
+            node.arguments.length >= 2 // Has target instance. e.g. `onMounted(() => {}, instance)`
           ) {
             return
           }
-
-          if (lifecycleHookCallNodes.has(node)) {
-            if (node.arguments.length >= 2) {
-              // Has target instance. e.g. `onMounted(() => {}, instance)`
-              return
-            }
-            context.report({
-              node,
-              messageId: 'forbidden'
-            })
-          }
+          context.report({
+            node,
+            messageId: 'forbidden'
+          })
         },
         onSetupFunctionExit(node: any) {
           setupScopes.delete(node)

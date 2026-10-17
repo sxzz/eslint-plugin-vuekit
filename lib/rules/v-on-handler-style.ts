@@ -63,11 +63,7 @@ function isQuote(token: Token) {
 function isIdentifierCallExpression(
   node: Expression
 ): node is CallExpression & { callee: Identifier } {
-  if (node.type !== 'CallExpression') {
-    return false
-  }
-  if (node.optional) {
-    // optional chaining
+  if (node.type !== 'CallExpression' || node.optional) {
     return false
   }
   const callee = node.callee
@@ -99,10 +95,7 @@ function getIdentifierCallExpression(node: VOnExpression | BlockStatement) {
     return null
   }
   const expression = exprStatement.expression
-  if (!isIdentifierCallExpression(expression)) {
-    return null
-  }
-  return expression
+  return isIdentifierCallExpression(expression) ? expression : null
 }
 
 const rule = {
@@ -316,14 +309,12 @@ const rule = {
             return null
           }
           const paramCount = methodParamCountMap.get(idCallExpr.callee.name)
-          if (paramCount != null && paramCount > 0) {
-            // The behavior of target method can change given the arguments.
-            return null
-          }
-          return fixer.replaceTextRange(
-            rangeWithoutQuotes,
-            sourceCode.getText(idCallExpr.callee)
-          )
+          return paramCount != null && paramCount > 0
+            ? null // The behavior of target method can change given the arguments.
+            : fixer.replaceTextRange(
+                rangeWithoutQuotes,
+                sourceCode.getText(idCallExpr.callee)
+              )
         }
       })
       return true
@@ -364,26 +355,21 @@ const rule = {
         fix: (fixer: any) => {
           if (
             hasComment /* The function contains comment and cannot be fixed. */ ||
-            !idCallExpr /* The function is not a simple identifier call and cannot be fixed. */
+            !idCallExpr /* The function is not a simple identifier call and cannot be fixed. */ ||
+            !isSameParamsAndArgs(
+              idCallExpr
+            ) /* It is not a call with the arguments given as is. */
           ) {
-            return null
-          }
-          if (!isSameParamsAndArgs(idCallExpr)) {
-            // It is not a call with the arguments given as is.
             return null
           }
           const paramCount = methodParamCountMap.get(idCallExpr.callee.name)
-          if (
-            paramCount != null &&
-            paramCount !== idCallExpr.arguments.length
-          ) {
-            // The behavior of target method can change given the arguments.
-            return null
-          }
-          return fixer.replaceTextRange(
-            rangeWithoutQuotes,
-            sourceCode.getText(idCallExpr.callee)
-          )
+          return paramCount == null ||
+            paramCount === idCallExpr.arguments.length
+            ? fixer.replaceTextRange(
+                rangeWithoutQuotes,
+                sourceCode.getText(idCallExpr.callee)
+              )
+            : null // The behavior of target method can change given the arguments.
         }
       })
       return true
@@ -399,10 +385,11 @@ const rule = {
               return false
             }
             const arg = expression.arguments[index]
-            if (!arg || arg.type !== 'Identifier') {
-              return false
-            }
-            return param.name === arg.name
+            return (
+              Boolean(arg) &&
+              arg.type === 'Identifier' &&
+              param.name === arg.name
+            )
           })
         )
       }

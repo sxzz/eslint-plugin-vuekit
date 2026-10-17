@@ -40,9 +40,7 @@ const rule = {
             messageId: 'numberModifierIsDeprecated',
             fix(fixer) {
               const key = keyCodeToKey[keyCodes]
-              if (!key) return null
-
-              return fixer.replaceText(modifier, key)
+              return key ? fixer.replaceText(modifier, key) : null
             }
           })
         }

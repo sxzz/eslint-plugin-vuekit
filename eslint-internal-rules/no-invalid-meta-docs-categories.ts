@@ -57,18 +57,15 @@ function checkMetaValidity(context: any, exportsNode: any) {
         ) {
           // fixes.push(fixer.insertTextBefore(category.value, '['), fixer.insertTextAfter(category.value, ']'))
 
-          if (category.value.value === 'base') {
-            fixes.push(fixer.insertTextBefore(category.value, '['))
-          } else {
-            // for vue3 migration
-            fixes.push(
-              fixer.insertTextBefore(
-                category.value,
-                `['vue3-${category.value.value}', `
-              )
-            )
-          }
-          fixes.push(fixer.insertTextAfter(category.value, ']'))
+          fixes.push(
+            fixer.insertTextBefore(
+              category.value,
+              category.value.value === 'base'
+                ? '['
+                : `['vue3-${category.value.value}', ` // for vue3 migration
+            ),
+            fixer.insertTextAfter(category.value, ']')
+          )
         }
         return fixes
       }

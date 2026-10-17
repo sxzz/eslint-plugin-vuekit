@@ -101,13 +101,10 @@ const rule = {
           if (!shouldInheritAttrs) {
             return
           }
-          const reference = node.references.find((reference: any) => {
-            if (reference.variable != null) {
-              // Not vm reference
-              return false
-            }
-            return reference.id.name === '$attrs'
-          })
+          const reference = node.references.find(
+            (reference: any) =>
+              reference.variable == null && reference.id.name === '$attrs'
+          )
 
           if (reference) {
             attrsRefs.push(reference)
@@ -126,13 +123,11 @@ const rule = {
           if (!shouldCheckMultiRootNodes && isMultiRootNodes(rootElements))
             return
 
-          if (attrsRefs.length > 0) {
-            for (const attrsRef of attrsRefs) {
-              context.report({
-                node: attrsRef.id,
-                messageId: 'noDuplicateAttrInheritance'
-              })
-            }
+          for (const attrsRef of attrsRefs) {
+            context.report({
+              node: attrsRef.id,
+              messageId: 'noDuplicateAttrInheritance'
+            })
           }
         }
       }

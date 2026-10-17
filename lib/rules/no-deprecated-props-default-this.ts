@@ -26,10 +26,9 @@ function hasFunctionType(node: Expression) {
   if (isFunctionIdentifier(node)) {
     return true
   }
-  if (node.type === 'ArrayExpression') {
-    return node.elements.some(isFunctionIdentifier)
-  }
-  return false
+  return node.type === 'ArrayExpression'
+    ? node.elements.some(isFunctionIdentifier)
+    : false
 }
 
 const rule = {
@@ -90,10 +89,10 @@ const rule = {
     return defineVueVisitor(context, {
       onVueObjectEnter(node: any) {
         for (const prop of getComponentPropsFromOptions(node)) {
-          if (prop.type !== 'object') {
-            continue
-          }
-          if (prop.value.type !== 'ObjectExpression') {
+          if (
+            prop.type !== 'object' ||
+            prop.value.type !== 'ObjectExpression'
+          ) {
             continue
           }
           const def = findProperty(prop.value, 'default')

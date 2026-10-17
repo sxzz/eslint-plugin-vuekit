@@ -40,8 +40,8 @@ const rule = {
         const name = getName(node.key.name)
 
         if (
-          node.directive &&
           name === 'bind' &&
+          node.directive &&
           node.key.argument &&
           node.key.argument.type === 'VIdentifier' &&
           !xnv.name(node.key.argument.name)

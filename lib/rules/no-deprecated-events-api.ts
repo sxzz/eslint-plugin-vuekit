@@ -42,24 +42,19 @@ const rule = {
           )
       ) {
         const call =
-          // eslint-disable-next-line unicorn/prefer-minimal-ternary -- factoring `.parent` out would widen the type from `CallExpression` to `CallExpression | ChainExpression`
           node.parent.type === 'ChainExpression'
             ? node.parent.parent
             : node.parent
 
-        if (call.optional) {
-          // It is OK because checking whether it is deprecated.
-          // e.g. `this.$on?.()`
-          return
-        }
-
+        // Optional chaining (e.g. `this.$on?.()`) is OK because checking whether it is deprecated.
         if (
+          call.optional ||
           skipChainExpression(call.callee) !== node ||
-          !['$on', '$off', '$once'].includes(getStaticPropertyName(node) || '')
+          !['$on', '$off', '$once'].includes(
+            getStaticPropertyName(node) || ''
+          ) ||
+          !isThis(node.object, context)
         ) {
-          return
-        }
-        if (!isThis(node.object, context)) {
           return
         }
 

@@ -44,14 +44,10 @@ function getPropsPattern(node: CallExpression) {
     target = target.parent
   }
 
-  if (
-    !target.parent ||
-    target.parent.type !== 'VariableDeclarator' ||
-    target.parent.init !== target
-  ) {
-    return null
-  }
-  return target.parent.id
+  return target.parent?.type === 'VariableDeclarator' &&
+    target.parent.init === target
+    ? target.parent.id
+    : null
 }
 
 /**
@@ -59,11 +55,11 @@ function getPropsPattern(node: CallExpression) {
  */
 function isInsideInitializer(node: VariableDeclarator, references: ESNode[]) {
   const init = node.init
-  if (!init) {
-    return false
-  }
-  return references.some(
-    (id: any) => init.range[0] <= id.range[0] && id.range[1] <= init.range[1]
+  return (
+    !!init &&
+    references.some(
+      (id: any) => init.range[0] <= id.range[0] && id.range[1] <= init.range[1]
+    )
   )
 }
 
@@ -101,14 +97,12 @@ function getAliasedPropName(node: Expression, propReferences: ESNode[]) {
  * e.g. `props`, `defineProps()` or `toRefs(props)`.
  */
 function isPropsObject(node: Expression, propReferences: ESNode[]) {
-  if (propReferences.includes(node)) {
-    return true
-  }
   return (
-    node.type === 'CallExpression' &&
-    node.callee.type === 'Identifier' &&
-    node.callee.name === 'toRefs' &&
-    propReferences.includes(node.arguments[0])
+    propReferences.includes(node) ||
+    (node.type === 'CallExpression' &&
+      node.callee.type === 'Identifier' &&
+      node.callee.name === 'toRefs' &&
+      propReferences.includes(node.arguments[0]))
   )
 }
 
@@ -249,18 +243,17 @@ const rule = {
             const variable = (
               findVariable as unknown as WithVue<typeof findVariable>
             )(utils.getScope(context, node), propName)
-            if (!variable || variable.defs.length === 0) continue
-
             if (
-              variable.defs.some((def) => {
-                if (def.type !== 'Variable') return false
-                // Reading the props object does not make the declaration an alias
-                // of this prop, e.g. `const foo = toRef(props, 'bar')`.
-                if (aliasesOtherProp(def.node, propName, propReferences)) {
-                  return false
-                }
-                return isInsideInitializer(def.node, propReferences)
-              })
+              !variable ||
+              variable.defs.length === 0 ||
+              variable.defs.some(
+                (def) =>
+                  // Reading the props object does not make the declaration an alias
+                  // of this prop, e.g. `const foo = toRef(props, 'bar')`.
+                  def.type === 'Variable' &&
+                  !aliasesOtherProp(def.node, propName, propReferences) &&
+                  isInsideInitializer(def.node, propReferences)
+              )
             ) {
               continue
             }
@@ -330,29 +323,34 @@ const rule = {
      * Extracts references from the given node.
      */
     function extractReferences(node: Pattern): Identifier[] {
-      if (node.type === 'Identifier') {
-        const variable = (
-          findVariable as unknown as WithVue<typeof findVariable>
-        )(utils.getScope(context, node), node)
-        if (!variable) {
+      switch (node.type) {
+        case 'Identifier': {
+          const variable = (
+            findVariable as unknown as WithVue<typeof findVariable>
+          )(utils.getScope(context, node), node)
+          return variable
+            ? variable.references
+                .map((ref) => ref.identifier)
+                .filter(
+                  (node): node is Identifier => node.type === 'Identifier'
+                )
+            : []
+        }
+        case 'ObjectPattern': {
+          return node.properties.flatMap((prop: any) =>
+            extractReferences(prop.type === 'Property' ? prop.value : prop)
+          )
+        }
+        case 'AssignmentPattern': {
+          return extractReferences(node.left)
+        }
+        case 'RestElement': {
+          return extractReferences(node.argument)
+        }
+        default: {
           return []
         }
-        return variable.references
-          .map((ref) => ref.identifier)
-          .filter((node): node is Identifier => node.type === 'Identifier')
       }
-      if (node.type === 'ObjectPattern') {
-        return node.properties.flatMap((prop: any) =>
-          extractReferences(prop.type === 'Property' ? prop.value : prop)
-        )
-      }
-      if (node.type === 'AssignmentPattern') {
-        return extractReferences(node.left)
-      }
-      if (node.type === 'RestElement') {
-        return extractReferences(node.argument)
-      }
-      return []
     }
   }
 } satisfies RuleDefinition

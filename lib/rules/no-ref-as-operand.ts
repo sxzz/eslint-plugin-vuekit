@@ -46,10 +46,7 @@ function isRefInit(
   data: RefObjectReferenceForIdentifier | null
 ): data is RefObjectReferenceForIdentifier {
   const init = data && data.variableDeclarator && data.variableDeclarator.init
-  if (!init) {
-    return false
-  }
-  return data.defineChain.includes(init as any)
+  return init ? data.defineChain.includes(init as any) : false
 }
 
 /**
@@ -313,15 +310,13 @@ const rule = {
       defineVueVisitor(context, {
         onSetupFunctionEnter(node, { node: vueNode }) {
           const contextParam = skipDefaultParamValue(node.params[1])
-          if (!contextParam) {
-            // no arguments
-            return
-          }
           if (
+            // no arguments
+            !contextParam ||
+            // cannot check
             contextParam.type === 'RestElement' ||
             contextParam.type === 'ArrayPattern'
           ) {
-            // cannot check
             return
           }
 

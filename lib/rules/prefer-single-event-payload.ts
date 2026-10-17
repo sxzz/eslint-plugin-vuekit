@@ -208,8 +208,10 @@ const rule = {
             }
             const emitReferenceIds = new Set<Identifier>()
             for (const reference of variable.references) {
-              if (reference.identifier.type !== 'Identifier') continue
-              if (!reference.isRead()) {
+              if (
+                reference.identifier.type !== 'Identifier' ||
+                !reference.isRead()
+              ) {
                 continue
               }
               emitReferenceIds.add(reference.identifier)
@@ -241,10 +243,8 @@ const rule = {
         defineVueVisitor(context, {
           onSetupFunctionEnter(node, { node: vueNode }) {
             const contextParam = skipDefaultParamValue(node.params[1])
-            if (!contextParam) {
-              return
-            }
             if (
+              !contextParam ||
               contextParam.type === 'RestElement' ||
               contextParam.type === 'ArrayPattern'
             ) {
@@ -289,25 +289,24 @@ const rule = {
           CallExpression(node, { node: vueNode }) {
             const callee = skipChainExpression(node.callee)
             const setupContext = setupContexts.get(vueNode)
-            if (setupContext) {
-              const { contextReferenceIds, emitReferenceIds } = setupContext
+            if (!setupContext) {
+              return
+            }
+
+            const { contextReferenceIds, emitReferenceIds } = setupContext
+            if (callee.type === 'Identifier' && emitReferenceIds.has(callee)) {
+              // setup(props, {emit}) { emit() }
+              verifyEmitCall(node)
+            } else {
+              const emit = getCalleeMemberNode(node)
               if (
-                callee.type === 'Identifier' &&
-                emitReferenceIds.has(callee)
+                emit &&
+                emit.name === 'emit' &&
+                emit.member.object.type === 'Identifier' &&
+                contextReferenceIds.has(emit.member.object)
               ) {
-                // setup(props, {emit}) { emit() }
+                // setup(props, context) { context.emit() }
                 verifyEmitCall(node)
-              } else {
-                const emit = getCalleeMemberNode(node)
-                if (
-                  emit &&
-                  emit.name === 'emit' &&
-                  emit.member.object.type === 'Identifier' &&
-                  contextReferenceIds.has(emit.member.object)
-                ) {
-                  // setup(props, context) { context.emit() }
-                  verifyEmitCall(node)
-                }
               }
             }
           },

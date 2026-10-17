@@ -40,10 +40,7 @@ function pickSince(content: string) {
       return since[1]
     }
   }
-  if (process.argv.includes('--version')) {
-    return `v${packageJson.version}`
-  }
-  return null
+  return process.argv.includes('--version') ? `v${packageJson.version}` : null
 }
 
 class DocFile {

@@ -99,10 +99,9 @@ function verifyForAlways(
     node: nextBlock,
     messageId: 'always',
     fix(fixer: any) {
-      if (linebreak) {
-        return fixer.insertTextAfter(linebreak, '\n')
-      }
-      return fixer.insertTextAfter(prevBlock, '\n\n')
+      return linebreak
+        ? fixer.insertTextAfter(linebreak, '\n')
+        : fixer.insertTextAfter(prevBlock, '\n\n')
     }
   })
 }

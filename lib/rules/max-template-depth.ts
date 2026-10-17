@@ -62,11 +62,7 @@ const rule = {
       Program(program: Program) {
         const element = program.templateBody
 
-        if (element == null) {
-          return
-        }
-
-        if (element.type !== 'VElement') {
+        if (element == null || element.type !== 'VElement') {
           return
         }
 

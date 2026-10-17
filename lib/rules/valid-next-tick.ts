@@ -48,50 +48,50 @@ function getVueNextTickNode(identifier: Identifier, context: RuleContext) {
   return undefined
 }
 
-function isAwaitedPromise(callExpression: CallExpression) {
-  if (callExpression.parent.type === 'AwaitExpression') {
+function isAwaitedPromise(callExpression: CallExpression): boolean {
+  switch (callExpression.parent.type) {
     // cases like `await nextTick()`
-    return true
-  }
+    case 'AwaitExpression': {
+      return true
+    }
 
-  if (callExpression.parent.type === 'ReturnStatement') {
     // cases like `return nextTick()`
-    return true
-  }
-  if (
-    callExpression.parent.type === 'ArrowFunctionExpression' &&
-    callExpression.parent.body === callExpression
-  ) {
+    case 'ReturnStatement': {
+      return true
+    }
+
     // cases like `() => nextTick()`
-    return true
-  }
+    case 'ArrowFunctionExpression': {
+      return callExpression.parent.body === callExpression
+    }
 
-  if (
-    callExpression.parent.type === 'MemberExpression' &&
-    callExpression.parent.property.type === 'Identifier' &&
-    callExpression.parent.property.name === 'then'
-  ) {
     // cases like `nextTick().then()`
-    return true
-  }
+    case 'MemberExpression': {
+      return (
+        callExpression.parent.property.type === 'Identifier' &&
+        callExpression.parent.property.name === 'then'
+      )
+    }
 
-  if (
-    callExpression.parent.type === 'VariableDeclarator' ||
-    callExpression.parent.type === 'AssignmentExpression'
-  ) {
     // cases like `let foo = nextTick()` or `foo = nextTick()`
-    return true
+    case 'VariableDeclarator':
+    case 'AssignmentExpression': {
+      return true
+    }
+
+    // cases like `Promise.all([nextTick()])`
+    case 'ArrayExpression': {
+      return (
+        callExpression.parent.parent.type === 'CallExpression' &&
+        callExpression.parent.parent.callee.type === 'MemberExpression' &&
+        callExpression.parent.parent.callee.object.type === 'Identifier' &&
+        callExpression.parent.parent.callee.object.name === 'Promise' &&
+        callExpression.parent.parent.callee.property.type === 'Identifier'
+      )
+    }
   }
 
-  // cases like `Promise.all([nextTick()])`
-  return (
-    callExpression.parent.type === 'ArrayExpression' &&
-    callExpression.parent.parent.type === 'CallExpression' &&
-    callExpression.parent.parent.callee.type === 'MemberExpression' &&
-    callExpression.parent.parent.callee.object.type === 'Identifier' &&
-    callExpression.parent.parent.callee.object.name === 'Promise' &&
-    callExpression.parent.parent.callee.property.type === 'Identifier'
-  )
+  return false
 }
 
 const rule = {

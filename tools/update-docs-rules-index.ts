@@ -34,13 +34,13 @@ const TYPE_MARK: Record<string, string> = {
   layout: ':lipstick:'
 }
 
-function toRuleRow(rule: (typeof rules)[number], kindMarks: string[] = []) {
+function toRuleRow(rule: (typeof rules)[number]) {
   const mark = [
     rule.meta.fixable ? ':wrench:' : '',
     rule.meta.hasSuggestions ? ':bulb:' : '',
     rule.meta.deprecated ? ':no_entry_sign:' : ''
   ].join('')
-  const kindMark = [...kindMarks, TYPE_MARK[rule.meta.type]].join('')
+  const kindMark = TYPE_MARK[rule.meta.type] ?? ''
   const link = `[${rule.ruleId}]`
   const description = rule.meta.docs.description || '(no description)'
 

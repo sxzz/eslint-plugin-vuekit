@@ -43,13 +43,11 @@ const rule = {
       loc: SourceLocation
     ) {
       const tsNode = node
-      if ('exportKind' in tsNode && tsNode.exportKind === 'type') {
-        return
-      }
       if (
-        tsNode.type === 'ExportNamedDeclaration' &&
-        tsNode.specifiers.length > 0 &&
-        tsNode.specifiers.every((spec: any) => spec.exportKind === 'type')
+        ('exportKind' in tsNode && tsNode.exportKind === 'type') ||
+        (tsNode.type === 'ExportNamedDeclaration' &&
+          tsNode.specifiers.length > 0 &&
+          tsNode.specifiers.every((spec: any) => spec.exportKind === 'type'))
       ) {
         return
       }
@@ -64,14 +62,12 @@ const rule = {
       ExportAllDeclaration: (node: any) => verify(node, node.loc),
       ExportDefaultDeclaration: (node: any) => verify(node, node.loc),
       ExportNamedDeclaration: (node: any) => {
-        // export let foo = 'foo', export class Foo {}, export function foo() {}
-        if (node.declaration) {
-          verify(node, context.sourceCode.getFirstToken(node).loc)
-        }
-        // export { foo }, export { foo } from 'bar'
-        else {
-          verify(node, node.loc)
-        }
+        verify(
+          node,
+          node.declaration
+            ? context.sourceCode.getFirstToken(node).loc // export let foo = 'foo', export class Foo {}, export function foo() {}
+            : node.loc // export { foo }, export { foo } from 'bar'
+        )
       }
     })
   }

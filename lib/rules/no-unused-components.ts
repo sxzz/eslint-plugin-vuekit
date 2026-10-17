@@ -112,8 +112,8 @@ const rule = {
         },
         "VElement[name='template']:exit"(node: VElement) {
           if (
-            node.loc.start !== templateLocation ||
             shouldIgnoreReporting ||
+            node.loc.start !== templateLocation ||
             hasAttribute(node, 'src')
           )
             return

@@ -90,10 +90,9 @@ export default {
           }
           // fix to use `v-slot`
           const startTag = scopeAttr.parent
-          if (!canConvertToVSlot(startTag)) {
-            return null
-          }
-          return fixSlotScopeToVSlot(fixer, scopeAttr)
+          return canConvertToVSlot(startTag)
+            ? fixSlotScopeToVSlot(fixer, scopeAttr)
+            : null
         }
       })
     }

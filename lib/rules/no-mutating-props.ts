@@ -236,8 +236,7 @@ const rule = {
       }
 
       for (const reference of variable.references) {
-        if (reference.identifier.type !== 'Identifier') continue
-        if (!reference.isRead()) {
+        if (reference.identifier.type !== 'Identifier' || !reference.isRead()) {
           continue
         }
         const id = reference.identifier
@@ -266,20 +265,21 @@ const rule = {
 
     function* extractDefineVariableNames() {
       const globalScope = context.sourceCode.scopeManager.globalScope
-      if (globalScope) {
-        for (const variable of globalScope.variables) {
-          if (variable.defs.length > 0) {
-            yield variable.name
-          }
+      if (!globalScope) {
+        return
+      }
+      for (const variable of globalScope.variables) {
+        if (variable.defs.length > 0) {
+          yield variable.name
         }
-        const moduleScope = globalScope.childScopes.find(
-          (scope: any) => scope.type === 'module'
-        )
-        const moduleVariables = (moduleScope && moduleScope.variables) || []
-        for (const variable of moduleVariables) {
-          if (variable.defs.length > 0) {
-            yield variable.name
-          }
+      }
+      const moduleScope = globalScope.childScopes.find(
+        (scope: any) => scope.type === 'module'
+      )
+      const moduleVariables = (moduleScope && moduleScope.variables) || []
+      for (const variable of moduleVariables) {
+        if (variable.defs.length > 0) {
+          yield variable.name
         }
       }
     }
@@ -368,10 +368,10 @@ const rule = {
         },
         onVueObjectExit(node: any, { type }: any) {
           if (
+            type !== 'instance' &&
             (!vueObjectData ||
               (vueObjectData.type !== 'export' &&
-                vueObjectData.type !== 'setup')) &&
-            type !== 'instance'
+                vueObjectData.type !== 'setup'))
           ) {
             vueObjectData = {
               type,
@@ -381,15 +381,13 @@ const rule = {
         },
         onSetupFunctionEnter(node: any) {
           const propsParam = node.params[0]
-          if (!propsParam) {
-            // no arguments
-            return
-          }
           if (
+            // no arguments
+            !propsParam ||
+            // cannot check
             propsParam.type === 'RestElement' ||
             propsParam.type === 'ArrayPattern'
           ) {
-            // cannot check
             return
           }
           const patternProperties = iteratePatternProperties(propsParam, [])
@@ -433,10 +431,7 @@ const rule = {
         },
 
         'VExpressionContainer Identifier'(node: Identifier) {
-          if (!vueObjectData) {
-            return
-          }
-          if (!isVmReference(node)) {
+          if (!vueObjectData || !isVmReference(node)) {
             return
           }
           const propsInfo = propsMap.get(vueObjectData.object)
@@ -447,7 +442,7 @@ const rule = {
               parent.type === 'MemberExpression' &&
               getStaticPropertyName(parent)) ||
             node.name
-          if (name && (propsInfo.set.has(name) || isRootProps)) {
+          if (name && (isRootProps || propsInfo.set.has(name))) {
             verifyMutating(node, name, isRootProps)
           }
         },

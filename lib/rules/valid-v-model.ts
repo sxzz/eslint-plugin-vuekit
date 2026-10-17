@@ -53,12 +53,20 @@ function isOptionalChainingMemberExpression(node: ASTNode) {
 /**
  * Check whether the given node can be LHS (left-hand side).
  */
-function isLhs(node: ASTNode) {
-  if (node.type === 'TSAsExpression' || node.type === 'TSNonNullExpression') {
-    return isLhs(node.expression)
+function isLhs(node: ASTNode): boolean {
+  switch (node.type) {
+    case 'TSAsExpression':
+    case 'TSNonNullExpression': {
+      return isLhs(node.expression)
+    }
+    case 'Identifier':
+    case 'MemberExpression': {
+      return true
+    }
+    default: {
+      return false
+    }
   }
-
-  return node.type === 'Identifier' || node.type === 'MemberExpression'
 }
 
 /**
@@ -67,23 +75,26 @@ function isLhs(node: ASTNode) {
  * - `(a?.b).c`
  * - `(null).foo`
  */
-function maybeNullObjectMemberExpression(node: ASTNode) {
+function isMaybeNullObjectMemberExpression(node: ASTNode): boolean {
   if (node.type !== 'MemberExpression') {
     return false
   }
-  const { object } = node
-  if (object.type === 'ChainExpression') {
-    // `(a?.b).c`
-    return true
+  switch (node.object.type) {
+    case 'ChainExpression': {
+      // `(a?.b).c`
+      return true
+    }
+    case 'Literal': {
+      // `(null).foo`
+      return node.object.value === null && !node.object.bigint
+    }
+    case 'MemberExpression': {
+      return isMaybeNullObjectMemberExpression(node.object)
+    }
+    default: {
+      return false
+    }
   }
-  if (object.type === 'Literal' && object.value === null && !object.bigint) {
-    // `(null).foo`
-    return true
-  }
-  if (object.type === 'MemberExpression') {
-    return maybeNullObjectMemberExpression(object)
-  }
-  return false
 }
 
 /**
@@ -201,7 +212,7 @@ const rule = {
             node: expression,
             messageId: 'unexpectedNonLhsExpression'
           })
-        } else if (maybeNullObjectMemberExpression(expression)) {
+        } else if (isMaybeNullObjectMemberExpression(expression)) {
           context.report({
             node: expression,
             messageId: 'unexpectedNullObject'

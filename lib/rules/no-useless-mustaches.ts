@@ -19,10 +19,7 @@ function stripQuotesForHTML(text: string) {
     /^(?:&(?:quot|apos|#\d+|#x[\da-f]+);|["'`])([\s\S]*)(?:&(?:quot|apos|#\d+|#x[\da-f]+);|["'`])$/u.exec(
       text
     )
-  if (!re) {
-    return null
-  }
-  return re[1]
+  return re ? re[1] : null
 }
 
 const rule = {
@@ -129,11 +126,7 @@ const rule = {
             return null
           }
           const text = stripQuotesForHTML(sourceCode.getText(expression))
-          if (text == null) {
-            // unknowns
-            return null
-          }
-          if (text.includes('\n') || /^\s|\s$/u.test(text)) {
+          if (text == null || text.includes('\n') || /^\s|\s$/u.test(text)) {
             // It doesn't autofix because another rule like indent or eol space might remove spaces.
             return null
           }

@@ -648,12 +648,9 @@ function wrapRuleModule(
         compositingVisitors(handlers, create(context, { baseHandlers }))
       }
 
-      if (applyDocument) {
-        // Apply the handlers to document.
-        return defineDocumentVisitor(context, handlers)
-      }
-      // Apply the handlers to templates.
-      return defineTemplateBodyVisitor(context, handlers)
+      return applyDocument
+        ? defineDocumentVisitor(context, handlers)
+        : defineTemplateBodyVisitor(context, handlers)
     },
 
     meta: Object.assign({}, baseRule.meta, {
@@ -694,10 +691,7 @@ export function prevSibling(node: VElement) {
  * Check whether the given directive attribute has their empty value (`=""`).
  */
 export function isEmptyValueDirective(node: VDirective, context: RuleContext) {
-  if (node.value == null) {
-    return false
-  }
-  if (node.value.expression != null) {
+  if (node.value == null || node.value.expression != null) {
     return false
   }
 
@@ -720,10 +714,7 @@ export function isEmptyExpressionValueDirective(
   node: VDirective,
   context: RuleContext
 ) {
-  if (node.value == null) {
-    return false
-  }
-  if (node.value.expression != null) {
+  if (node.value == null || node.value.expression != null) {
     return false
   }
   const sourceCode = context.sourceCode
@@ -863,15 +854,11 @@ export function isCustomComponent(
   const isSvgName = isSvgWellKnownElementName(node.rawName)
   const isMathName = isMathWellKnownElementName(node.rawName)
 
-  if (shouldIgnoreElementNamespaces) {
-    return !isHtmlName && !isSvgName && !isMathName
-  }
-
-  return (
-    (isHtmlElementNode(node) && !isHtmlName) ||
-    (isSvgElementNode(node) && !isSvgName) ||
-    (isMathElementNode(node) && !isMathName)
-  )
+  return shouldIgnoreElementNamespaces
+    ? !isHtmlName && !isSvgName && !isMathName
+    : (isHtmlElementNode(node) && !isHtmlName) ||
+        (isSvgElementNode(node) && !isSvgName) ||
+        (isMathElementNode(node) && !isMathName)
 }
 
 /**
@@ -1045,7 +1032,7 @@ export function defineVueVisitor(context: RuleContext, visitor: VueVisitor) {
   let vueStack: VueObjectData | null = null
 
   function callVisitor(key: string, node: ESNode) {
-    if (visitor[key] && vueStack) {
+    if (vueStack && visitor[key]) {
       // @ts-expect-error -- dynamic AST shape or visitor key
       visitor[key](node, vueStack)
     }
@@ -1068,12 +1055,10 @@ export function defineVueVisitor(context: RuleContext, visitor: VueVisitor) {
             (p): p is Property =>
               p.type === 'Property' && getStaticPropertyName(p) === 'functional'
           )
-          if (!functional) {
-            return false
-          }
           return (
-            functional.value.type !== 'Literal' ||
-            functional.value.value !== false
+            functional !== undefined &&
+            (functional.value.type !== 'Literal' ||
+              functional.value.value !== false)
           )
         }
       }
@@ -1083,10 +1068,12 @@ export function defineVueVisitor(context: RuleContext, visitor: VueVisitor) {
   }
   vueVisitor['ObjectExpression:exit'] = (node: any) => {
     callVisitor('ObjectExpression:exit', node)
-    if (vueStack && vueStack.node === node) {
-      callVisitor('onVueObjectExit', node)
-      vueStack = vueStack.parent
+    if (!(vueStack && vueStack.node === node)) {
+      return
     }
+
+    callVisitor('onVueObjectExit', node)
+    vueStack = vueStack.parent
   }
   if (
     visitor.onSetupFunctionEnter ||
@@ -1447,17 +1434,19 @@ export function executeOnCallVueComponent(
       const callExpr = node.parent.parent
       const callee = callExpr.callee
 
-      if (callee.type === 'MemberExpression') {
-        const calleeObject = skipTSAsExpression(callee.object)
+      if (callee.type !== 'MemberExpression') {
+        return
+      }
 
-        if (
-          calleeObject.type === 'Identifier' &&
-          // calleeObject.name === 'Vue' && // Any names can be used in Vue.js 3.x. e.g. app.component()
-          callee.property === node &&
-          callExpr.arguments.length > 0
-        ) {
-          cb(callExpr)
-        }
+      const calleeObject = skipTSAsExpression(callee.object)
+
+      if (
+        calleeObject.type === 'Identifier' &&
+        // calleeObject.name === 'Vue' && // Any names can be used in Vue.js 3.x. e.g. app.component()
+        callee.property === node &&
+        callExpr.arguments.length > 0
+      ) {
+        cb(callExpr)
       }
     }
   }
@@ -1543,44 +1532,45 @@ export function* iterateObjectExpression(
 
     const key = item.key
     if (
-      // eslint-disable-next-line unicorn/prefer-includes-over-repeated-comparisons -- narrows `key`'s type for the `yield` below
-      key.type === 'Identifier' ||
-      key.type === 'Literal' ||
-      key.type === 'TemplateLiteral'
+      key.type !== 'Identifier' &&
+      key.type !== 'Literal' &&
+      key.type !== 'TemplateLiteral'
     ) {
-      const name = getStaticPropertyName(item)
-      if (name) {
-        // find getter pair
-        if (
-          item.kind === 'set' &&
-          node.properties.some((item2: any) => {
-            if (item2.type === 'Property' && item2.kind === 'get') {
-              if (!usedGetter) {
-                usedGetter = new Set()
-              }
-              if (usedGetter.has(item2)) {
-                return false
-              }
-              const getterName = getStaticPropertyName(item2)
-              if (getterName === name) {
-                usedGetter.add(item2)
-                return true
-              }
-            }
+      continue
+    }
+    const name = getStaticPropertyName(item)
+    if (!name) {
+      continue
+    }
+
+    // find getter pair
+    const hasGetterPair =
+      item.kind === 'set' &&
+      node.properties.some((item2: any) => {
+        if (item2.type === 'Property' && item2.kind === 'get') {
+          if (!usedGetter) {
+            usedGetter = new Set()
+          }
+          if (usedGetter.has(item2)) {
             return false
-          })
-        ) {
-          // has getter pair
-          continue
+          }
+          const getterName = getStaticPropertyName(item2)
+          if (getterName === name) {
+            usedGetter.add(item2)
+            return true
+          }
         }
-        yield {
-          type: 'object',
-          name,
-          groupName,
-          node: key,
-          property: item
-        }
-      }
+        return false
+      })
+    if (hasGetterPair) {
+      continue
+    }
+    yield {
+      type: 'object',
+      name,
+      groupName,
+      node: key,
+      property: item
     }
   }
 }
@@ -1673,14 +1663,11 @@ export function executeOnFunctionsWithoutReturn(
     if (!funcInfo) {
       return true
     }
-    if (
-      funcInfo.currentSegments.some(
-        (segment: any) => !isEffectivelyUnreachable(segment)
-      )
-    ) {
-      return false
-    }
-    return !shouldTreatUndefinedAsUnspecified || funcInfo.hasReturnValue
+    return funcInfo.currentSegments.some(
+      (segment: any) => !isEffectivelyUnreachable(segment)
+    )
+      ? false
+      : !shouldTreatUndefinedAsUnspecified || funcInfo.hasReturnValue
   }
 
   return {
@@ -1738,10 +1725,14 @@ export function executeOnFunctionsWithoutReturn(
     },
 
     'SwitchStatement:exit'(node: SwitchStatement) {
-      if (!funcInfo) return
-      // Switches with `default` are handled correctly by ESLint already.
-      if (node.cases.some((switchCase: any) => switchCase.test === null)) return
-      if (!isExhaustiveSwitch(context, node)) return
+      if (
+        !funcInfo ||
+        node.cases.some((switchCase: any) => switchCase.test === null) ||
+        !isExhaustiveSwitch(context, node)
+      ) {
+        // Switches with `default` are handled correctly by ESLint already.
+        return
+      }
 
       // If any reachable predecessor came from inside a case body, the switch
       // genuinely falls through (break or fall-through). Otherwise the only
@@ -1784,13 +1775,12 @@ export function isSingleLine(node: ASTNode) {
  */
 export function hasInvalidEOF(node: Program) {
   const body = node.templateBody
-  if (body == null || body.errors == null) {
-    return false
-  }
-  return body.errors.some(
-    (error: any) =>
-      typeof error.code === 'string' && error.code.startsWith('eof-')
-  )
+  return body == null || body.errors == null
+    ? false
+    : body.errors.some(
+        (error: any) =>
+          typeof error.code === 'string' && error.code.startsWith('eof-')
+      )
 }
 
 /**
@@ -2038,14 +2028,12 @@ export function equalTokens(
   const tokensL = sourceCode.getTokens(left)
   const tokensR = sourceCode.getTokens(right)
 
-  if (tokensL.length !== tokensR.length) {
-    return false
-  }
-
-  return tokensL.every(
-    (token: any, i: any) =>
-      token.type === tokensR[i].type && token.value === tokensR[i].value
-  )
+  return tokensL.length === tokensR.length
+    ? tokensL.every(
+        (token: any, i: any) =>
+          token.type === tokensR[i].type && token.value === tokensR[i].value
+      )
+    : false
 }
 
 // ------------------------------------------------------------------------------
@@ -2219,10 +2207,10 @@ export function findAssignmentProperty(
 export function isProperty(
   node: Property | SpreadElement | AssignmentProperty
 ): node is Property {
-  if (node.type !== 'Property') {
-    return false
-  }
-  return !node.parent || node.parent.type === 'ObjectExpression'
+  return (
+    node.type === 'Property' &&
+    (!node.parent || node.parent.type === 'ObjectExpression')
+  )
 }
 /**
  * Checks whether the given node is AssignmentProperty.
@@ -2256,16 +2244,17 @@ export function isInExportDefault(node: ASTNode) {
 /**
  * Retrieve `TSAsExpression#expression` value if the given node a `TSAsExpression` node. Otherwise, pass through it.
  */
-export function skipTSAsExpression<T>(node: T | TSAsExpression) {
+export function skipTSAsExpression<T>(
+  node: T | TSAsExpression
+): T | TSAsExpression {
   if (!node) {
     return node
   }
   // @ts-expect-error -- dynamic AST shape or visitor key
-  if (node.type === 'TSAsExpression') {
-    // @ts-expect-error -- dynamic AST shape or visitor key
-    return skipTSAsExpression(node.expression)
-  }
-  return node
+  return node.type === 'TSAsExpression'
+    ? // @ts-expect-error -- dynamic AST shape or visitor key
+      skipTSAsExpression(node.expression)
+    : node
 }
 
 /**
@@ -2299,25 +2288,25 @@ export function skipDefaultParamValue(
   if (!node) {
     return node
   }
-  if (node.type === 'AssignmentPattern') {
-    return skipDefaultParamValue(node.left)
-  }
-  return node
+  return node.type === 'AssignmentPattern'
+    ? skipDefaultParamValue(node.left)
+    : node
 }
 
 /**
  * Retrieve `ChainExpression#expression` value if the given node a `ChainExpression` node. Otherwise, pass through it.
  */
-export function skipChainExpression<T>(node: T | ChainExpression) {
+export function skipChainExpression<T>(
+  node: T | ChainExpression
+): T | ChainExpression {
   if (!node) {
     return node
   }
   // @ts-expect-error -- dynamic AST shape or visitor key
-  if (node.type === 'ChainExpression') {
-    // @ts-expect-error -- dynamic AST shape or visitor key
-    return skipChainExpression(node.expression)
-  }
-  return node
+  return node.type === 'ChainExpression'
+    ? // @ts-expect-error -- dynamic AST shape or visitor key
+      skipChainExpression(node.expression)
+    : node
 }
 
 /**
@@ -2353,10 +2342,7 @@ export function getStaticPropertyName(
   if (node.type === 'MemberExpression') {
     if (!node.computed) {
       const property = node.property
-      if (property.type === 'Identifier') {
-        return property.name
-      }
-      return null
+      return property.type === 'Identifier' ? property.name : null
     }
     const property = node.property
     return getStringLiteralValue(property)
@@ -2373,27 +2359,18 @@ export function getStringLiteralValue(
 ) {
   if (node.type === 'Literal') {
     if (node.value == null) {
-      if (!shouldUseStringOnly && node.bigint != null) {
-        return node.bigint
-      }
-      return null
+      return shouldUseStringOnly || node.bigint == null ? null : node.bigint
     }
     if (typeof node.value === 'string') {
       return node.value
     }
-    if (!shouldUseStringOnly) {
-      return String(node.value)
-    }
-    return null
+    return shouldUseStringOnly ? null : String(node.value)
   }
-  if (
-    node.type === 'TemplateLiteral' &&
+  return node.type === 'TemplateLiteral' &&
     node.expressions.length === 0 &&
     node.quasis.length === 1
-  ) {
-    return node.quasis[0].value.cooked
-  }
-  return null
+    ? node.quasis[0].value.cooked
+    : null
 }
 
 /**
@@ -2456,10 +2433,7 @@ export function getScriptSetupElement(context: RuleContext): VElement | null {
     return scripts.find((e: any) => hasAttribute(e, 'setup')) || null
   }
   const script = scripts[0]
-  if (script && hasAttribute(script, 'setup')) {
-    return script
-  }
-  return null
+  return script && hasAttribute(script, 'setup') ? script : null
 }
 
 /**
@@ -2669,15 +2643,11 @@ export function getVueObjectType(context: RuleContext, node: ObjectExpression) {
         skipTSAsExpression(parent.declaration) === node
       ) {
         const scriptSetup = getScriptSetupElement(context)
-        if (
-          scriptSetup &&
+        return scriptSetup &&
           scriptSetup.range[0] <= parent.range[0] &&
           parent.range[1] <= scriptSetup.range[1]
-        ) {
-          // `export default` in `<script setup>`
-          return null
-        }
-        return 'export'
+          ? null // `export default` in `<script setup>`
+          : 'export'
       }
 
       break
@@ -2706,14 +2676,11 @@ export function getVueObjectType(context: RuleContext, node: ObjectExpression) {
     }
     // No default
   }
-  if (
-    getComponentComments(context).some(
-      (el: any) => el.loc.end.line === node.loc.start.line - 1
-    )
-  ) {
-    return 'mark'
-  }
-  return null
+  return getComponentComments(context).some(
+    (el: any) => el.loc.end.line === node.loc.start.line - 1
+  )
+    ? 'mark'
+    : null
 }
 
 /**
@@ -2725,10 +2692,7 @@ export function isSFCObject(context: RuleContext, node: ObjectExpression) {
   }
   const filePath = context.filename
   const ext = path.extname(filePath)
-  if (ext !== '.vue' && ext) {
-    return false
-  }
-  return isSFC(node)
+  return (ext === '.vue' || !ext) && isSFC(node)
 
   function isSFC(node: Expression): boolean {
     const parent = getParent(node)
@@ -2753,19 +2717,17 @@ export function isSFCObject(context: RuleContext, node: ObjectExpression) {
           return false
         }
         const { callee } = parent
-        if (
-          (callee.type === 'Identifier' &&
+        return (
+          ((callee.type === 'Identifier' &&
             (callee.name === 'defineComponent' ||
               callee.name === 'defineNuxtComponent')) ||
-          (callee.type === 'MemberExpression' &&
-            callee.object.type === 'Identifier' &&
-            callee.object.name === 'Vue' &&
-            callee.property.type === 'Identifier' &&
-            callee.property.name === 'extend')
-        ) {
-          return isSFC(parent)
-        }
-        return false
+            (callee.type === 'MemberExpression' &&
+              callee.object.type === 'Identifier' &&
+              callee.object.name === 'Vue' &&
+              callee.property.type === 'Identifier' &&
+              callee.property.name === 'extend')) &&
+          isSFC(parent)
+        )
       }
       case 'VariableDeclarator': {
         if (
@@ -2777,12 +2739,12 @@ export function isSFCObject(context: RuleContext, node: ObjectExpression) {
         const variable = (
           findVariable as unknown as WithVue<typeof findVariable>
         )(getScope(context, node), parent.id)
-        if (!variable) {
-          return false
-        }
-        return variable.references.some(
-          (ref) => ref.identifier.type === 'Identifier' && isSFC(ref.identifier)
-        )
+        return variable
+          ? variable.references.some(
+              (ref) =>
+                ref.identifier.type === 'Identifier' && isSFC(ref.identifier)
+            )
+          : false
       }
       // No default
     }
@@ -3024,13 +2986,10 @@ export function getLeftOfDefineProps(node: CallExpression) {
   if (!target.parent) {
     return null
   }
-  if (
-    target.parent.type === 'VariableDeclarator' &&
+  return target.parent.type === 'VariableDeclarator' &&
     target.parent.init === target
-  ) {
-    return target.parent.id
-  }
-  return null
+    ? target.parent.id
+    : null
 }
 
 /**

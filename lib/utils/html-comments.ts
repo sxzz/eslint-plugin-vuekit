@@ -202,10 +202,7 @@ export function defineVisitor(
   return {
     Program(node) {
       visitorOption ||= {}
-      if (hasInvalidEOF(node)) {
-        return
-      }
-      if (!node.templateBody) {
+      if (hasInvalidEOF(node) || !node.templateBody) {
         return
       }
       const parse = defineParser(context.sourceCode, config)

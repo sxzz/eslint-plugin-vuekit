@@ -33,10 +33,9 @@ function isPlain(componentBlock: VElement) {
 }
 
 function getUserDefinedAllowedAttrs(context: RuleContext) {
-  if (context.options[0] && context.options[0].allow) {
-    return context.options[0].allow
-  }
-  return []
+  return context.options[0] && context.options[0].allow
+    ? context.options[0].allow
+    : []
 }
 
 const defaultAllowedAttrs = ['scoped']

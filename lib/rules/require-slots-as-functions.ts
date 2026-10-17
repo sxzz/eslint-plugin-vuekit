@@ -100,8 +100,7 @@ const rule = {
         return
       }
       for (const reference of variable.references) {
-        if (reference.identifier.type !== 'Identifier') continue
-        if (!reference.isRead()) {
+        if (reference.identifier.type !== 'Identifier' || !reference.isRead()) {
           continue
         }
 
@@ -113,17 +112,12 @@ const rule = {
     return defineVueVisitor(context, {
       MemberExpression(node: MemberExpression) {
         const object = skipChainExpression(node.object)
-        if (object.type !== 'MemberExpression') {
-          return
-        }
-        if (getStaticPropertyName(object) !== '$slots') {
-          return
-        }
-        if (!isThis(object.object, context)) {
-          return
-        }
-        if (node.property.type === 'PrivateIdentifier') {
-          // Unreachable
+        if (
+          object.type !== 'MemberExpression' ||
+          getStaticPropertyName(object) !== '$slots' ||
+          !isThis(object.object, context) ||
+          node.property.type === 'PrivateIdentifier' // Unreachable
+        ) {
           return
         }
         verify(node, node.property)

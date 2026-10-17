@@ -202,24 +202,19 @@ const NON_FUNCTION_EXPRESSION_TYPES = new Set([
  */
 function maybeFunction(context: RuleContext, node: Expression) {
   for (const expr of resolvedExpressions(context, node)) {
-    if (NON_FUNCTION_EXPRESSION_TYPES.has(expr.type)) {
-      continue
-    }
     if (
-      expr.type === 'ConditionalExpression' &&
-      !maybeFunction(context, expr.consequent) &&
-      !maybeFunction(context, expr.alternate)
+      NON_FUNCTION_EXPRESSION_TYPES.has(expr.type) ||
+      (expr.type === 'ConditionalExpression' &&
+        !maybeFunction(context, expr.consequent) &&
+        !maybeFunction(context, expr.alternate))
     ) {
       continue
     }
     const evaluated = (
       getStaticValue as unknown as WithVue<typeof getStaticValue>
     )(expr, getScope(context, expr))
-    if (!evaluated) {
-      // It could be a function because we don't know what it is.
-      return true
-    }
-    if (typeof evaluated.value === 'function') {
+    // If we don't know what it is, it could be a function
+    if (!evaluated || typeof evaluated.value === 'function') {
       return true
     }
   }
@@ -385,22 +380,19 @@ class ComponentStack {
     const fnData = this.functions.find(
       (data: any) => data.name === call.name && data.kind === 'computed'
     )
-    if (!fnData) {
-      // It is not computed, or unknown.
+    if (!fnData || fnData.maybeReturnFunction(this)) {
       return
     }
 
-    if (!fnData.maybeReturnFunction(this)) {
-      const prefix = call.node.callee.type === 'MemberExpression' ? 'this.' : ''
-      this.context.report({
-        node: call.node,
-        messageId: 'unexpected',
-        data: {
-          likeProperty: `${prefix}${call.name}`,
-          likeMethod: `${prefix}${call.name}()`
-        }
-      })
-    }
+    const prefix = call.node.callee.type === 'MemberExpression' ? 'this.' : ''
+    this.context.report({
+      node: call.node,
+      messageId: 'unexpected',
+      data: {
+        likeProperty: `${prefix}${call.name}`,
+        likeMethod: `${prefix}${call.name}()`
+      }
+    })
   }
 
   /**
@@ -492,11 +484,9 @@ class ComponentStack {
 
     function maybeFunctionPropertyWithoutCache(this: ComponentStack) {
       const fnData = this.functions.find((data: any) => data.name === name)
-      if (fnData && fnData.kind === 'computed') {
-        return fnData.maybeReturnFunction(this)
-      }
-      // It could be a function because we don't know what it is.
-      return true
+      return fnData && fnData.kind === 'computed'
+        ? fnData.maybeReturnFunction(this)
+        : true
     }
   }
 }

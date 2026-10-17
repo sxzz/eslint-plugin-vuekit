@@ -64,10 +64,9 @@ const rule = {
       sourceCode.parserServices.getDocumentFragment()
 
     function getTopLevelHTMLElements() {
-      if (documentFragment) {
-        return documentFragment.children.filter(isVElement)
-      }
-      return []
+      return documentFragment
+        ? documentFragment.children.filter(isVElement)
+        : []
     }
 
     return {

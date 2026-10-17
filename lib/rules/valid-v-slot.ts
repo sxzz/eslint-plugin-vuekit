@@ -94,14 +94,9 @@ function filterSameSlot(
           vSlot,
           getDirective(vSlot.parent.parent, 'for')
         )
-        if (!currentVSlotVForVars || !vForExpr) {
-          return !currentVSlotVForVars && !vForExpr
-        }
-        return equalVSlotVForVariables(
-          currentVSlotVForVars,
-          vForExpr,
-          tokenStore
-        )
+        return currentVSlotVForVars && vForExpr
+          ? equalVSlotVForVariables(currentVSlotVForVars, vForExpr, tokenStore)
+          : !currentVSlotVForVars && !vForExpr
       })
     )
     .filter((slots: any) => slots.length > 0)
@@ -115,10 +110,10 @@ function equalVSlotVForVariables(
   b: VSlotVForVariables,
   tokenStore: ParserServices.TokenStore
 ) {
-  if (a.variables.length !== b.variables.length) {
-    return false
-  }
-  if (!equal(a.expr.right, b.expr.right)) {
+  if (
+    a.variables.length !== b.variables.length ||
+    !equal(a.expr.right, b.expr.right)
+  ) {
     return false
   }
 
@@ -137,10 +132,7 @@ function equalVSlotVForVariables(
         bPtn.range[0] <= v.id.range[0] && v.id.range[1] <= bPtn.range[1]
     )
     if (aVar && bVar) {
-      if (aVar.id.name !== bVar.id.name) {
-        return false
-      }
-      if (!equal(aPtn, bPtn)) {
+      if (aVar.id.name !== bVar.id.name || !equal(aPtn, bPtn)) {
         return false
       }
       checkedVarNames.add(aVar.id.name)
@@ -158,10 +150,7 @@ function equalVSlotVForVariables(
    * Determines whether the two given nodes are considered to be equal.
    */
   function equal(a: ASTNode, b: ASTNode) {
-    if (a.type !== b.type) {
-      return false
-    }
-    return equalTokens(a, b, tokenStore)
+    return a.type === b.type ? equalTokens(a, b, tokenStore) : false
   }
 }
 
@@ -368,7 +357,7 @@ const rule = {
 
         // Verify modifiers.
         const lastModifier = node.key.modifiers.at(-1)
-        if (hasInvalidModifiers(node, shouldAllowModifiers) && lastModifier) {
+        if (lastModifier && hasInvalidModifiers(node, shouldAllowModifiers)) {
           // E.g., <template v-slot.foo>
           context.report({
             node,

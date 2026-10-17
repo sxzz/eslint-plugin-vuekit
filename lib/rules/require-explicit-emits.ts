@@ -217,17 +217,19 @@ const rule = {
         }
 
         // verify $emit
-        if (emit && emit.name === '$emit') {
-          const memObject = utils.skipChainExpression(emit.member.object)
-          if (utils.isThis(memObject, context)) {
-            // verify this.$emit()
-            verifyEmit(
-              emitsDeclarations,
-              vuePropsDeclarations.get(vueDefineNode) || [],
-              nameWithLoc,
-              vueDefineNode
-            )
-          }
+        if (!emit || emit.name !== '$emit') {
+          return
+        }
+
+        const memObject = utils.skipChainExpression(emit.member.object)
+        if (utils.isThis(memObject, context)) {
+          // verify this.$emit()
+          verifyEmit(
+            emitsDeclarations,
+            vuePropsDeclarations.get(vueDefineNode) || [],
+            nameWithLoc,
+            vueDefineNode
+          )
         }
       }
     }
@@ -238,11 +240,7 @@ const rule = {
         CallExpression(node) {
           const callee = utils.skipChainExpression(node.callee)
           const nameWithLoc = utils.getNameParamNode(node)
-          if (!nameWithLoc) {
-            // cannot check
-            return
-          }
-          if (!vueTemplateDefineData) {
+          if (!nameWithLoc || !vueTemplateDefineData) {
             return
           }
 
@@ -295,8 +293,10 @@ const rule = {
             }
             const emitReferenceIds = new Set<Identifier>()
             for (const reference of variable.references) {
-              if (reference.identifier.type !== 'Identifier') continue
-              if (!reference.isRead()) {
+              if (
+                reference.identifier.type !== 'Identifier' ||
+                !reference.isRead()
+              ) {
                 continue
               }
 
@@ -342,16 +342,13 @@ const rule = {
           },
           onSetupFunctionEnter(node, { node: vueNode }) {
             const contextParam = node.params[1]
-            if (!contextParam) {
+            if (
               // no arguments
-              return
-            }
-            if (contextParam.type === 'RestElement') {
+              !contextParam ||
               // cannot check
-              return
-            }
-            if (contextParam.type === 'ArrayPattern') {
-              // cannot check
+              contextParam.type === 'RestElement' ||
+              contextParam.type === 'ArrayPattern'
+            ) {
               return
             }
             const contextReferenceIds = new Set<Identifier>()
@@ -377,8 +374,10 @@ const rule = {
                 return
               }
               for (const reference of variable.references) {
-                if (reference.identifier.type !== 'Identifier') continue
-                if (!reference.isRead()) {
+                if (
+                  reference.identifier.type !== 'Identifier' ||
+                  !reference.isRead()
+                ) {
                   continue
                 }
 
@@ -393,8 +392,10 @@ const rule = {
                 return
               }
               for (const reference of variable.references) {
-                if (reference.identifier.type !== 'Identifier') continue
-                if (!reference.isRead()) {
+                if (
+                  reference.identifier.type !== 'Identifier' ||
+                  !reference.isRead()
+                ) {
                   continue
                 }
 
@@ -410,10 +411,10 @@ const rule = {
           onVueObjectExit(node, { type }) {
             const emits = vueEmitsDeclarations.get(node)
             if (
+              emits &&
               (!vueTemplateDefineData ||
                 (vueTemplateDefineData.type !== 'export' &&
                   vueTemplateDefineData.type !== 'setup')) &&
-              emits &&
               // eslint-disable-next-line unicorn/prefer-includes-over-repeated-comparisons -- narrows `type` for `vueTemplateDefineData` below
               (type === 'mark' || type === 'export' || type === 'definition')
             ) {
@@ -463,16 +464,12 @@ function buildSuggest(
               `, '${nameWithLoc.name}'`
             )
           }
-          if (lastEmit.type === 'object') {
-            // Object
-            return fixer.insertTextAfter(
-              lastEmit.node,
-              `, '${nameWithLoc.name}': null`
-            )
-          }
-          // type
-          // The argument is unknown and cannot be suggested.
-          return null
+          return lastEmit.type === 'object'
+            ? fixer.insertTextAfter(
+                lastEmit.node,
+                `, '${nameWithLoc.name}': null`
+              )
+            : null
         }
       }
     ]

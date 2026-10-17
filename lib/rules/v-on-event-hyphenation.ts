@@ -106,10 +106,12 @@ const rule = {
     return defineTemplateBodyVisitor(context, {
       "VAttribute[directive=true][key.name.name='on']"(node) {
         const element = node.parent.parent
-        if (!isCustomComponent(element) || isIgnoredTag(element.rawName)) {
-          return
-        }
-        if (!node.key.argument || node.key.argument.type !== 'VIdentifier') {
+        if (
+          !isCustomComponent(element) ||
+          isIgnoredTag(element.rawName) ||
+          !node.key.argument ||
+          node.key.argument.type !== 'VIdentifier'
+        ) {
           return
         }
         const name = node.key.argument.rawName

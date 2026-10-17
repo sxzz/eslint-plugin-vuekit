@@ -161,10 +161,7 @@ export function inferRuntimeTypeFromTypeNode(
   const services = getTSParserServices(context)
   const tsNode = services && services.tsNodeMap.get(node)
   const type = tsNode && services.checker.getTypeAtLocation(tsNode)
-  if (!type) {
-    return ['null']
-  }
-  return inferRuntimeTypeInternal(type, services)
+  return type ? inferRuntimeTypeInternal(type, services) : ['null']
 }
 
 function* extractRuntimeProps(

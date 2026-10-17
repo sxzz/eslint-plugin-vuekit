@@ -37,8 +37,8 @@ export default {
     function fix(fixer: RuleFixer, node: CallExpression) {
       if (node.arguments.length === 0) return null
       const scriptSetup = getScriptSetupElement(context)
-      if (!scriptSetup) return null
       if (
+        !scriptSetup ||
         scriptSetup.parent.children
           .filter(isVElement)
           .some(

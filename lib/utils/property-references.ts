@@ -269,16 +269,20 @@ export function definePropertyReferenceExtractor(
   }
 
   function getNestFromPattern(pattern: Pattern): IPropertyReferences {
-    if (pattern.type === 'ObjectPattern') {
-      return extractFromObjectPattern(pattern)
+    switch (pattern.type) {
+      case 'ObjectPattern': {
+        return extractFromObjectPattern(pattern)
+      }
+      case 'Identifier': {
+        return extractFromIdentifier(pattern)
+      }
+      case 'AssignmentPattern': {
+        return getNestFromPattern(pattern.left)
+      }
+      default: {
+        return ANY
+      }
     }
-    if (pattern.type === 'Identifier') {
-      return extractFromIdentifier(pattern)
-    }
-    if (pattern.type === 'AssignmentPattern') {
-      return getNestFromPattern(pattern.left)
-    }
-    return ANY
   }
 
   /**
@@ -354,9 +358,9 @@ export function definePropertyReferenceExtractor(
         case 'CallExpression': {
           const argIndex = parent.arguments.indexOf(node)
           // `foo(arg)`
-          return !isWithinTemplate && argIndex !== -1
-            ? extractFromCall(parent, argIndex)
-            : NEVER
+          return isWithinTemplate || argIndex === -1
+            ? NEVER
+            : extractFromCall(parent, argIndex)
         }
         case 'ChainExpression': {
           return extractFromExpression(parent, isWithinTemplate)
@@ -379,22 +383,24 @@ export function definePropertyReferenceExtractor(
 
     function isMaybeExternallyUsed(parentTarget: ASTNode | null): boolean {
       if (!parentTarget) return false
-      if (
-        parentTarget.type === 'ReturnStatement' ||
-        parentTarget.type === 'VExpressionContainer'
-      ) {
-        return true
+      switch (parentTarget.type) {
+        case 'ReturnStatement':
+        case 'VExpressionContainer': {
+          return true
+        }
+        case 'ArrayExpression': {
+          return isMaybeExternallyUsed(parentTarget.parent)
+        }
+        case 'Property': {
+          return isMaybeExternallyUsed(parentTarget.parent.parent)
+        }
+        case 'ArrowFunctionExpression': {
+          return parentTarget.body === node
+        }
+        default: {
+          return false
+        }
       }
-      if (parentTarget.type === 'ArrayExpression') {
-        return isMaybeExternallyUsed(parentTarget.parent)
-      }
-      if (parentTarget.type === 'Property') {
-        return isMaybeExternallyUsed(parentTarget.parent.parent)
-      }
-      if (parentTarget.type === 'ArrowFunctionExpression') {
-        return parentTarget.body === node
-      }
-      return false
     }
   }
 
@@ -415,17 +421,22 @@ export function definePropertyReferenceExtractor(
       while (node.type === 'AssignmentPattern') {
         node = node.left
       }
-      if (node.type === 'RestElement' || node.type === 'ArrayPattern') {
-        // cannot check
-        return NEVER
+      switch (node.type) {
+        case 'RestElement':
+        case 'ArrayPattern': {
+          // cannot check
+          return NEVER
+        }
+        case 'ObjectPattern': {
+          return extractFromObjectPattern(node)
+        }
+        case 'Identifier': {
+          return extractFromIdentifier(node)
+        }
+        default: {
+          return NEVER
+        }
       }
-      if (node.type === 'ObjectPattern') {
-        return extractFromObjectPattern(node)
-      }
-      if (node.type === 'Identifier') {
-        return extractFromIdentifier(node)
-      }
-      return NEVER
     }
   }
 
@@ -463,8 +474,9 @@ export function definePropertyReferenceExtractor(
     return mergePropertyReferences(
       variable.references.map((reference) => {
         const id = reference.identifier
-        if (id.type !== 'Identifier') return NEVER
-        return extractFromExpression(id, false)
+        return id.type === 'Identifier'
+          ? extractFromExpression(id, false)
+          : NEVER
       })
     )
   }
@@ -605,13 +617,11 @@ export function definePropertyReferenceExtractor(
       (nameNode.type === 'Literal' || nameNode.type === 'TemplateLiteral')
         ? getStringLiteralValue(nameNode)
         : null
-    if (!refName) {
-      // unknown name
-      return ANY
-    }
-    return extractFromName(refName, nameNode, () =>
-      extractFromExpression(node, false).getNest('value')
-    )
+    return refName
+      ? extractFromName(refName, nameNode, () =>
+          extractFromExpression(node, false).getNest('value')
+        )
+      : ANY
   }
 
   /**
@@ -706,10 +716,9 @@ export function mergePropertyReferences(
   if (references.length === 0) {
     return NEVER
   }
-  if (references.length === 1) {
-    return references[0]
-  }
-  return new PropertyReferencesForMerge(references)
+  return references.length === 1
+    ? references[0]
+    : new PropertyReferencesForMerge(references)
 }
 
 /**
