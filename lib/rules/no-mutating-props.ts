@@ -435,7 +435,7 @@ const rule = {
             return
           }
           const propsInfo = propsMap.get(vueObjectData.object)
-          const isRootProps = !!node.name && propsInfo.name === node.name
+          const isRootProps = propsInfo.name === node.name
           const parent = node.parent
           const name =
             (isRootProps &&

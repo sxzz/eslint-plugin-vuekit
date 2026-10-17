@@ -12,7 +12,7 @@ import { defineTemplateBodyVisitor, hasDirective } from '../utils/index.ts'
  * Check whether the given `v-if` node is using the variable which is defined by the `v-for` directive.
  */
 function isUsingIterationVar(vIf: VDirective) {
-  return !!getVForUsingIterationVar(vIf)
+  return getVForUsingIterationVar(vIf) !== null
 }
 
 function getVForUsingIterationVar(vIf: VDirective) {

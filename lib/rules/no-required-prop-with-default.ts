@@ -63,7 +63,7 @@ const rule = {
         if (
           requiredNode &&
           requiredNode.type === 'Literal' &&
-          !!requiredNode.value
+          Boolean(requiredNode.value)
         ) {
           context.report({
             node: prop.node,
