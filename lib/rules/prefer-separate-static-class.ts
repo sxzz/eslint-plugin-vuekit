@@ -31,7 +31,7 @@ function isStaticClassTemplateElement(
 ) {
   const value = templateElement.value.cooked
   return (
-    !!value &&
+    value !== null &&
     value.trim() !== '' &&
     (index === 0 || /^\s/u.test(value)) &&
     (index === templateLiteral.expressions.length || /\s$/u.test(value))

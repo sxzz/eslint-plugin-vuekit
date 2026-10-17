@@ -56,7 +56,7 @@ const rule = {
 
           const hasDestructure = isUsingPropsDestructure(node)
           const hasWithDefaults = utilsHasWithDefaults(node)
-          const hasAssigned = !!getLeftOfDefineProps(node)
+          const hasAssigned = getLeftOfDefineProps(node) !== null
 
           if (destructurePreference === 'never') {
             if (hasDestructure) {

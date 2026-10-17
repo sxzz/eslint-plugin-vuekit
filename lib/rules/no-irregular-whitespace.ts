@@ -64,12 +64,14 @@ const rule = {
 
     // Lookup the `skipComments` option, which defaults to `false`.
     const options = context.options[0] || {}
-    const shouldSkipComments = !!options.skipComments
+    const shouldSkipComments = Boolean(options.skipComments)
     const shouldSkipStrings = options.skipStrings !== false
-    const shouldSkipRegExps = !!options.skipRegExps
-    const shouldSkipTemplates = !!options.skipTemplates
-    const shouldSkipHTMLAttributeValues = !!options.skipHTMLAttributeValues
-    const shouldSkipHTMLTextContents = !!options.skipHTMLTextContents
+    const shouldSkipRegExps = Boolean(options.skipRegExps)
+    const shouldSkipTemplates = Boolean(options.skipTemplates)
+    const shouldSkipHTMLAttributeValues = Boolean(
+      options.skipHTMLAttributeValues
+    )
+    const shouldSkipHTMLTextContents = Boolean(options.skipHTMLTextContents)
 
     const sourceCode = context.sourceCode
 

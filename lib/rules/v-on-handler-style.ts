@@ -42,7 +42,7 @@ function parseOptions(context: RuleContext) {
   }
 
   const option = options[1] || {}
-  const shouldIgnoreIncludesComment = !!option.ignoreIncludesComment
+  const shouldIgnoreIncludesComment = Boolean(option.ignoreIncludesComment)
 
   return { allows, shouldIgnoreIncludesComment }
 }
