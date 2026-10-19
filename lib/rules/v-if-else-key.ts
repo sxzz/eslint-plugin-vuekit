@@ -80,7 +80,11 @@ const checkForKey = (
 
   const conditionalFamily = conditionalFamilies.get(node.parent)
 
-  if (!conditionalFamily || hasAttribute(node, 'key')) {
+  if (
+    !conditionalFamily ||
+    hasAttribute(node, 'key') ||
+    hasDirective(node, 'bind', 'key')
+  ) {
     return
   }
 
