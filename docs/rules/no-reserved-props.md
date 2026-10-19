@@ -42,6 +42,10 @@ export default {
 
 The optional `vueVersion` setting accepts `3`. It defaults to Vue 3 behavior.
 
+## :couple: Related Rules
+
+- [vue/no-props-shadow](./no-props-shadow.md)
+
 ## :rocket: Version
 
 This rule was introduced in eslint-plugin-vue v8.0.0

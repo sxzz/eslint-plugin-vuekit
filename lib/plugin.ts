@@ -118,6 +118,7 @@ import noNegatedCondition from './rules/no-negated-condition.ts'
 import noNegatedVIfCondition from './rules/no-negated-v-if-condition.ts'
 import noParsingError from './rules/no-parsing-error.ts'
 import noPotentialComponentOptionTypo from './rules/no-potential-component-option-typo.ts'
+import noPropsShadow from './rules/no-props-shadow.ts'
 import noRefAsOperand from './rules/no-ref-as-operand.ts'
 import noRefObjectReactivityLoss from './rules/no-ref-object-reactivity-loss.ts'
 import noRequiredPropWithDefault from './rules/no-required-prop-with-default.ts'
@@ -372,6 +373,7 @@ export const plugin = {
     'no-negated-v-if-condition': noNegatedVIfCondition,
     'no-parsing-error': noParsingError,
     'no-potential-component-option-typo': noPotentialComponentOptionTypo,
+    'no-props-shadow': noPropsShadow,
     'no-ref-as-operand': noRefAsOperand,
     'no-ref-object-reactivity-loss': noRefObjectReactivityLoss,
     'no-required-prop-with-default': noRequiredPropWithDefault,
