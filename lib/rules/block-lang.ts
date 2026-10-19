@@ -4,15 +4,25 @@
  */
 import type { RuleContext, VElement } from '../types/index.ts'
 import type { RuleDefinition, PublicRuleModule } from '../types/rule.ts'
-import { getAttribute, defineDocumentVisitor } from '../utils/index.ts'
+import {
+  compositingVisitors,
+  getAttribute,
+  defineDocumentVisitor,
+  isVElement
+} from '../utils/index.ts'
 
-export type BlockOptions = { lang: Set<string>; allowNoLang: boolean }
+export type BlockOptions = {
+  lang: Set<string>
+  allowNoLang: boolean
+  required: boolean
+}
 
 export type Options = { [element: string]: BlockOptions | undefined }
 
 export type UserBlockOptions = {
   lang?: string[] | string
   allowNoLang?: boolean
+  required?: boolean
 }
 
 export type UserOptions = { [element: string]: UserBlockOptions | undefined }
@@ -66,15 +76,18 @@ function normalizeOption(blockName: string, option: UserBlockOptions) {
     lang.delete(def)
     hasDefault = true
   }
+  const isRequired = option.required === true
   if (lang.size === 0) {
     return {
       lang,
-      allowNoLang: true
+      allowNoLang: true,
+      required: isRequired
     }
   }
   return {
     lang,
-    allowNoLang: hasDefault || Boolean(option.allowNoLang)
+    allowNoLang: hasDefault || Boolean(option.allowNoLang),
+    required: isRequired
   }
 }
 /**
@@ -125,7 +138,8 @@ const rule = {
                       }
                     ]
                   },
-                  allowNoLang: { type: 'boolean' }
+                  allowNoLang: { type: 'boolean' },
+                  required: { type: 'boolean' }
                 },
                 additionalProperties: false
               }
@@ -140,6 +154,7 @@ const rule = {
       expected:
         "Only {{allows}} can be used for the 'lang' attribute of '<{{tag}}>'.",
       missing: "The 'lang' attribute of '<{{tag}}>' is missing.",
+      missingBlock: "The '<{{tag}}>' block is missing.",
       unexpected: "Do not specify the 'lang' attribute of '<{{tag}}>'.",
       useOrNot:
         "Only {{allows}} can be used for the 'lang' attribute of '<{{tag}}>'. Or, not specifying the 'lang' attribute is allowed.",
@@ -201,9 +216,42 @@ const rule = {
       }
     }
 
-    return defineDocumentVisitor(context, {
-      'VDocumentFragment > VElement': verify
-    })
+    /**
+     * Reports the blocks that are required to exist but are not in the document.
+     */
+    function verifyMissingBlocks() {
+      const documentFragment =
+        context.sourceCode.parserServices.getDocumentFragment?.()
+      if (!documentFragment) {
+        return
+      }
+      const existingBlocks = new Set(
+        documentFragment.children
+          .filter(isVElement)
+          .map((element) => element.name)
+      )
+      for (const [tag, option] of Object.entries(options)) {
+        if (!option || !option.required || existingBlocks.has(tag)) {
+          continue
+        }
+        context.report({
+          loc: { line: 1, column: 0 },
+          messageId: 'missingBlock',
+          data: {
+            tag
+          }
+        })
+      }
+    }
+
+    return compositingVisitors(
+      defineDocumentVisitor(context, {
+        'VDocumentFragment > VElement': verify
+      }),
+      {
+        Program: verifyMissingBlocks
+      }
+    )
   }
 } satisfies RuleDefinition
 
