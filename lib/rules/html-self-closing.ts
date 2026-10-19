@@ -7,6 +7,7 @@ import type { RuleContext, SourceCode, VElement } from '../types/index.ts'
 import type { RuleDefinition, PublicRuleModule } from '../types/rule.ts'
 import {
   isCustomComponent,
+  isVueBuiltInElementName,
   isHtmlElementNode,
   isHtmlVoidElementName,
   isSvgElementNode,
@@ -54,7 +55,7 @@ function parseOptions(options: any): Options {
  * Get the elementType of the given element.
  */
 function getElementType(node: VElement): keyof Options {
-  if (isCustomComponent(node)) {
+  if (isCustomComponent(node) || isVueBuiltInElementName(node.rawName)) {
     return 'COMPONENT'
   }
   if (isHtmlElementNode(node)) {
