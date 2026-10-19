@@ -337,6 +337,25 @@ function isTypeLiteralLike(type: Type, ts: typeof import('typescript')) {
 }
 
 /**
+ * Check whether the given expression is typed as a Vue ref object,
+ * e.g. `Ref`, `ShallowRef` or `ComputedRef`.
+ */
+export function isRefObjectType(context: RuleContext, node: ESNode): boolean {
+  const services = getTSParserServices(context)
+  const tsNode = services && services.tsNodeMap.get(node)
+  if (!tsNode) return false
+
+  const { checker } = services
+  const type = checker.getTypeAtLocation(tsNode)
+  // Every ref type inherits the `[RefSymbol]` marker declared by `Ref`
+  return checker
+    .getPropertiesOfType(type)
+    .some((property) =>
+      String(property.escapedName).startsWith('__@RefSymbol@')
+    )
+}
+
+/**
  * Check whether a switch statement's discriminant is a finite union of literal
  * types and every union member is covered by a case clause.
  * Does NOT verify that case bodies terminate — callers can use ESLint's code

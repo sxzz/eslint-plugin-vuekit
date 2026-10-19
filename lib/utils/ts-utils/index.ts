@@ -15,7 +15,7 @@ import {
 } from './ts-types.ts'
 
 export { isTypeNode } from './ts-ast.ts'
-export { isExhaustiveSwitch } from './ts-types.ts'
+export { isExhaustiveSwitch, isRefObjectType } from './ts-types.ts'
 
 export type TSESTreeTypeNode =
   import('@typescript-eslint/types').TSESTree.TypeNode
