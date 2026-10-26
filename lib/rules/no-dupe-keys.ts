@@ -9,6 +9,7 @@ import type {
 } from '../types/rule.ts'
 
 import type {
+  ASTNode,
   CallExpression,
   ESNode,
   Expression,
@@ -24,6 +25,7 @@ import * as utils from '../utils/index.ts'
 export type GroupName = import('../utils').GroupName
 export type Variable = import('../types/rule.ts').Scope.Variable
 export type ComponentProp = import('../utils').ComponentProp
+export type ComponentModel = import('../utils').ComponentModel
 
 const GROUP_NAMES = ['props', 'computed', 'data', 'methods', 'setup']
 
@@ -201,6 +203,10 @@ const rule = {
   create(context: RuleContext) {
     const options = context.options[0] || {}
     const groups = new Set([...GROUP_NAMES, ...(options.groups || [])])
+    let propReferences: ESNode[] = []
+    const propNames = new Set<string>()
+    const models: { node: CallExpression; model: ComponentModel }[] = []
+    const reportedDeclarations = new Set<ASTNode>()
 
     return utils.compositingVisitors(
       utils.executeOnVue(context, (obj: any) => {
@@ -224,7 +230,7 @@ const rule = {
       utils.defineScriptSetupVisitor(context, {
         onDefinePropsEnter(node: any, props: any) {
           const propsNode = getPropsPattern(node)
-          const propReferences = [
+          propReferences = [
             ...(propsNode ? extractReferences(propsNode) : []),
             node
           ]
@@ -234,6 +240,7 @@ const rule = {
           for (const prop of props) {
             const propName = prop.propName
             if (!propName) continue
+            propNames.add(propName)
 
             if (renamedProps.has(propName)) {
               continue
@@ -258,12 +265,61 @@ const rule = {
               continue
             }
 
+            reportedDeclarations.add(variable.defs[0].node)
             context.report({
               node: variable.defs[0].node,
               messageId: 'duplicateKey',
               data: {
                 name: propName
               }
+            })
+          }
+        },
+        onDefineModelEnter(node, model) {
+          models.push({ node, model })
+        },
+        'Program:exit'() {
+          const usedNames = new Set(propNames)
+          for (const { node, model } of models) {
+            const name = model.name.modelName
+            if (usedNames.has(name)) {
+              // `const foo = defineModel('foo')` next to a `foo` prop
+              // is already reported on the declaration by the props check
+              if (reportedDeclarations.has(node.parent)) continue
+              context.report({
+                node: model.name.node || node,
+                messageId: 'duplicateKey',
+                data: { name }
+              })
+              continue
+            }
+            usedNames.add(name)
+
+            const variable = (
+              findVariable as unknown as WithVue<typeof findVariable>
+            )(utils.getScope(context, node), name)
+            if (!variable || variable.defs.length === 0) continue
+
+            const modelPattern = getPropsPattern(node)
+            const modelReferences = [
+              ...propReferences,
+              ...(modelPattern ? extractReferences(modelPattern) : []),
+              node
+            ]
+            if (
+              variable.defs.some(
+                (def) =>
+                  def.type === 'Variable' &&
+                  isInsideInitializer(def.node, modelReferences)
+              )
+            ) {
+              continue
+            }
+
+            context.report({
+              node: variable.defs[0].node,
+              messageId: 'duplicateKey',
+              data: { name }
             })
           }
         }
