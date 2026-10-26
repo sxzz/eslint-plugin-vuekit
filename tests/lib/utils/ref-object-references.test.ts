@@ -10,9 +10,7 @@ import type {
 } from '../../../lib/types/rule.ts'
 import type {
   RefObjectReferences,
-  RefObjectReference,
-  ReactiveVariableReferences,
-  ReactiveVariableReference
+  RefObjectReference
 } from '../../../lib/utils/ref-object-references'
 import type { Linter as ESLintLinter } from 'eslint'
 import fs from 'node:fs'
@@ -20,17 +18,13 @@ import path from 'node:path'
 import assert from 'node:assert'
 import vueESLintParser from 'vue-eslint-parser'
 import { Linter } from 'eslint'
-import {
-  extractRefObjectReferences,
-  extractReactiveVariableReferences
-} from '../../../lib/utils/ref-object-references'
+import { extractRefObjectReferences } from '../../../lib/utils/ref-object-references'
 
 const FIXTURE_ROOT = path.resolve(
   import.meta.dirname,
   '../../fixtures/utils/ref-object-references'
 )
 const REF_OBJECTS_FIXTURE_ROOT = path.resolve(FIXTURE_ROOT, 'ref-objects')
-const REACTIVE_VARS_FIXTURE_ROOT = path.resolve(FIXTURE_ROOT, 'reactive-vars')
 
 interface LoadedPattern {
   code: string
@@ -67,21 +61,9 @@ function extractRefs(
   code: string,
   extract: (context: RuleContext) => RefObjectReferences,
   options: LoadedPattern['options']
-): RefObjectReference[]
-function extractRefs(
-  code: string,
-  extract: (context: RuleContext) => ReactiveVariableReferences,
-  options: LoadedPattern['options']
-): ReactiveVariableReference[]
-function extractRefs(
-  code: string,
-  extract: (
-    context: RuleContext
-  ) => RefObjectReferences | ReactiveVariableReferences,
-  options: LoadedPattern['options']
-) {
+): RefObjectReference[] {
   const linter = new Linter()
-  const references: (RefObjectReference | ReactiveVariableReference)[] = []
+  const references: RefObjectReference[] = []
 
   const messages = linter.verify(code, {
     ...options,
@@ -114,16 +96,7 @@ function extractRefs(
     languageOptions: {
       ...options?.languageOptions,
       ecmaVersion: 2020,
-      sourceType: 'module',
-      globals: {
-        $ref: 'readonly',
-        $computed: 'readonly',
-        $shallowRef: 'readonly',
-        $customRef: 'readonly',
-        $toRef: 'readonly',
-        $: 'readonly',
-        $$: 'readonly'
-      }
+      sourceType: 'module'
     },
     rules: { 'vue/extract-test': 'error' }
   })
@@ -153,33 +126,6 @@ describe.each(loadPatterns(REF_OBJECTS_FIXTURE_ROOT))(
         result += code.slice(...ref.node.range)
         result += `/*<${JSON.stringify({
           type: ref.type,
-          method: ref.method
-        })}*/`
-        start = ref.node.range[1]
-      }
-      result += code.slice(start)
-
-      await expect(result).toMatchFileSnapshot(resultFilePath)
-    })
-  }
-)
-describe.each(loadPatterns(REACTIVE_VARS_FIXTURE_ROOT))(
-  'extractReactiveVariableReferences() [$name]',
-  ({ code, resultFilePath, options }) => {
-    it('should to extract the references to match the expected references.', async () => {
-      const references = [
-        ...extractRefs(code, extractReactiveVariableReferences, options)
-      ]
-
-      let result = ''
-      let start = 0
-      let ref: ReactiveVariableReference | undefined
-      while ((ref = references.shift())) {
-        result += code.slice(start, ref.node.range[0])
-        result += `/*>*/`
-        result += code.slice(...ref.node.range)
-        result += `/*<${JSON.stringify({
-          escape: ref.escape,
           method: ref.method
         })}*/`
         start = ref.node.range[1]
