@@ -13,6 +13,7 @@ since: v4.3.0
 - :gear: This rule is included in the following preset configs:
   - `*.configs.recommended`
 - :wrench: The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#fix-problems) can automatically fix some of the problems reported by this rule.
+- :bulb: Some problems reported by this rule are manually fixable by editor [suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).
 
 ## :book: Rule Details
 
@@ -125,6 +126,8 @@ Note that `v-bind="object"` syntax is considered to be the same as the next or p
 ```
 
 </eslint-code-block>
+
+In Vue 3, a binding that comes after `v-bind="object"` overrides the same key in the object, and one that comes before it can be overridden. When fixing the order would move an attribute, `v-bind` or `v-model` to the other side of `v-bind="object"`, the rule offers a suggestion instead of an autofix, because such a change affects the behavior.
 
 ## :wrench: Options
 

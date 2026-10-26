@@ -170,7 +170,7 @@ Rules in this category are enabled for all presets provided by eslint-plugin-vue
 
 | Rule ID | Description |    |    |
 |:--------|:------------|:--:|:--:|
-| [vue/attributes-order] | enforce order of attributes | :wrench: | :hammer: |
+| [vue/attributes-order] | enforce order of attributes | :wrench::bulb: | :hammer: |
 | [vue/block-order] | enforce order of component top-level elements | :wrench: | :hammer: |
 | [vue/no-lone-template] | disallow unnecessary `<template>` |  | :warning: |
 | [vue/no-multiple-slot-args] | disallow passing multiple arguments to scoped slots |  | :warning: |
