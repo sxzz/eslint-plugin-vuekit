@@ -97,6 +97,9 @@ export function* iterateDefineRefs(
     shallowRef: {
       [ReferenceTracker.CALL]: true
     },
+    useTemplateRef: {
+      [ReferenceTracker.CALL]: true
+    },
     toRefs: {
       [ReferenceTracker.CALL]: true
     }
