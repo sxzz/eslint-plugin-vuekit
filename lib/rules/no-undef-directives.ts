@@ -11,6 +11,7 @@ import type {
 } from '../types/index.ts'
 import type { RuleDefinition, PublicRuleModule } from '../types/rule.ts'
 import {
+  findProperty,
   getStaticPropertyName,
   isBuiltInDirectiveName,
   isScriptSetup,
@@ -24,18 +25,13 @@ import { toRegExpGroupMatcher } from '../utils/regexp.ts'
 function getRegisteredDirectives(
   componentObject: ObjectExpression
 ): { node: Property; name: string }[] {
-  const directivesNode = componentObject.properties.find(
-    (p) =>
-      p.type === 'Property' &&
-      getStaticPropertyName(p) === 'directives' &&
-      p.value.type === 'ObjectExpression'
+  const directivesNode = findProperty(
+    componentObject,
+    'directives',
+    (p) => p.value.type === 'ObjectExpression'
   )
 
-  if (
-    !directivesNode ||
-    directivesNode.type !== 'Property' ||
-    directivesNode.value.type !== 'ObjectExpression'
-  ) {
+  if (!directivesNode || directivesNode.value.type !== 'ObjectExpression') {
     return []
   }
 

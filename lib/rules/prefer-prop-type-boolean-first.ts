@@ -2,12 +2,12 @@
  * @author Pig Fang
  * See LICENSE file in root directory for full license.
  */
-import type { ArrayExpression, Property, RuleContext } from '../types/index.ts'
+import type { ArrayExpression, RuleContext } from '../types/index.ts'
 import type { RuleDefinition, PublicRuleModule } from '../types/rule.ts'
 
 import {
   isDef,
-  getStaticPropertyName,
+  findProperty,
   compositingVisitors,
   defineScriptSetupVisitor,
   executeOnVue,
@@ -77,15 +77,11 @@ const rule = {
       if (value.type === 'ArrayExpression') {
         checkArrayExpression(value, context)
       } else if (value.type === 'ObjectExpression') {
-        const type = value.properties.find(
-          (property): property is Property =>
-            property.type === 'Property' &&
-            getStaticPropertyName(property) === 'type'
-        )
-        if (!type || type.value.type !== 'ArrayExpression') {
+        const typeProperty = findProperty(value, 'type')
+        if (!typeProperty || typeProperty.value.type !== 'ArrayExpression') {
           return
         }
-        checkArrayExpression(type.value, context)
+        checkArrayExpression(typeProperty.value, context)
       }
     }
 

@@ -10,7 +10,7 @@ import type {
 import type { RuleDefinition, PublicRuleModule } from '../types/rule.ts'
 
 import {
-  getStaticPropertyName,
+  findProperty,
   compositingVisitors,
   defineScriptSetupVisitor,
   executeOnVue,
@@ -20,16 +20,12 @@ import {
 export type ComponentProp = import('../utils').ComponentProp
 
 function objectHasType(node: ObjectExpression) {
-  const typeProperty = node.properties.find(
-    (p: any) =>
-      p.type === 'Property' &&
-      getStaticPropertyName(p) === 'type' &&
-      (p.value.type !== 'ArrayExpression' || p.value.elements.length > 0)
+  const typeProperty = findProperty(
+    node,
+    'type',
+    (p) => p.value.type !== 'ArrayExpression' || p.value.elements.length > 0
   )
-  const validatorProperty = node.properties.find(
-    (p: any) =>
-      p.type === 'Property' && getStaticPropertyName(p) === 'validator'
-  )
+  const validatorProperty = findProperty(node, 'validator')
   return Boolean(typeProperty || validatorProperty)
 }
 

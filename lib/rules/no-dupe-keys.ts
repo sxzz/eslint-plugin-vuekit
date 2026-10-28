@@ -55,12 +55,7 @@ function getPropsPattern(node: CallExpression) {
  */
 function isInsideInitializer(node: VariableDeclarator, references: ESNode[]) {
   const init = node.init
-  return (
-    init !== null &&
-    references.some(
-      (id: any) => init.range[0] <= id.range[0] && id.range[1] <= init.range[1]
-    )
-  )
+  return init !== null && references.some((id) => utils.isInRange(init, id))
 }
 
 /**

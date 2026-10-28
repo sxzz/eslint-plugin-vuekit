@@ -11,12 +11,9 @@ import type {
 } from '../types/index.ts'
 import type { RuleDefinition, PublicRuleModule } from '../types/rule.ts'
 import { defineTemplateBodyVisitor } from '../utils/index.ts'
+import { isNotEmptyTextNode } from '../utils/indent-utils.ts'
 
 export type RuleOption = { additionalDirectives: string[] }
-
-function isWhitespaceTextNode(node: VNode | Token) {
-  return node.type === 'VText' && node.value.trim() === ''
-}
 
 function comparePositions(pos1: Position, pos2: Position) {
   if (
@@ -115,7 +112,7 @@ const rule = {
 
         const childNodes = [...elementNode.children, ...elementComments]
 
-        if (childNodes.some((childNode) => !isWhitespaceTextNode(childNode))) {
+        if (childNodes.some((childNode) => isNotEmptyTextNode(childNode))) {
           context.report({
             node: elementNode,
             loc: getLocationRange(childNodes),

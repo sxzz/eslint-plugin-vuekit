@@ -7,7 +7,7 @@ import type { RuleDefinition, PublicRuleModule } from '../types/rule.ts'
 import {
   compositingVisitors,
   executeOnVue,
-  getStaticPropertyName,
+  findProperty,
   getComponentPropsFromOptions,
   defineScriptSetupVisitor
 } from '../utils/index.ts'
@@ -62,10 +62,7 @@ const rule = {
 
     return compositingVisitors(
       executeOnVue(context, (node: any) => {
-        const propsNode = node.properties.find(
-          (p: any) =>
-            p.type === 'Property' && getStaticPropertyName(p) === 'props'
-        )
+        const propsNode = findProperty(node, 'props')
 
         if (!propsNode) return
 

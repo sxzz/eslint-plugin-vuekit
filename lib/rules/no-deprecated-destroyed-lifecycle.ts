@@ -5,12 +5,11 @@
 import type { Property, RuleContext, RuleFixer } from '../types/index.ts'
 import type { RuleDefinition, PublicRuleModule } from '../types/rule.ts'
 
-import { executeOnVue, findProperty } from '../utils/index.ts'
+import { executeOnVue, findProperty, isStringLiteral } from '../utils/index.ts'
 
 function fix(fixer: RuleFixer, property: Property, newName: string) {
   if (property.computed) {
-    return property.key.type === 'Literal' ||
-      property.key.type === 'TemplateLiteral'
+    return isStringLiteral(property.key)
       ? fixer.replaceTextRange(
           [property.key.range[0] + 1, property.key.range[1] - 1],
           newName
