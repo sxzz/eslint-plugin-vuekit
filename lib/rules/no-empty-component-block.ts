@@ -61,20 +61,18 @@ const rule = {
       return {}
     }
 
+    const blockNamesToCheck = new Set(['template', 'script', 'style'])
     const componentBlocks = documentFragment.children.filter(isVElement)
 
     return {
       Program() {
         for (const componentBlock of componentBlocks) {
           if (
-            componentBlock.name !== 'template' &&
-            componentBlock.name !== 'script' &&
-            componentBlock.name !== 'style'
-          )
+            !blockNamesToCheck.has(componentBlock.name) ||
+            hasAttributeSrc(componentBlock) // https://vue-loader.vuejs.org/spec.html#src-imports
+          ) {
             continue
-
-          // https://vue-loader.vuejs.org/spec.html#src-imports
-          if (hasAttributeSrc(componentBlock)) continue
+          }
 
           if (
             isValueOnlyWhiteSpacesOrLineBreaks(componentBlock) ||

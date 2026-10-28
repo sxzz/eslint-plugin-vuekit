@@ -105,10 +105,6 @@ const rule = {
       returnTypes: PropReturnType[]
     }
 
-    type ComponentObjectDefineProp = ComponentObjectProp & {
-      value: ObjectExpression
-    }
-
     interface PropReturnType {
       type: string
       node: Expression
@@ -392,6 +388,10 @@ const rule = {
       },
       utils.defineVueVisitor(context, {
         onVueObjectEnter(obj) {
+          type ComponentObjectDefineProp = ComponentObjectProp & {
+            value: ObjectExpression
+          }
+
           const props: ComponentObjectDefineProp[] = utils
             .getComponentPropsFromOptions(obj)
             .filter(

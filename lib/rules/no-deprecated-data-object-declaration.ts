@@ -56,15 +56,17 @@ const rule = {
 
   create(context: RuleContext) {
     const sourceCode = context.sourceCode
+    const validPropertyTypes = new Set([
+      'FunctionExpression',
+      'ArrowFunctionExpression',
+      'Identifier'
+    ])
 
-    return executeOnVue(context, (obj: any) => {
+    return executeOnVue(context, (objectExpression: any) => {
       const invalidData = findProperty(
-        obj,
+        objectExpression,
         'data',
-        (p: any) =>
-          p.value.type !== 'FunctionExpression' &&
-          p.value.type !== 'ArrowFunctionExpression' &&
-          p.value.type !== 'Identifier'
+        (property: any) => !validPropertyTypes.has(property.value.type)
       )
 
       if (invalidData) {

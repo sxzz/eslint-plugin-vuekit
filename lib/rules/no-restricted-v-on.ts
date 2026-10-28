@@ -39,11 +39,10 @@ function parseOption(option: any): ParsedOption {
   if (option.modifiers) {
     const argTest = parsed.test
     parsed.test = (key) =>
-      argTest(key)
-        ? (option.modifiers as string[]).every((modName) =>
-            key.modifiers.some((mid) => mid.name === modName)
-          )
-        : false
+      argTest(key) &&
+      (option.modifiers as string[]).every((modName) =>
+        key.modifiers.some((mid) => mid.name === modName)
+      )
     parsed.modifiers = option.modifiers
   }
   if (option.element) {

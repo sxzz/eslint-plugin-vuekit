@@ -18,7 +18,7 @@ import {
   getScope,
   iterateReferencesTraceMap,
   defineVueVisitor,
-  inRange
+  isInRange
 } from '../utils/index.ts'
 
 export type TraceMap =
@@ -112,7 +112,7 @@ const rule = {
             return
           }
           const setupScope = setupScopes.get(scopeStack.scopeNode)
-          if (!setupScope || !inRange(setupScope.range, node)) {
+          if (!setupScope || !isInRange(setupScope.range, node)) {
             return
           }
           setupScope.afterAwait = true
@@ -125,7 +125,7 @@ const rule = {
           const setupScope = setupScopes.get(scopeStack.scopeNode)
           if (
             !setupScope?.afterAwait ||
-            !inRange(setupScope.range, node) ||
+            !isInRange(setupScope.range, node) ||
             !lifecycleHookCallNodes.has(node) ||
             node.arguments.length >= 2 // Has target instance. e.g. `onMounted(() => {}, instance)`
           ) {

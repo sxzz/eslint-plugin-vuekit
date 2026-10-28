@@ -25,7 +25,7 @@ import {
   compositingVisitors,
   getScope,
   defineVueVisitor,
-  inRange
+  isInRange
 } from '../utils/index.ts'
 import { createRequire } from 'node:module'
 const require = createRequire(import.meta.url)
@@ -203,7 +203,7 @@ const rule = {
             return
           }
           const setupScope = setupScopes.get(scopeStack.scopeNode)
-          if (!setupScope || !inRange(setupScope.range, node)) {
+          if (!setupScope || !isInRange(setupScope.range, node)) {
             return
           }
           setupScope.afterAwait = true
@@ -217,7 +217,7 @@ const rule = {
           if (
             !setupScope ||
             !setupScope.afterAwait ||
-            !inRange(setupScope.range, node)
+            !isInRange(setupScope.range, node)
           ) {
             return
           }

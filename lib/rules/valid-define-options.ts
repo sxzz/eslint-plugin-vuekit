@@ -16,9 +16,9 @@ import {
   compositingVisitors,
   defineScriptSetupVisitor,
   findProperty,
-  inRange,
+  isInRange,
   getScope,
-  withinTypeNode
+  isWithinTypeNode
 } from '../utils/index.ts'
 
 const rule = {
@@ -95,7 +95,7 @@ const rule = {
         },
         Identifier(node: any) {
           for (const defineOptions of optionsDefExpressions) {
-            if (!inRange(defineOptions.range, node)) {
+            if (!isInRange(defineOptions.range, node)) {
               continue
             }
 
@@ -109,8 +109,8 @@ const rule = {
               variable.defs.every(
                 (def) =>
                   def.type !== 'ImportBinding' &&
-                  inRange(scriptSetup.range, def.name) &&
-                  !inRange(defineOptions.range, def.name) &&
+                  isInRange(scriptSetup.range, def.name) &&
+                  !isInRange(defineOptions.range, def.name) &&
                   !(
                     def.type === 'Variable' &&
                     def.parent.kind === 'const' &&
@@ -122,7 +122,7 @@ const rule = {
               continue
             }
 
-            if (withinTypeNode(node)) {
+            if (isWithinTypeNode(node)) {
               continue
             }
             //`defineOptions` is referencing locally declared variables.

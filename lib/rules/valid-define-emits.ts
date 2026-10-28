@@ -15,9 +15,9 @@ import {
   getScriptSetupElement,
   compositingVisitors,
   defineScriptSetupVisitor,
-  inRange,
+  isInRange,
   getScope,
-  withinTypeNode,
+  isWithinTypeNode,
   defineVueVisitor,
   findProperty
 } from '../utils/index.ts'
@@ -81,7 +81,7 @@ const rule = {
         },
         Identifier(node: any) {
           for (const defineEmits of emitsDefExpressions) {
-            if (!inRange(defineEmits.range, node)) {
+            if (!isInRange(defineEmits.range, node)) {
               continue
             }
 
@@ -95,14 +95,14 @@ const rule = {
               variable.defs.every(
                 (def) =>
                   def.type !== 'ImportBinding' &&
-                  inRange(scriptSetup.range, def.name) &&
-                  !inRange(defineEmits.range, def.name)
+                  isInRange(scriptSetup.range, def.name) &&
+                  !isInRange(defineEmits.range, def.name)
               )
             )) {
               continue
             }
 
-            if (withinTypeNode(node)) {
+            if (isWithinTypeNode(node)) {
               continue
             }
             //`defineEmits` is referencing locally declared variables.
@@ -115,7 +115,7 @@ const rule = {
       }),
       defineVueVisitor(context, {
         onVueObjectEnter(node: any, { type }: any) {
-          if (type !== 'export' || inRange(scriptSetup.range, node)) {
+          if (type !== 'export' || isInRange(scriptSetup.range, node)) {
             return
           }
 

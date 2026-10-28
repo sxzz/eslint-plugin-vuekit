@@ -27,7 +27,7 @@ import type {
 import { findVariable } from '@eslint-community/eslint-utils'
 import {
   skipChainExpression,
-  inRange,
+  isInRange,
   compositingVisitors,
   defineScriptSetupVisitor,
   getScope,
@@ -89,7 +89,7 @@ function isPropsMemberAccessed(
   propsReferences: ScopePropsReferences
 ) {
   for (const props of propsReferences.refs.props) {
-    const isPropsInExpressionRange = inRange(node.range, props)
+    const isPropsInExpressionRange = isInRange(node.range, props)
     const isPropsMemberExpression =
       props.parent.type === 'MemberExpression' && props.parent.object === props
 
@@ -100,7 +100,7 @@ function isPropsMemberAccessed(
 
   // Checks for actual member access using prop destructuring.
   for (const prop of propsReferences.refs.prop) {
-    const isPropsInExpressionRange = inRange(node.range, prop)
+    const isPropsInExpressionRange = isInRange(node.range, prop)
     if (isPropsInExpressionRange) {
       return true
     }

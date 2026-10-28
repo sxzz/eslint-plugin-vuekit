@@ -26,7 +26,6 @@ interface MatchResult {
   wildcard?: boolean
   keyName: string
 }
-type Matcher = (name: string) => boolean
 type Tester = (node: Property | SpreadElement) => MatchResult | null
 
 function parseOption(
@@ -39,7 +38,7 @@ function parseOption(
   }
 
   interface StepForTest {
-    test: Matcher
+    test: (name: string) => boolean
     wildcard?: undefined
   }
   interface StepForWildcard {
