@@ -3,12 +3,10 @@
  * @author Rodrigo Pedra Brum <rodrigo.pedra@gmail.com>
  */
 import type {
-  Expression,
   Literal,
   Rule,
   RuleContext,
   RuleListener,
-  SpreadElement,
   TemplateLiteral
 } from '../types/index.ts'
 import type { RuleDefinition, PublicRuleModule } from '../types/rule.ts'
@@ -17,21 +15,12 @@ import {
   executeOnCallVueComponent,
   executeOnVue,
   findProperty,
-  defineScriptSetupVisitor
+  defineScriptSetupVisitor,
+  getStringLiteralValue,
+  isStringLiteral
 } from '../utils/index.ts'
 import { kebabCase, pascalCase } from '../utils/casing.ts'
 import path from 'node:path'
-
-function canVerify(
-  node: Expression | SpreadElement
-): node is Literal | TemplateLiteral {
-  return (
-    node.type === 'Literal' ||
-    (node.type === 'TemplateLiteral' &&
-      node.expressions.length === 0 &&
-      node.quasis.length === 1)
-  )
-}
 
 const rule = {
   meta: {
@@ -90,31 +79,23 @@ const rule = {
     }
 
     function verifyName(node: Literal | TemplateLiteral) {
-      let name
-      if (node.type === 'TemplateLiteral') {
-        const quasis = node.quasis[0]
-        name = quasis.value.cooked ?? quasis.value.raw
-      } else {
-        name = String(node.value)
-      }
+      const name = getStringLiteralValue(node)
+      if (name === null || areNamesEquivalent(name, filename)) return
 
-      if (!areNamesEquivalent(name, filename)) {
-        errors.push({
-          node,
-          messageId: 'shouldMatchFileName',
-          data: { filename, name },
-          suggest: [
-            {
-              desc: 'Rename component to match file name.',
-              fix(fixer) {
-                const quote =
-                  node.type === 'TemplateLiteral' ? '`' : node.raw[0]
-                return fixer.replaceText(node, `${quote}${filename}${quote}`)
-              }
+      errors.push({
+        node,
+        messageId: 'shouldMatchFileName',
+        data: { filename, name },
+        suggest: [
+          {
+            desc: 'Rename component to match file name.',
+            fix(fixer) {
+              const quote = node.type === 'TemplateLiteral' ? '`' : node.raw[0]
+              return fixer.replaceText(node, `${quote}${filename}${quote}`)
             }
-          ]
-        })
-      }
+          }
+        ]
+      })
     }
 
     return compositingVisitors(
@@ -125,7 +106,7 @@ const rule = {
 
         const argument = node.arguments[0]
 
-        if (canVerify(argument)) {
+        if (isStringLiteral(argument)) {
           verifyName(argument)
         }
       }),
@@ -134,17 +115,20 @@ const rule = {
 
         componentCount++
 
-        if (!node || !canVerify(node.value)) return
+        if (!node || !isStringLiteral(node.value)) return
         verifyName(node.value)
       }),
       defineScriptSetupVisitor(context, {
         onDefineOptionsEnter(node) {
           componentCount++
           if (node.arguments.length === 0) return
+
           const define = node.arguments[0]
           if (define.type !== 'ObjectExpression') return
+
           const nameNode = findProperty(define, 'name')
-          if (!nameNode || !canVerify(nameNode.value)) return
+          if (!nameNode || !isStringLiteral(nameNode.value)) return
+
           verifyName(nameNode.value)
         }
       }),

@@ -32,7 +32,8 @@ import {
   getGetterBodyFromComputedFunction,
   defineScriptSetupVisitor,
   defineVueVisitor,
-  getComputedProperties
+  getComputedProperties,
+  isInRange
 } from '../utils/index.ts'
 
 export type VueObjectData = import('../utils').VueObjectData
@@ -102,10 +103,7 @@ const rule = {
           info ? computedPropertiesMap.get(info.node) || [] : []
         ).find(
           (cp: any) =>
-            cp.value &&
-            cp.value.range[0] <= node.range[0] &&
-            node.range[1] <= cp.value.range[1] &&
-            targetBody === cp.value
+            cp.value && isInRange(cp.value, node) && targetBody === cp.value
         )
         if (computedProperty) {
           const mem = node.parent
@@ -142,10 +140,7 @@ const rule = {
         }
 
         const computedFunction: any = computedCallNodes.find(
-          (c) =>
-            c.range[0] <= node.range[0] &&
-            node.range[1] <= c.range[1] &&
-            targetBody === c.body
+          (c) => isInRange(c, node) && targetBody === c.body
         )
         if (!computedFunction) {
           return
@@ -170,19 +165,14 @@ const rule = {
           return
         }
 
-        const isDeclaredInsideSetup: any = setupRanges.some(
-          ([start, end]) =>
-            start <= def.node.range[0] && def.node.range[1] <= end
+        const isDeclaredInsideSetup: any = setupRanges.some(([start, end]) =>
+          isInRange([start, end], def.node)
         )
-        if (!isDeclaredInsideSetup) {
-          return
-        }
-
         if (
-          computedFunction.range[0] <= def.node.range[0] &&
-          def.node.range[1] <= computedFunction.range[1]
-        ) {
+          !isDeclaredInsideSetup ||
           // mutating local variables are accepted
+          isInRange(computedFunction, def.node)
+        ) {
           return
         }
 

@@ -5,7 +5,11 @@
 import type { RuleContext, VExpressionContainer } from '../types/index.ts'
 import type { RuleDefinition, PublicRuleModule } from '../types/rule.ts'
 
-import { defineTemplateBodyVisitor } from '../utils/index.ts'
+import {
+  defineTemplateBodyVisitor,
+  getStringLiteralValue,
+  isStringLiteral
+} from '../utils/index.ts'
 
 /**
  * Strip quotes string
@@ -62,28 +66,17 @@ const rule = {
      */
     function verify(node: VExpressionContainer) {
       const { expression } = node
-      if (!expression) {
+      if (!expression || !isStringLiteral(expression)) {
         return
       }
-
-      let strValue
-
-      let rawValue
-      if (expression.type === 'Literal') {
-        if (typeof expression.value !== 'string') {
-          return
-        }
-        strValue = expression.value
-        rawValue = sourceCode.getText(expression).slice(1, -1)
-      } else if (expression.type === 'TemplateLiteral') {
-        if (expression.expressions.length > 0) {
-          return
-        }
-        strValue = expression.quasis[0].value.cooked
-        rawValue = expression.quasis[0].value.raw
-      } else {
+      const strValue = getStringLiteralValue(expression)
+      if (strValue === null) {
         return
       }
+      const rawValue =
+        expression.type === 'Literal'
+          ? sourceCode.getText(expression).slice(1, -1)
+          : expression.quasis[0].value.raw
       const tokenStore = sourceCode.parserServices.getTemplateBodyTokenStore()
       const hasComment = tokenStore
         .getTokens(node, { includeComments: true })

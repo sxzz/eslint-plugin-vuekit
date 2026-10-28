@@ -19,7 +19,8 @@ import {
   getStaticPropertyName,
   compositingVisitors,
   defineVueVisitor,
-  defineScriptSetupVisitor
+  defineScriptSetupVisitor,
+  isSingleLine
 } from '../utils/index.ts'
 import { isCommentToken } from '@eslint-community/eslint-utils'
 
@@ -81,10 +82,8 @@ function needGroupSingleLineProperties(
   nextProperty: Property | SpreadElement,
   shouldGroup: boolean
 ) {
-  const isSingleCurrentProperty =
-    currentProperty.loc.start.line === currentProperty.loc.end.line
-  const isSingleNextProperty =
-    nextProperty.loc.start.line === nextProperty.loc.end.line
+  const isSingleCurrentProperty = isSingleLine(currentProperty)
+  const isSingleNextProperty = isSingleLine(nextProperty)
 
   return isSingleCurrentProperty && isSingleNextProperty && shouldGroup
 }

@@ -25,7 +25,8 @@ import {
   defineTemplateBodyVisitor,
   isCustomComponent,
   isEmptyValueDirective,
-  isEmptyExpressionValueDirective
+  isEmptyExpressionValueDirective,
+  isInRange
 } from '../utils/index.ts'
 
 export type VSlotVForVariables = {
@@ -123,14 +124,8 @@ function equalVSlotVForVariables(
     const aPtn = a.expr.left[index]
     const bPtn = b.expr.left[index]
 
-    const aVar = a.variables.find(
-      (v: any) =>
-        aPtn.range[0] <= v.id.range[0] && v.id.range[1] <= aPtn.range[1]
-    )
-    const bVar = b.variables.find(
-      (v: any) =>
-        bPtn.range[0] <= v.id.range[0] && v.id.range[1] <= bPtn.range[1]
-    )
+    const aVar = a.variables.find((v) => isInRange(aPtn, v.id))
+    const bVar = b.variables.find((v) => isInRange(bPtn, v.id))
     if (aVar && bVar) {
       if (aVar.id.name !== bVar.id.name || !equal(aPtn, bPtn)) {
         return false

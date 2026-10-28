@@ -759,14 +759,13 @@ export function isEmptyExpressionValueDirective(
  * Returns the list of all registered components
  */
 export function getRegisteredComponents(componentObject: ObjectExpression) {
-  const componentsNode = componentObject.properties.find(
-    (p): p is Property & { value: ObjectExpression } =>
-      p.type === 'Property' &&
-      getStaticPropertyName(p) === 'components' &&
-      p.value.type === 'ObjectExpression'
+  const componentsNode = findProperty(
+    componentObject,
+    'components',
+    (p) => p.value.type === 'ObjectExpression'
   )
 
-  if (!componentsNode) {
+  if (!componentsNode || componentsNode.value.type !== 'ObjectExpression') {
     return []
   }
 
@@ -935,14 +934,16 @@ export function isBuiltInDirectiveName(name: string) {
  * Get all computed properties by looking at all component's properties
  */
 export function getComputedProperties(componentObject: ObjectExpression) {
-  const computedPropertiesNode = componentObject.properties.find(
-    (p): p is Property & { value: ObjectExpression } =>
-      p.type === 'Property' &&
-      getStaticPropertyName(p) === 'computed' &&
-      p.value.type === 'ObjectExpression'
+  const computedPropertiesNode = findProperty(
+    componentObject,
+    'computed',
+    (p) => p.value.type === 'ObjectExpression'
   )
 
-  if (!computedPropertiesNode) {
+  if (
+    !computedPropertiesNode ||
+    computedPropertiesNode.value.type !== 'ObjectExpression'
+  ) {
     return []
   }
 
@@ -1051,12 +1052,9 @@ export function defineVueVisitor(context: RuleContext, visitor: VueVisitor) {
         type,
         parent: vueStack,
         get functional() {
-          const functional = node.properties.find(
-            (p): p is Property =>
-              p.type === 'Property' && getStaticPropertyName(p) === 'functional'
-          )
+          const functional = findProperty(node, 'functional')
           return (
-            functional !== undefined &&
+            functional !== null &&
             (functional.value.type !== 'Literal' ||
               functional.value.value !== false)
           )
@@ -2170,16 +2168,16 @@ export function findVariableByIdentifier(
 export function findProperty(
   node: ObjectExpression,
   name: string,
-  isIncluded?: (p: Property) => boolean
+  isMatching?: (p: Property) => boolean
 ): Property | null {
-  const predicate = isIncluded
-    ? (prop: Property | SpreadElement): prop is Property =>
+  return (
+    node.properties.find(
+      (prop: Property | SpreadElement): prop is Property =>
         isProperty(prop) &&
         getStaticPropertyName(prop) === name &&
-        isIncluded(prop)
-    : (prop: Property | SpreadElement): prop is Property =>
-        isProperty(prop) && getStaticPropertyName(prop) === name
-  return node.properties.find(predicate) || null
+        (isMatching?.(prop) ?? true)
+    ) ?? null
+  )
 }
 
 /**
@@ -2188,16 +2186,16 @@ export function findProperty(
 export function findAssignmentProperty(
   node: ObjectPattern,
   name: string,
-  isIncluded?: (p: AssignmentProperty) => boolean
+  isMatching?: (p: AssignmentProperty) => boolean
 ): AssignmentProperty | null {
-  const predicate = isIncluded
-    ? (prop: AssignmentProperty | RestElement): prop is AssignmentProperty =>
+  return (
+    node.properties.find(
+      (prop: AssignmentProperty | RestElement): prop is AssignmentProperty =>
         isAssignmentProperty(prop) &&
         getStaticPropertyName(prop) === name &&
-        isIncluded(prop)
-    : (prop: AssignmentProperty | RestElement): prop is AssignmentProperty =>
-        isAssignmentProperty(prop) && getStaticPropertyName(prop) === name
-  return node.properties.find(predicate) || null
+        (isMatching?.(prop) ?? true)
+    ) ?? null
+  )
 }
 
 /**
@@ -2354,16 +2352,16 @@ export function getStaticPropertyName(
  */
 export function getStringLiteralValue(
   node: ASTNode,
-  shouldUseStringOnly?: boolean
+  shouldOnlyAcceptStrings = false
 ) {
   if (node.type === 'Literal') {
     if (node.value == null) {
-      return shouldUseStringOnly || node.bigint == null ? null : node.bigint
+      return shouldOnlyAcceptStrings || node.bigint == null ? null : node.bigint
     }
     if (typeof node.value === 'string') {
       return node.value
     }
-    return shouldUseStringOnly ? null : String(node.value)
+    return shouldOnlyAcceptStrings ? null : String(node.value)
   }
   return node.type === 'TemplateLiteral' &&
     node.expressions.length === 0 &&
@@ -2997,10 +2995,7 @@ export function getLeftOfDefineProps(node: CallExpression) {
 export function getComponentPropsFromOptions(
   componentObject: ObjectExpression
 ): (ComponentArrayProp | ComponentObjectProp | ComponentUnknownProp)[] {
-  const propsNode = componentObject.properties.find(
-    (p: ESNode): p is Property & { key: Identifier & { name: 'props' } } =>
-      p.type === 'Property' && getStaticPropertyName(p) === 'props'
-  )
+  const propsNode = findProperty(componentObject, 'props')
 
   if (!propsNode) {
     return []
@@ -3029,10 +3024,7 @@ export function getComponentPropsFromOptions(
 export function getComponentEmitsFromOptions(
   componentObject: ObjectExpression
 ): ComponentEmit[] {
-  const emitsNode = componentObject.properties.find(
-    (p): p is Property =>
-      p.type === 'Property' && getStaticPropertyName(p) === 'emits'
-  )
+  const emitsNode = findProperty(componentObject, 'emits')
 
   if (!emitsNode) {
     return []
