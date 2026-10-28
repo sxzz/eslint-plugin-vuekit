@@ -26,15 +26,6 @@ import { isTypeNode } from './ts-utils/index.ts'
 type MaybeNode = { type: string } & HasLocation
 
 /**
- * Deprecated in @typescript-eslint/parser v5
- */
-type ClassProperty = TSESTree.PropertyDefinition
-/**
- * Deprecated in @typescript-eslint/parser v5
- */
-type TSAbstractClassProperty = TSESTree.TSAbstractPropertyDefinition
-
-/**
  * Process the given node list.
  * The first node is offsetted from the given left token.
  * Rest nodes are adjusted to the first node.
@@ -100,6 +91,15 @@ export function defineVisitor({
   processSemicolons,
   getFirstAndLastTokens
 }: DefineVisitorParam): TSNodeListener {
+  /**
+   * Deprecated in @typescript-eslint/parser v5
+   */
+  type ClassProperty = TSESTree.PropertyDefinition
+  /**
+   * Deprecated in @typescript-eslint/parser v5
+   */
+  type TSAbstractClassProperty = TSESTree.TSAbstractPropertyDefinition
+
   /**
    * Check whether a given token is the first token of:
    *

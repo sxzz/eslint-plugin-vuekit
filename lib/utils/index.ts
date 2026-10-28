@@ -1405,15 +1405,13 @@ export function executeOnVueComponent(
   context: RuleContext,
   cb: (node: ObjectExpression, type: VueObjectType) => void
 ) {
+  const types = new Set(['mark', 'export', 'definition'])
   return {
     'ObjectExpression:exit'(node: ObjectExpression) {
       const type = getVueObjectType(context, node)
-      if (
-        !type ||
-        (type !== 'mark' && type !== 'export' && type !== 'definition')
-      )
-        return
-      cb(node, type)
+      if (type && types.has(type)) {
+        cb(node, type)
+      }
     }
   }
 }
@@ -1532,6 +1530,7 @@ export function* iterateObjectExpression(
 
     const key = item.key
     if (
+      // eslint-disable-next-line unicorn/prefer-includes-over-repeated-comparisons -- needed for type narrowing
       key.type !== 'Identifier' &&
       key.type !== 'Literal' &&
       key.type !== 'TemplateLiteral'
@@ -1832,7 +1831,7 @@ export function editDistance(a: string, b: string) {
 /**
  * Checks whether the target node is within the given range.
  */
-export function inRange(
+export function isInRange(
   rangeOrNode: [number, number] | ASTNode | Token,
   target: ASTNode | Token
 ) {
@@ -2312,7 +2311,7 @@ export function skipChainExpression<T>(
 /**
  * Checks whether the given node is in a type annotation.
  */
-export function withinTypeNode(node: ESNode) {
+export function isWithinTypeNode(node: ESNode) {
   let target: ASTNode | null = node
   while (target) {
     if (isTypeNode(target)) {

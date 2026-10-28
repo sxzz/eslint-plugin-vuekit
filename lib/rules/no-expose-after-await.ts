@@ -23,7 +23,7 @@ import {
   skipChainExpression,
   getStaticPropertyName,
   compositingVisitors,
-  inRange,
+  isInRange,
   getScriptSetupElement,
   defineVueVisitor,
   findAssignmentProperty,
@@ -101,7 +101,7 @@ const rule = {
             return
           }
           const setupScope = setupScopes.get(scopeStack.scopeNode)
-          if (!setupScope || !inRange(setupScope.range, node)) {
+          if (!setupScope || !isInRange(setupScope.range, node)) {
             return
           }
           setupScope.afterAwait = true
@@ -115,7 +115,7 @@ const rule = {
           if (
             !setupScope ||
             !setupScope.afterAwait ||
-            !inRange(setupScope.range, node)
+            !isInRange(setupScope.range, node)
           ) {
             return
           }
