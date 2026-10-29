@@ -14,7 +14,7 @@ const rule = {
     docs: {
       description: 'disallow `v-if` directives on root element',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-root-v-if.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-root-v-if.html'
     },
     schema: [],
     messages: {

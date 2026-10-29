@@ -84,7 +84,7 @@ const rule = {
     docs: {
       description: 'enforce self-closing style',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/html-self-closing.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/html-self-closing.html'
     },
     fixable: 'code',
     schema: {

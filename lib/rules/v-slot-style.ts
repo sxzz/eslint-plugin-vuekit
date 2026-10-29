@@ -77,7 +77,7 @@ const rule = {
     docs: {
       description: 'enforce `v-slot` directive style',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/v-slot-style.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/v-slot-style.html'
     },
     fixable: 'code',
     schema: [

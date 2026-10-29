@@ -53,7 +53,7 @@ const rule = {
       description:
         'disallow using deprecated `$delete` and `$set` (in Vue.js 3.0.0+)',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-deprecated-delete-set.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-deprecated-delete-set.html'
     },
     schema: [],
     messages: {

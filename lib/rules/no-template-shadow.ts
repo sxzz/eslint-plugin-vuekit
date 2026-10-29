@@ -38,7 +38,7 @@ const rule = {
       description:
         'disallow variable declarations from shadowing variables declared in the outer scope',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/no-template-shadow.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-template-shadow.html'
     },
     schema: [
       {

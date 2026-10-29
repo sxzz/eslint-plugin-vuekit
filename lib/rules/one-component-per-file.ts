@@ -15,7 +15,7 @@ const rule = {
     docs: {
       description: 'enforce that each component should be in its own file',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/one-component-per-file.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/one-component-per-file.html'
     },
     schema: [],
     messages: {

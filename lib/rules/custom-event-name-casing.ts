@@ -57,7 +57,7 @@ const rule = {
     docs: {
       description: 'enforce specific casing for custom event name',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/custom-event-name-casing.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/custom-event-name-casing.html'
     },
     schema: [
       {

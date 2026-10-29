@@ -38,7 +38,7 @@ const rule = {
       description:
         'disallow deprecated `this` access in props default function (in Vue.js 3.0.0+)',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-deprecated-props-default-this.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-deprecated-props-default-this.html'
     },
     schema: [],
     messages: {

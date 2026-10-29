@@ -29,7 +29,7 @@ const rule = {
     docs: {
       description: 'disallow passing multiple arguments to scoped slots',
       categories: ['vue3-recommended'],
-      url: 'https://eslint.vuejs.org/rules/no-multiple-slot-args.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-multiple-slot-args.html'
     },
     schema: [],
     messages: {

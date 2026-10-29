@@ -80,7 +80,7 @@ const rule = {
     docs: {
       description: 'require declare public properties using `expose`',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/require-expose.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/require-expose.html'
     },
     hasSuggestions: true,
     schema: [],

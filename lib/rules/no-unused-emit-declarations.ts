@@ -61,7 +61,7 @@ const rule = {
     docs: {
       description: 'disallow unused emit declarations',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-unused-emit-declarations.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-unused-emit-declarations.html'
     },
     schema: [],
     messages: {

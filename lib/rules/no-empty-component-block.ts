@@ -42,7 +42,7 @@ const rule = {
       description:
         'disallow the `<template>` `<script>` `<style>` block to be empty',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-empty-component-block.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-empty-component-block.html'
     },
     fixable: 'code',
     schema: [],

@@ -17,7 +17,7 @@ const rule = {
     docs: {
       description: 'enforce declaration style of `defineProps`',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/define-props-declaration.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/define-props-declaration.html'
     },
     schema: [
       {

@@ -14,7 +14,7 @@ const rule = {
     docs: {
       description: 'enforce valid `v-cloak` directives',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/valid-v-cloak.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/valid-v-cloak.html'
     },
     schema: [],
     messages: {

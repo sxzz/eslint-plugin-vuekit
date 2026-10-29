@@ -32,7 +32,7 @@ const rule = {
     docs: {
       description: 'disallow unnecessary mustache interpolations',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-useless-mustaches.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-useless-mustaches.html'
     },
     fixable: 'code',
     schema: [

@@ -13,7 +13,7 @@ const rule = {
     docs: {
       description: 'enforce unified spacing in mustache interpolations',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/mustache-interpolation-spacing.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/mustache-interpolation-spacing.html'
     },
     fixable: 'whitespace',
     schema: [

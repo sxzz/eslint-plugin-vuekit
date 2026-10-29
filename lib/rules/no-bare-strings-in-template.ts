@@ -102,7 +102,7 @@ const rule = {
     docs: {
       description: 'disallow the use of bare strings in `<template>`',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-bare-strings-in-template.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-bare-strings-in-template.html'
     },
     schema: [
       {

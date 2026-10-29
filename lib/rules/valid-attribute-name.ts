@@ -19,7 +19,7 @@ const rule = {
     docs: {
       description: 'require valid attribute names',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/valid-attribute-name.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/valid-attribute-name.html'
     },
     schema: [],
     messages: {

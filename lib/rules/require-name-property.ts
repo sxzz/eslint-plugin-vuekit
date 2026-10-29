@@ -53,7 +53,7 @@ const rule = {
     docs: {
       description: 'require a name property in Vue components',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/require-name-property.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/require-name-property.html'
     },
     hasSuggestions: true,
     schema: [],

@@ -55,7 +55,7 @@ Nothing.
 ## :couple: Related Rules
 
 - [no-negated-condition](https://eslint.org/docs/latest/rules/no-negated-condition)
-- [vue/no-negated-condition](https://eslint.vuejs.org/rules/no-negated-condition.html)
+- [vue/no-negated-condition](https://eslint-plugin-vuekit.sxzz.dev/rules/no-negated-condition.html)
 - [unicorn/no-negated-condition](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-negated-condition.md)
 
 ## :rocket: Version

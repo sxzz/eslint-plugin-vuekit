@@ -31,7 +31,7 @@ const rule = {
     docs: {
       description: 'disallow irregular whitespace in `.vue` files',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-irregular-whitespace.html',
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-irregular-whitespace.html',
       extensionSource: {
         url: 'https://eslint.org/docs/rules/no-irregular-whitespace',
         name: 'ESLint core'

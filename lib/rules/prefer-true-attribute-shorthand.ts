@@ -54,7 +54,7 @@ const rule = {
       description:
         'require shorthand form attribute when `v-bind` value is `true`',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/prefer-true-attribute-shorthand.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/prefer-true-attribute-shorthand.html'
     },
     hasSuggestions: true,
     schema: [

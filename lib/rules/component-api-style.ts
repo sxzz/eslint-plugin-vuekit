@@ -153,7 +153,7 @@ const rule = {
     docs: {
       description: 'enforce component API style',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/component-api-style.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/component-api-style.html'
     },
     schema: [
       {

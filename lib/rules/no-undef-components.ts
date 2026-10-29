@@ -112,7 +112,7 @@ const rule = {
     docs: {
       description: 'disallow use of undefined components in `<template>`',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-undef-components.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-undef-components.html'
     },
     schema: [
       {

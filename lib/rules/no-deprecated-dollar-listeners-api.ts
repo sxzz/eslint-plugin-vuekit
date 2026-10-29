@@ -17,7 +17,7 @@ const rule = {
     docs: {
       description: 'disallow using deprecated `$listeners` (in Vue.js 3.0.0+)',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-deprecated-dollar-listeners-api.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-deprecated-dollar-listeners-api.html'
     },
     schema: [],
     messages: {

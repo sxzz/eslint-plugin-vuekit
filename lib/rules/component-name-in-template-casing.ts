@@ -47,7 +47,7 @@ const rule = {
       description:
         'enforce specific casing for the component naming style in template',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/component-name-in-template-casing.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/component-name-in-template-casing.html'
     },
     fixable: 'code',
     schema: [

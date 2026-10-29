@@ -37,7 +37,7 @@ const rule = {
       description:
         'disallow key of `<template v-for>` placed on child elements',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-v-for-template-key-on-child.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-v-for-template-key-on-child.html'
     },
     schema: [],
     messages: {

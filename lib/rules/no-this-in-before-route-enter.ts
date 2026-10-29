@@ -18,7 +18,7 @@ const rule = {
     docs: {
       description: 'disallow `this` usage in a `beforeRouteEnter` method',
       categories: null,
-      url: 'https://eslint.vuejs.org/rules/no-this-in-before-route-enter.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-this-in-before-route-enter.html'
     },
     schema: [],
     messages: {

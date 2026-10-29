@@ -75,7 +75,7 @@ const rule = {
     docs: {
       description: 'enforce props default values to be valid',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/require-valid-default-prop.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/require-valid-default-prop.html'
     },
     schema: [],
     messages: {

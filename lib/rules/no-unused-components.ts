@@ -37,7 +37,7 @@ const rule = {
       description:
         'disallow registering components that are not used inside templates',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-unused-components.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-unused-components.html'
     },
     schema: [
       {

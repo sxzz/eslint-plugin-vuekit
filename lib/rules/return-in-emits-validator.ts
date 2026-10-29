@@ -48,7 +48,7 @@ const rule = {
       description:
         'enforce that a return statement is present in emits validator',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/return-in-emits-validator.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/return-in-emits-validator.html'
     },
     schema: [],
     messages: {

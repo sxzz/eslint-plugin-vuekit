@@ -66,7 +66,7 @@ const rule = {
     docs: {
       description: 'enforce valid `v-on` directives',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/valid-v-on.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/valid-v-on.html'
     },
     schema: [
       {

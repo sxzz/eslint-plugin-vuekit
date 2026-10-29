@@ -72,7 +72,7 @@ const rule = {
     docs: {
       description: 'disallow specific component names',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-restricted-component-names.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-restricted-component-names.html'
     },
     hasSuggestions: true,
     schema: {

@@ -169,7 +169,7 @@ const rule = {
     docs: {
       description: 'disallow duplication of field names',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-dupe-keys.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-dupe-keys.html'
     },
     schema: [
       {

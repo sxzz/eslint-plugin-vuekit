@@ -38,7 +38,7 @@ describe("Don't crash even if without vue-eslint-parser.", () => {
       for (const { message } of resultVue.messages) {
         assert.strictEqual(
           message,
-          'Use the latest vue-eslint-parser. See also https://eslint.vuejs.org/user-guide/#what-is-the-use-the-latest-vue-eslint-parser-error.'
+          'Use the latest vue-eslint-parser. See also https://eslint-plugin-vuekit.sxzz.dev/user-guide/#what-is-the-use-the-latest-vue-eslint-parser-error.'
         )
       }
 

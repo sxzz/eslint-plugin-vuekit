@@ -19,7 +19,7 @@ about: Create a report to help us improve
 **Checklist**
 
 - [ ] I have tried restarting my IDE and the issue persists.
-- [ ] I have read the [FAQ](https://eslint.vuejs.org/user-guide/#faq) and my problem is not listed.
+- [ ] I have read the [FAQ](https://eslint-plugin-vuekit.sxzz.dev/user-guide/#faq) and my problem is not listed.
 <!-- If you do not read the FAQ and open an issue that is listed in the FAQ, we may silently close the issue. -->
 
 **Tell us about your environment**

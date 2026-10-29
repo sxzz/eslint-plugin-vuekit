@@ -20,7 +20,7 @@ const rule = {
     docs: {
       description: 'require type definitions in emits',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/require-emit-validator.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/require-emit-validator.html'
     },
     hasSuggestions: true,
     schema: [],

@@ -54,7 +54,7 @@ const rule = {
     docs: {
       description: 'disallow parsing errors in `<template>`',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-parsing-error.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-parsing-error.html'
     },
     schema: [
       {

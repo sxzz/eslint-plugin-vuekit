@@ -18,7 +18,7 @@ const rule = {
     docs: {
       description: 'disallow content outside of the top-level blocks',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-content-outside-block.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-content-outside-block.html'
     },
     hasSuggestions: true,
     schema: [],

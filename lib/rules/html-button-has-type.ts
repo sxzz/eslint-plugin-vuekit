@@ -34,7 +34,7 @@ const rule = {
       description:
         'disallow usage of button without an explicit type attribute',
       categories: null,
-      url: 'https://eslint.vuejs.org/rules/html-button-has-type.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/html-button-has-type.html'
     },
     schema: [
       {

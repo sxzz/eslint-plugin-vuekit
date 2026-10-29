@@ -28,7 +28,7 @@ const rule = {
     docs: {
       description: 'disallow accessing computed properties in `data`',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-computed-properties-in-data.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-computed-properties-in-data.html'
     },
     schema: [],
     messages: {

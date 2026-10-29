@@ -45,7 +45,7 @@ const rule = {
       description:
         'require control the display of the content inside `<transition>`',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/require-toggle-inside-transition.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/require-toggle-inside-transition.html'
     },
     schema: [
       {

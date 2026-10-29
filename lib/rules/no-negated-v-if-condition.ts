@@ -65,7 +65,7 @@ const rule = {
     docs: {
       description: 'disallow negated conditions in v-if/v-else',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-negated-v-if-condition.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-negated-v-if-condition.html'
     },
     fixable: 'code',
     schema: [],

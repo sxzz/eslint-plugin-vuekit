@@ -21,7 +21,7 @@ const rule = {
     docs: {
       description: 'disallow reserved names in props',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-reserved-props.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-reserved-props.html'
     },
     schema: [
       {

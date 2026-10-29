@@ -14,7 +14,7 @@ const rule = {
     docs: {
       description: 'enforce `v-on` directive style',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/v-on-style.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/v-on-style.html'
     },
     fixable: 'code',
     schema: [{ enum: ['shorthand', 'longform'] }],

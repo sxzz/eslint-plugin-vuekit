@@ -54,7 +54,7 @@ const rule = {
     docs: {
       description: "require or disallow a space before tag's closing brackets",
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/html-closing-bracket-spacing.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/html-closing-bracket-spacing.html'
     },
     fixable: 'whitespace',
     schema: [

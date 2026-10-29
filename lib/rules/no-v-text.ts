@@ -12,7 +12,7 @@ const rule = {
     docs: {
       description: 'disallow use of v-text',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-v-text.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-v-text.html'
     },
     schema: [],
     messages: {

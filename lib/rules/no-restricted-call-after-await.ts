@@ -52,7 +52,7 @@ const rule = {
     docs: {
       description: 'disallow asynchronously called restricted methods',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-restricted-call-after-await.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-restricted-call-after-await.html'
     },
     schema: {
       type: 'array',

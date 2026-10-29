@@ -340,7 +340,7 @@ const rule = {
       description:
         'enforce order of compiler macros (`defineProps`, `defineEmits`, etc.)',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/define-macros-order.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/define-macros-order.html'
     },
     fixable: 'code',
     hasSuggestions: true,

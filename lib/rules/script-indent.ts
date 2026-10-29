@@ -12,7 +12,7 @@ const rule = {
     docs: {
       description: 'enforce consistent indentation in `<script>`',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/script-indent.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/script-indent.html'
     },
 
     fixable: 'whitespace',

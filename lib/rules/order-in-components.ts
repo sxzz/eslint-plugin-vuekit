@@ -219,7 +219,7 @@ const rule = {
     docs: {
       description: 'enforce order of properties in components',
       categories: ['vue3-recommended'],
-      url: 'https://eslint.vuejs.org/rules/order-in-components.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/order-in-components.html'
     },
     fixable: 'code', // null or "code" or "whitespace"
     hasSuggestions: true,

@@ -22,7 +22,7 @@ const rule = {
       description:
         'require the registered component name to match the imported component name',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/match-component-import-name.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/match-component-import-name.html'
     },
     schema: [],
     messages: {

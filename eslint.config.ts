@@ -31,7 +31,7 @@ const MD_LINKS = {
   ...Object.fromEntries(
     rules.map((rule) => [
       rule.ruleId,
-      `https://eslint.vuejs.org/rules/${rule.name}.html`
+      `https://eslint-plugin-vuekit.sxzz.dev/rules/${rule.name}.html`
     ])
   ),
   ...MD_BASE_LINKS
@@ -315,7 +315,7 @@ export default typegen([
     rules: {
       'eslint-plugin/require-meta-docs-url': [
         'error',
-        { pattern: 'https://eslint.vuejs.org/rules/{{name}}.html' }
+        { pattern: 'https://eslint-plugin-vuekit.sxzz.dev/rules/{{name}}.html' }
       ],
       'eslint-plugin/require-meta-languages': 'off', // Enabling this would require adding `meta.languages` to every published rule, which is a breaking change, so we keep it disabled for now.
       'internal/no-invalid-meta': 'error',

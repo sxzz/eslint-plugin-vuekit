@@ -267,7 +267,7 @@ const rule = {
     docs: {
       description: 'support comment-directives in `<template>`',
       categories: ['base'],
-      url: 'https://eslint.vuejs.org/rules/comment-directive.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/comment-directive.html'
     },
     schema: [
       {

@@ -67,7 +67,7 @@ const rule = {
     docs: {
       description:
         'disallow the use of event names that collide with native web event names',
-      url: 'https://eslint.vuejs.org/rules/no-shadow-native-events.html',
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-shadow-native-events.html',
       categories: undefined
     },
     schema: [],

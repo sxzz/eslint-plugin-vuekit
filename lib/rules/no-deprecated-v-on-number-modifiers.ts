@@ -14,7 +14,7 @@ const rule = {
       description:
         'disallow using deprecated number (keycode) modifiers (in Vue.js 3.0.0+)',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-deprecated-v-on-number-modifiers.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-deprecated-v-on-number-modifiers.html'
     },
     fixable: 'code',
     schema: [],

@@ -62,7 +62,7 @@ const rule = {
     docs: {
       description: 'enforce the maximum number of attributes per line',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/max-attributes-per-line.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/max-attributes-per-line.html'
     },
     fixable: 'whitespace',
     schema: [

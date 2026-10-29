@@ -14,7 +14,7 @@ const rule = {
       description:
         'disallow using deprecated `Vue.config.keyCodes` (in Vue.js 3.0.0+)',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-deprecated-vue-config-keycodes.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-deprecated-vue-config-keycodes.html'
     },
     schema: [],
     messages: {

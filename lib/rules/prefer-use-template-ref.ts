@@ -46,7 +46,7 @@ const rule = {
       description:
         'require using `useTemplateRef` instead of `ref`/`shallowRef` for template refs',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/prefer-use-template-ref.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/prefer-use-template-ref.html'
     },
     schema: [],
     messages: {

@@ -23,7 +23,7 @@ const rule = {
     docs: {
       description: 'enforce specific casing for component definition name',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/component-definition-name-casing.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/component-definition-name-casing.html'
     },
     fixable: 'code',
     schema: [

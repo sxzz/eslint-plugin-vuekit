@@ -19,7 +19,7 @@ const rule = {
     docs: {
       description: 'disallow a potential typo in your component property',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-potential-component-option-typo.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-potential-component-option-typo.html'
     },
     hasSuggestions: true,
     schema: [

@@ -127,7 +127,7 @@ const rule = {
     docs: {
       description: 'enforce valid `v-model` directives',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/valid-v-model.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/valid-v-model.html'
     },
     schema: [],
     messages: {

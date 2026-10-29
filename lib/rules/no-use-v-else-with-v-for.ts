@@ -9,7 +9,7 @@ const rule = {
       description:
         'disallow using `v-else-if`/`v-else` on the same element as `v-for`',
       categories: null,
-      url: 'https://eslint.vuejs.org/rules/no-use-v-else-with-v-for.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-use-v-else-with-v-for.html'
     },
     schema: [],
     messages: {

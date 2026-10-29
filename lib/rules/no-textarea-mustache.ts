@@ -14,7 +14,7 @@ const rule = {
     docs: {
       description: 'disallow mustaches in `<textarea>`',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-textarea-mustache.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-textarea-mustache.html'
     },
     schema: [],
     messages: {

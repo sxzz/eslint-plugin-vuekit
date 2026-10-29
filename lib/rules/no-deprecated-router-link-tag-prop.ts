@@ -32,7 +32,7 @@ const rule = {
       description:
         'disallow using deprecated `tag` property on `RouterLink` (in Vue.js 3.0.0+)',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-deprecated-router-link-tag-prop.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-deprecated-router-link-tag-prop.html'
     },
     schema: [
       {

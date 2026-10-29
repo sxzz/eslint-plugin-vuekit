@@ -28,7 +28,7 @@ const rule = {
       description:
         'enforce attribute naming style on custom components in template',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/attribute-hyphenation.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/attribute-hyphenation.html'
     },
     fixable: 'code',
     schema: [

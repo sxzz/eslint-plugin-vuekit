@@ -87,7 +87,7 @@ const rule = {
       description:
         'disallow use of value wrapped by `ref()` (Composition API) as an operand',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-ref-as-operand.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-ref-as-operand.html'
     },
     fixable: 'code',
     schema: [],

@@ -26,7 +26,7 @@ const rule = {
     docs: {
       description: 'enforce use of `defineOptions` instead of default export',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/prefer-define-options.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/prefer-define-options.html'
     },
     fixable: 'code',
     schema: [],

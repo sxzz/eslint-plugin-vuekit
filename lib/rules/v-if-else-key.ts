@@ -127,7 +127,7 @@ const rule = {
       description:
         'require key attribute for conditionally rendered repeated components',
       categories: null,
-      url: 'https://eslint.vuejs.org/rules/v-if-else-key.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/v-if-else-key.html'
     },
 
     fixable: 'code',

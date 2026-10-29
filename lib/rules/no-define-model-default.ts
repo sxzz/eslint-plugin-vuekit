@@ -12,7 +12,7 @@ const rule = {
     docs: {
       description: 'disallow default values in `defineModel`',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-define-model-default.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-define-model-default.html'
     },
     schema: [],
     messages: {

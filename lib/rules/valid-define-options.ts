@@ -27,7 +27,7 @@ const rule = {
     docs: {
       description: 'enforce valid `defineOptions` compiler macro',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/valid-define-options.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/valid-define-options.html'
     },
     schema: [],
     messages: {

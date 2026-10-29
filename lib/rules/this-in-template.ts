@@ -26,7 +26,7 @@ const rule = {
     docs: {
       description: 'disallow usage of `this` in template',
       categories: ['vue3-recommended'],
-      url: 'https://eslint.vuejs.org/rules/this-in-template.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/this-in-template.html'
     },
     fixable: 'code',
     schema: [

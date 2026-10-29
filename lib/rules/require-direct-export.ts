@@ -20,7 +20,7 @@ const rule = {
     docs: {
       description: 'require the component to be directly exported',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/require-direct-export.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/require-direct-export.html'
     },
     schema: [
       {

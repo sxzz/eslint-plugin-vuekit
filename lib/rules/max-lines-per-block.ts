@@ -18,7 +18,7 @@ const rule = {
     docs: {
       description: 'enforce maximum number of lines in Vue SFC blocks',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/max-lines-per-block.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/max-lines-per-block.html'
     },
     schema: [
       {

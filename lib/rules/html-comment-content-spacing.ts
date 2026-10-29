@@ -14,7 +14,7 @@ const rule = {
     docs: {
       description: 'enforce unified spacing in HTML comments',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/html-comment-content-spacing.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/html-comment-content-spacing.html'
     },
     fixable: 'whitespace',
     schema: [

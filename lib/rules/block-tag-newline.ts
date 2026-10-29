@@ -50,7 +50,7 @@ const rule = {
       description:
         'enforce line breaks after opening and before closing block-level tags',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/block-tag-newline.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/block-tag-newline.html'
     },
     fixable: 'whitespace',
     schema: [

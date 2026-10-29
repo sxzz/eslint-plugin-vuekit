@@ -78,7 +78,7 @@ const rule = {
     docs: {
       description: 'disallow specific argument in `v-on`',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-restricted-v-on.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-restricted-v-on.html'
     },
     schema: {
       type: 'array',

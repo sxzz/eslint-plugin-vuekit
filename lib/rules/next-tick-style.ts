@@ -73,7 +73,7 @@ const rule = {
     docs: {
       description: 'enforce Promise or callback style in `nextTick`',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/next-tick-style.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/next-tick-style.html'
     },
     fixable: 'code',
     schema: [{ enum: ['promise', 'callback'] }],

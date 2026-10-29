@@ -100,7 +100,7 @@ const rule = {
     docs: {
       description: 'enforce valid `nextTick` function calls',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/valid-next-tick.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/valid-next-tick.html'
     },
     fixable: 'code',
     hasSuggestions: true,

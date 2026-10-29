@@ -67,7 +67,7 @@ const rule = {
     docs: {
       description: 'disallow specific attribute',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-restricted-static-attribute.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-restricted-static-attribute.html'
     },
     schema: {
       type: 'array',

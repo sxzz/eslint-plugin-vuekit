@@ -454,7 +454,7 @@ export function wrapCoreRule(
       meta: {
         type: 'problem',
         docs: {
-          url: `https://eslint.vuejs.org/rules/${coreRuleName}.html`
+          url: `https://eslint-plugin-vuekit.sxzz.dev/rules/${coreRuleName}.html`
         }
       },
       create(context: any) {
@@ -508,7 +508,7 @@ export function wrapStylisticOrCoreRule(
       meta: {
         type: 'problem',
         docs: {
-          url: `https://eslint.vuejs.org/rules/${vueRuleName}.html`
+          url: `https://eslint-plugin-vuekit.sxzz.dev/rules/${vueRuleName}.html`
         }
       },
       create(context: any) {
@@ -658,7 +658,7 @@ function wrapRuleModule(
         description,
         category: null,
         categories,
-        url: `https://eslint.vuejs.org/rules/${ruleName}.html`
+        url: `https://eslint-plugin-vuekit.sxzz.dev/rules/${ruleName}.html`
       })
     })
   }
@@ -2085,7 +2085,7 @@ export function defineTemplateBodyVisitor(
       context.report({
         loc: { line: 1, column: 0 },
         message:
-          'Use the latest vue-eslint-parser. See also https://eslint.vuejs.org/user-guide/#what-is-the-use-the-latest-vue-eslint-parser-error.'
+          'Use the latest vue-eslint-parser. See also https://eslint-plugin-vuekit.sxzz.dev/user-guide/#what-is-the-use-the-latest-vue-eslint-parser-error.'
       })
     }
     return {}
@@ -2113,7 +2113,7 @@ export function defineDocumentVisitor(
       context.report({
         loc: { line: 1, column: 0 },
         message:
-          'Use the latest vue-eslint-parser. See also https://eslint.vuejs.org/user-guide/#what-is-the-use-the-latest-vue-eslint-parser-error.'
+          'Use the latest vue-eslint-parser. See also https://eslint-plugin-vuekit.sxzz.dev/user-guide/#what-is-the-use-the-latest-vue-eslint-parser-error.'
       })
     }
     return {}

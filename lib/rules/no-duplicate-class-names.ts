@@ -197,7 +197,7 @@ const rule = {
   meta: {
     type: 'suggestion',
     docs: {
-      url: 'https://eslint.vuejs.org/rules/no-duplicate-class-names.html',
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-duplicate-class-names.html',
       description: 'disallow duplication of class names in class attributes',
       categories: undefined
     },

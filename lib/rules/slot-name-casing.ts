@@ -29,7 +29,7 @@ const rule = {
     docs: {
       description: 'enforce specific casing for slot names',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/slot-name-casing.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/slot-name-casing.html'
     },
     schema: [
       {

@@ -115,7 +115,7 @@ const rule = {
     docs: {
       description: 'disallow use other than available `lang`',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/block-lang.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/block-lang.html'
     },
     schema: [
       {
