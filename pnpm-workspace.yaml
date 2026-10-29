@@ -1,10 +1,9 @@
 packages:
   - tests/integrations/*
 
-minimumReleaseAgeExcludePrune: true
 allowBuilds:
   esbuild: true
   unrs-resolver: true
   workerd: true
-minimumReleaseAgeExclude:
-  - vite@8.3.5
+minimumReleaseAge: 0
+minimumReleaseAgeExcludePrune: true
