@@ -28,7 +28,7 @@ const rule = {
     docs: {
       description: 'require component name property to match its file name',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/match-component-file-name.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/match-component-file-name.html'
     },
     hasSuggestions: true,
     schema: [

@@ -17,7 +17,7 @@ const rule = {
     docs: {
       description: 'disallow specific elements',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-restricted-html-elements.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-restricted-html-elements.html'
     },
     schema: {
       type: 'array',

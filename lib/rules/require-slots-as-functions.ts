@@ -39,7 +39,7 @@ const rule = {
     docs: {
       description: 'enforce properties of `$slots` to be used as a function',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/require-slots-as-functions.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/require-slots-as-functions.html'
     },
     schema: [],
     messages: {

@@ -52,7 +52,7 @@ const rule = {
       description:
         'disallow the use of reserved names in component definitions',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-reserved-component-names.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-reserved-component-names.html'
     },
     schema: [
       {

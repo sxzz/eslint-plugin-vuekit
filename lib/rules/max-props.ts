@@ -18,7 +18,7 @@ const rule = {
     docs: {
       description: 'enforce maximum number of props in Vue component',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/max-props.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/max-props.html'
     },
     schema: [
       {

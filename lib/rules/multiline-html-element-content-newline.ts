@@ -65,7 +65,7 @@ const rule = {
       description:
         'require a line break before and after the contents of a multiline element',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/multiline-html-element-content-newline.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/multiline-html-element-content-newline.html'
     },
     fixable: 'whitespace',
     schema: [

@@ -30,7 +30,7 @@ const rule = {
     docs: {
       description: 'disallow overwriting reserved keys',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-reserved-keys.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-reserved-keys.html'
     },
     schema: [
       {

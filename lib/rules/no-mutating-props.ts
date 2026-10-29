@@ -123,7 +123,7 @@ const rule = {
     docs: {
       description: 'disallow mutation of component props',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-mutating-props.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-mutating-props.html'
     },
     schema: [
       {

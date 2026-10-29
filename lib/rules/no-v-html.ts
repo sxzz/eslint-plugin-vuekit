@@ -17,7 +17,7 @@ const rule = {
     docs: {
       description: 'disallow use of v-html to prevent XSS attack',
       categories: ['vue3-recommended'],
-      url: 'https://eslint.vuejs.org/rules/no-v-html.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-v-html.html'
     },
     schema: [
       {

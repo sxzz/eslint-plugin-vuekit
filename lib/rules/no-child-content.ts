@@ -54,7 +54,7 @@ const rule = {
       description:
         "disallow element's child contents which would be overwritten by a directive like `v-html` or `v-text`",
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-child-content.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-child-content.html'
     },
     hasSuggestions: true,
     schema: [

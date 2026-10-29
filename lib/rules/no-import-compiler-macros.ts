@@ -29,7 +29,7 @@ const rule = {
     docs: {
       description: 'disallow importing Vue compiler macros',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-import-compiler-macros.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-import-compiler-macros.html'
     },
     fixable: 'code',
     schema: [],

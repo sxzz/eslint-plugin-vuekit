@@ -48,7 +48,7 @@ const rule = {
     docs: {
       description: 'disallow useless attribute on `<template>`',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-useless-template-attributes.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-useless-template-attributes.html'
     },
     schema: [],
     messages: {

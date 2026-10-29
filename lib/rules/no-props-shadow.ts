@@ -39,7 +39,7 @@ const rule = {
       description:
         'disallow declarations that shadow props in `<script setup>`',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-props-shadow.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-props-shadow.html'
     },
     schema: [],
     messages: {

@@ -36,7 +36,7 @@ const rule = {
     docs: {
       description: 'prevent variables used in JSX to be marked as unused',
       categories: ['base'],
-      url: 'https://eslint.vuejs.org/rules/jsx-uses-vars.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/jsx-uses-vars.html'
     },
     schema: []
   },

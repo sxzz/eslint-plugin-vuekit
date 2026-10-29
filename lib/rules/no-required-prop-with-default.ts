@@ -18,7 +18,7 @@ const rule = {
     docs: {
       description: 'enforce props with default values to be optional',
       categories: ['vue3-recommended'],
-      url: 'https://eslint.vuejs.org/rules/no-required-prop-with-default.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-required-prop-with-default.html'
     },
     fixable: 'code',
     hasSuggestions: true,

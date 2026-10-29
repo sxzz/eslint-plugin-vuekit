@@ -448,7 +448,7 @@ const rule = {
     docs: {
       description: 'enforce order of attributes',
       categories: ['vue3-recommended'],
-      url: 'https://eslint.vuejs.org/rules/attributes-order.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/attributes-order.html'
     },
     fixable: 'code',
     hasSuggestions: true,

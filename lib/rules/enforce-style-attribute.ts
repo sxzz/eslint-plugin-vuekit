@@ -47,7 +47,7 @@ const rule = {
       description:
         'enforce or forbid the use of the `scoped` and `module` attributes in SFC top level style tags',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/enforce-style-attribute.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/enforce-style-attribute.html'
     },
     schema: [
       {

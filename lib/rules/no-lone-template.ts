@@ -38,7 +38,7 @@ const rule = {
     docs: {
       description: 'disallow unnecessary `<template>`',
       categories: ['vue3-recommended'],
-      url: 'https://eslint.vuejs.org/rules/no-lone-template.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-lone-template.html'
     },
     schema: [
       {

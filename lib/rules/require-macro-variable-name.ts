@@ -21,7 +21,7 @@ const rule = {
     docs: {
       description: 'require a certain macro variable name',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/require-macro-variable-name.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/require-macro-variable-name.html'
     },
     hasSuggestions: true,
     schema: [

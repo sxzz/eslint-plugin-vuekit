@@ -165,7 +165,7 @@ const rule = {
     docs: {
       description: 'disallow asynchronous actions in computed properties',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-async-in-computed-properties.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-async-in-computed-properties.html'
     },
     schema: [
       {

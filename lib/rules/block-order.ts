@@ -32,7 +32,7 @@ const rule = {
     docs: {
       description: 'enforce order of component top-level elements',
       categories: ['vue3-recommended'],
-      url: 'https://eslint.vuejs.org/rules/block-order.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/block-order.html'
     },
     fixable: 'code',
     schema: [

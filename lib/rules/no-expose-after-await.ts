@@ -51,7 +51,7 @@ const rule = {
     docs: {
       description: 'disallow asynchronously registered `expose`',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-expose-after-await.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-expose-after-await.html'
     },
     schema: [],
     messages: {

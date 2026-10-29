@@ -28,7 +28,7 @@ const rule = {
     docs: {
       description: 'enforce valid `defineEmits` compiler macro',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/valid-define-emits.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/valid-define-emits.html'
     },
     schema: [],
     messages: {

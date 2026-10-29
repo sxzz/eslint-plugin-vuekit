@@ -67,7 +67,7 @@ const rule = {
       description:
         'disallow duplicate conditions in `v-if` / `v-else-if` chains',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-dupe-v-else-if.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-dupe-v-else-if.html'
     },
     schema: [],
     messages: {

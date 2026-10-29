@@ -74,7 +74,7 @@ const rule = {
     docs: {
       description: 'disallow specific custom event',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-restricted-custom-event.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-restricted-custom-event.html'
     },
     hasSuggestions: true,
     schema: {

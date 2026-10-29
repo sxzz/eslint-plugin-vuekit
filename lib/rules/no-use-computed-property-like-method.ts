@@ -497,7 +497,7 @@ const rule = {
     docs: {
       description: 'disallow use computed property like method',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-use-computed-property-like-method.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-use-computed-property-like-method.html'
     },
     schema: [],
     messages: {

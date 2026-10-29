@@ -89,7 +89,7 @@ const rule = {
     docs: {
       description: 'disallow static inline `style` attributes',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-static-inline-styles.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-static-inline-styles.html'
     },
     schema: [
       {

@@ -11,7 +11,7 @@ const rule = {
   meta: {
     type: 'suggestion',
     docs: {
-      url: 'https://eslint.vuejs.org/rules/static-class-names-order.html',
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/static-class-names-order.html',
       description: 'enforce static class names order',
       categories: undefined
     },

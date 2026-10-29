@@ -16,7 +16,7 @@ const rule = {
     docs: {
       description: 'disallow using arrow functions to define watcher',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-arrow-functions-in-watch.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-arrow-functions-in-watch.html'
     },
     schema: [],
     messages: {

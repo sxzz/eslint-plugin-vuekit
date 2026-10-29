@@ -36,7 +36,7 @@ const rule = {
     docs: {
       description: 'disallow specific block',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-restricted-block.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-restricted-block.html'
     },
     schema: {
       type: 'array',

@@ -83,7 +83,7 @@ const rule = {
     docs: {
       description: 'disallow undefined properties',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-undef-properties.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-undef-properties.html'
     },
     schema: [
       {

@@ -19,7 +19,7 @@ const rule = {
     docs: {
       description: 'disallow multiple spaces',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/no-multi-spaces.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-multi-spaces.html'
     },
     fixable: 'whitespace',
     schema: [
@@ -39,7 +39,7 @@ const rule = {
     messages: {
       multipleSpaces: "Multiple spaces found before '{{displayValue}}'.",
       useLatestParser:
-        'Use the latest vue-eslint-parser. See also https://eslint.vuejs.org/user-guide/#what-is-the-use-the-latest-vue-eslint-parser-error.'
+        'Use the latest vue-eslint-parser. See also https://eslint-plugin-vuekit.sxzz.dev/user-guide/#what-is-the-use-the-latest-vue-eslint-parser-error.'
     }
   },
 

@@ -19,7 +19,7 @@ const rule = {
     docs: {
       description: 'enforce valid `v-else-if` directives',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/valid-v-else-if.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/valid-v-else-if.html'
     },
     schema: [],
     messages: {

@@ -17,7 +17,7 @@ const rule = {
     docs: {
       description: 'enforce valid `v-html` directives',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/valid-v-html.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/valid-v-html.html'
     },
     schema: [],
     messages: {

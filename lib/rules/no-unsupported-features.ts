@@ -67,7 +67,7 @@ const rule = {
       description:
         'disallow unsupported Vue.js syntax on the specified version',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-unsupported-features.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-unsupported-features.html'
     },
 
     fixable: 'code',

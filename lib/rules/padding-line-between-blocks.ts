@@ -122,7 +122,7 @@ const rule = {
     docs: {
       description: 'require or disallow padding lines between blocks',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/padding-line-between-blocks.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/padding-line-between-blocks.html'
     },
 
     fixable: 'whitespace',

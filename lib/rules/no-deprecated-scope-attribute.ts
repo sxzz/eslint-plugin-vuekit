@@ -13,7 +13,7 @@ const rule = {
     docs: {
       description: 'disallow deprecated `scope` attribute',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-deprecated-scope-attribute.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-deprecated-scope-attribute.html'
     },
 
     fixable: 'code',

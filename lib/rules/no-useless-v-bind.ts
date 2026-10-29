@@ -20,7 +20,7 @@ const rule = {
     docs: {
       description: 'disallow unnecessary `v-bind` directives',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-useless-v-bind.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-useless-v-bind.html'
     },
     fixable: 'code',
     schema: [

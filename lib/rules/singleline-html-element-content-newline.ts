@@ -56,7 +56,7 @@ const rule = {
       description:
         'require a line break before and after the contents of a singleline element',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/singleline-html-element-content-newline.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/singleline-html-element-content-newline.html'
     },
     fixable: 'whitespace',
     schema: [

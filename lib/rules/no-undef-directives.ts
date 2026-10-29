@@ -71,7 +71,7 @@ const rule = {
     docs: {
       description: 'disallow use of undefined custom directives',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-undef-directives.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-undef-directives.html'
     },
     schema: [
       {

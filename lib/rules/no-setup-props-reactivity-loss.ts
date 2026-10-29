@@ -116,7 +116,7 @@ const rule = {
       description:
         'disallow usages that lose the reactivity of `props` passed to `setup`',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-setup-props-reactivity-loss.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-setup-props-reactivity-loss.html'
     },
     schema: [],
     messages: {

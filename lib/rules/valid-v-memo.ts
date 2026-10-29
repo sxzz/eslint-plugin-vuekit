@@ -65,7 +65,7 @@ const rule = {
     docs: {
       description: 'enforce valid `v-memo` directives',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/valid-v-memo.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/valid-v-memo.html'
     },
     schema: [],
     messages: {

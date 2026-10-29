@@ -18,7 +18,7 @@ const rule = {
     docs: {
       description: 'require `v-bind:key` with `v-for` directives',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/require-v-for-key.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/require-v-for-key.html'
     },
     schema: [],
     messages: {

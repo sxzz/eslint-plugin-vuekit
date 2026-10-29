@@ -129,7 +129,7 @@ const rule = {
     docs: {
       description: 'enforce adding type declarations to object props',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/require-typed-object-prop.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/require-typed-object-prop.html'
     },
     hasSuggestions: true,
     schema: [],

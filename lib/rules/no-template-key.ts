@@ -19,7 +19,7 @@ const rule = {
     docs: {
       description: 'disallow `key` attribute on `<template>`',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-template-key.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-template-key.html'
     },
     schema: [],
     messages: {

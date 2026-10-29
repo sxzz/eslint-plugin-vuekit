@@ -54,7 +54,7 @@ const rule = {
       description:
         'enforce new lines between multi-line properties in Vue components',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/new-line-between-multi-line-property.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/new-line-between-multi-line-property.html'
     },
     fixable: 'whitespace',
     schema: [

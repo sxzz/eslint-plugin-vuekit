@@ -13,7 +13,7 @@ const rule = {
     docs: {
       description: 'disallow v-text / v-html on component',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-v-text-v-html-on-component.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-v-text-v-html-on-component.html'
     },
     schema: [
       {

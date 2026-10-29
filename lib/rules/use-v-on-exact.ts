@@ -177,7 +177,7 @@ const rule = {
     docs: {
       description: 'enforce usage of `exact` modifier on `v-on`',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/use-v-on-exact.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/use-v-on-exact.html'
     },
     schema: [],
     messages: {

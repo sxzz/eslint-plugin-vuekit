@@ -28,7 +28,7 @@ const rule = {
     docs: {
       description: 'enforce valid `defineProps` compiler macro',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/valid-define-props.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/valid-define-props.html'
     },
     schema: [],
     messages: {

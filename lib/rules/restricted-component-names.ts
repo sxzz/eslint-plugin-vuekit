@@ -24,7 +24,7 @@ const rule = {
     docs: {
       description: 'enforce using only specific component names',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/restricted-component-names.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/restricted-component-names.html'
     },
     schema: [
       {

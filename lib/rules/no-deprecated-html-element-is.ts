@@ -18,7 +18,7 @@ const rule = {
       description:
         'disallow using deprecated the `is` attribute on HTML elements (in Vue.js 3.0.0+)',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-deprecated-html-element-is.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-deprecated-html-element-is.html'
     },
     schema: [],
     messages: {

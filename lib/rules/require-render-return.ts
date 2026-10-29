@@ -17,7 +17,7 @@ const rule = {
     docs: {
       description: 'enforce render function to always return value',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/require-render-return.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/require-render-return.html'
     },
     schema: [],
     messages: {

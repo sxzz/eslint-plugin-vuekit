@@ -43,7 +43,7 @@ const rule = {
     docs: {
       description: "enforce component's data property to be a function",
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-shared-component-data.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-shared-component-data.html'
     },
     fixable: 'code',
     schema: [],

@@ -13,7 +13,7 @@ const rule = {
     docs: {
       description: 'enforce the location of first attribute',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/first-attribute-linebreak.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/first-attribute-linebreak.html'
     },
     fixable: 'whitespace',
     schema: [

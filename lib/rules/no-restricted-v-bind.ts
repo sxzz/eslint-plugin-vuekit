@@ -90,7 +90,7 @@ const rule = {
     docs: {
       description: 'disallow specific argument in `v-bind`',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-restricted-v-bind.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-restricted-v-bind.html'
     },
     schema: {
       type: 'array',

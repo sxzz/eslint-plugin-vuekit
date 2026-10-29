@@ -29,7 +29,7 @@ const rule = {
       description:
         'enforce that a return statement is present in computed property',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/return-in-computed-property.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/return-in-computed-property.html'
     },
     schema: [
       {

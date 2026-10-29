@@ -29,7 +29,7 @@ const rule = {
     docs: {
       description: 'disallow duplication of attributes',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-duplicate-attributes.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-duplicate-attributes.html'
     },
 
     schema: [

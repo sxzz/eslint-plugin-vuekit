@@ -18,7 +18,7 @@ const rule = {
     docs: {
       description: 'enforce end tag style',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/html-end-tags.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/html-end-tags.html'
     },
     fixable: 'code',
     schema: [],

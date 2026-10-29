@@ -19,7 +19,7 @@ const rule = {
     docs: {
       description: 'enforce declaration style of `defineEmits`',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/define-emits-declaration.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/define-emits-declaration.html'
     },
     schema: [
       {

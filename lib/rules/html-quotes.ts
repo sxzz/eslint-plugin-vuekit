@@ -18,7 +18,7 @@ const rule = {
     docs: {
       description: 'enforce quotes style of HTML attributes',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/html-quotes.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/html-quotes.html'
     },
     fixable: 'code',
     schema: [

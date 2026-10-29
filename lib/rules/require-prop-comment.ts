@@ -19,7 +19,7 @@ const rule = {
     docs: {
       description: 'require props to have a comment',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/require-prop-comment.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/require-prop-comment.html'
     },
     schema: [
       {

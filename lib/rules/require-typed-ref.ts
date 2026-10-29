@@ -163,7 +163,7 @@ const rule = {
       description:
         'require `ref` and `shallowRef` functions to be strongly typed',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/require-typed-ref.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/require-typed-ref.html'
     },
     schema: [],
     messages: {

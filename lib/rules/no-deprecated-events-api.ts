@@ -23,7 +23,7 @@ const rule = {
     docs: {
       description: 'disallow using deprecated events api (in Vue.js 3.0.0+)',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-deprecated-events-api.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-deprecated-events-api.html'
     },
     schema: [],
     messages: {

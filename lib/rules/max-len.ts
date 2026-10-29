@@ -164,7 +164,7 @@ const rule = {
     docs: {
       description: 'enforce a maximum line length in `.vue` files',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/max-len.html',
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/max-len.html',
       extensionSource: {
         url: 'https://eslint.org/docs/rules/max-len',
         name: 'ESLint core'

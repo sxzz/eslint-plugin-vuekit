@@ -54,7 +54,7 @@ const rule = {
     docs: {
       description: 'enforce `Boolean` comes first in component prop types',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/prefer-prop-type-boolean-first.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/prefer-prop-type-boolean-first.html'
     },
     hasSuggestions: true,
     schema: [],

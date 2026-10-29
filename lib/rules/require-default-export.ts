@@ -18,7 +18,7 @@ const rule = {
     docs: {
       description: 'require components to be the default export',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/require-default-export.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/require-default-export.html'
     },
     schema: [],
     messages: {

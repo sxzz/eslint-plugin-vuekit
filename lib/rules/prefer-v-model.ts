@@ -94,7 +94,7 @@ const rule = {
       description:
         'enforce using `v-model` instead of `:prop`/`@update:prop` pair',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/prefer-v-model.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/prefer-v-model.html'
     },
     hasSuggestions: true,
     schema: [],

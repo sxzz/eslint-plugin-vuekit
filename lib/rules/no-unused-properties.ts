@@ -216,7 +216,7 @@ const rule = {
     docs: {
       description: 'disallow unused properties',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-unused-properties.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-unused-properties.html'
     },
     schema: [
       {

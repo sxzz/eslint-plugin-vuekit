@@ -44,7 +44,7 @@ const rule = {
     docs: {
       description: 'disallow asynchronously registered lifecycle hooks',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-lifecycle-after-await.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-lifecycle-after-await.html'
     },
     schema: [],
     messages: {

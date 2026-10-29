@@ -15,7 +15,7 @@ const rule = {
     docs: {
       description: "enforce `v-for` directive's delimiter style",
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/v-for-delimiter-style.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/v-for-delimiter-style.html'
     },
     fixable: 'code',
     schema: [{ enum: ['in', 'of'] }],

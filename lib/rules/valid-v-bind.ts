@@ -19,7 +19,7 @@ const rule = {
     docs: {
       description: 'enforce valid `v-bind` directives',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/valid-v-bind.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/valid-v-bind.html'
     },
     schema: [],
     messages: {

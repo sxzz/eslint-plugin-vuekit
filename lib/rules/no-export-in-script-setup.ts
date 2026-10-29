@@ -26,7 +26,7 @@ const rule = {
     docs: {
       description: 'disallow `export` in `<script setup>`',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-export-in-script-setup.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-export-in-script-setup.html'
     },
     schema: [],
     messages: {

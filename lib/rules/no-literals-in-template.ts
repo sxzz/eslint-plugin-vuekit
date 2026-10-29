@@ -30,7 +30,7 @@ const rule = {
     docs: {
       description: 'disallow object, array, and function literals in template',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-literals-in-template.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-literals-in-template.html'
     },
     schema: [
       {

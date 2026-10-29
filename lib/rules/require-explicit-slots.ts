@@ -58,7 +58,7 @@ const rule = {
     docs: {
       description: 'require slots to be explicitly defined',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/require-explicit-slots.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/require-explicit-slots.html'
     },
     schema: [],
     messages: {

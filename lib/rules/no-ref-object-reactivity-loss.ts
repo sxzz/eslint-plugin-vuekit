@@ -70,7 +70,7 @@ const rule = {
       description:
         'disallow usages of ref objects that can lead to loss of reactivity',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-ref-object-reactivity-loss.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-ref-object-reactivity-loss.html'
     },
     schema: [],
     messages: {

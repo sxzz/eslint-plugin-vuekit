@@ -55,7 +55,7 @@ const rule = {
     docs: {
       description: 'enforce `v-bind` directive style',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/v-bind-style.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/v-bind-style.html'
     },
     fixable: 'code',
     schema: [

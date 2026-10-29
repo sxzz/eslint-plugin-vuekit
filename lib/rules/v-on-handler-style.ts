@@ -104,7 +104,7 @@ const rule = {
     docs: {
       description: 'enforce writing style for handlers in `v-on` directives',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/v-on-handler-style.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/v-on-handler-style.html'
     },
     fixable: 'code',
     schema: [

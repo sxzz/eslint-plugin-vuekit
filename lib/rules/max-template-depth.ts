@@ -11,7 +11,7 @@ const rule = {
     docs: {
       description: 'enforce maximum depth of template',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/max-template-depth.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/max-template-depth.html'
     },
     schema: [
       {

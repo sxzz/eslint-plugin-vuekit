@@ -30,7 +30,7 @@ const rule = {
     docs: {
       description: 'enforce unified line break in HTML comments',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/html-comment-content-newline.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/html-comment-content-newline.html'
     },
     fixable: 'whitespace',
     schema: [

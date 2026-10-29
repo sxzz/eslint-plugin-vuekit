@@ -11,7 +11,7 @@ const rule = {
       description:
         'enforce v-on event naming style on custom components in template',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/v-on-event-hyphenation.html',
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/v-on-event-hyphenation.html',
       defaultOptions: {
         vue3: ['always', { autofix: true }]
       }

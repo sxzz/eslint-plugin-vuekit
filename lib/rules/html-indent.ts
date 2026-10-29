@@ -26,7 +26,7 @@ const rule = {
     docs: {
       description: 'enforce consistent indentation in `<template>`',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/html-indent.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/html-indent.html'
     },
 
     fixable: 'whitespace',

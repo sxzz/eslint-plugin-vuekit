@@ -49,7 +49,7 @@ const rule = {
     docs: {
       description: 'disallow deprecated `model` definition (in Vue.js 3.0.0+)',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-deprecated-model-definition.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-deprecated-model-definition.html'
     },
     hasSuggestions: true,
     schema: [

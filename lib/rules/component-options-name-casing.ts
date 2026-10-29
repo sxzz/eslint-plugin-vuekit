@@ -28,7 +28,7 @@ const rule = {
       description:
         'enforce the casing of component name in `components` options',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/component-options-name-casing.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/component-options-name-casing.html'
     },
     fixable: 'code',
     hasSuggestions: true,

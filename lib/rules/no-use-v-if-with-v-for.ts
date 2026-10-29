@@ -38,7 +38,7 @@ const rule = {
     docs: {
       description: 'disallow using `v-if` on the same element as `v-for`',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-use-v-if-with-v-for.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-use-v-if-with-v-for.html'
     },
     schema: [
       {

@@ -73,7 +73,7 @@ const rule = {
       description:
         'enforce passing a single argument to custom event emissions',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/prefer-single-event-payload.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/prefer-single-event-payload.html'
     },
     hasSuggestions: false,
     schema: [],

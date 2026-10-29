@@ -86,7 +86,7 @@ const rule = {
       description:
         'disallow target="_blank" attribute without rel="noopener noreferrer"',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-template-target-blank.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-template-target-blank.html'
     },
     hasSuggestions: true,
     schema: [

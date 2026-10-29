@@ -60,7 +60,7 @@ const rule = {
     docs: {
       description: 'disallow asynchronously registered `watch`',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-watch-after-await.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-watch-after-await.html'
     },
     schema: [],
     messages: {

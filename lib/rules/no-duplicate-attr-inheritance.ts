@@ -50,7 +50,7 @@ const rule = {
       description:
         'enforce `inheritAttrs` to be set to `false` when using `v-bind="$attrs"`',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-duplicate-attr-inheritance.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-duplicate-attr-inheritance.html'
     },
     schema: [
       {

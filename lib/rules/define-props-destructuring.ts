@@ -19,7 +19,7 @@ const rule = {
     docs: {
       description: 'enforce consistent style for props destructuring',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/define-props-destructuring.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/define-props-destructuring.html'
     },
     schema: [
       {

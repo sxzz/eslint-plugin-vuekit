@@ -37,7 +37,7 @@ const rule = {
     docs: {
       description: 'require prop type to be a constructor',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/require-prop-type-constructor.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/require-prop-type-constructor.html'
     },
     fixable: 'code',
     schema: [],

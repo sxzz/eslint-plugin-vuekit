@@ -59,7 +59,7 @@ const rule = {
       description:
         'enforce specific casing for the Prop name in Vue components',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/prop-name-casing.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/prop-name-casing.html'
     },
     schema: [
       {

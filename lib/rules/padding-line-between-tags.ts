@@ -209,7 +209,7 @@ const rule = {
       description:
         'require or disallow newlines between sibling tags in template',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/padding-line-between-tags.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/padding-line-between-tags.html'
     },
 
     fixable: 'whitespace',

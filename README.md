@@ -11,7 +11,7 @@ A fork of [eslint-plugin-vue](https://github.com/vuejs/eslint-plugin-vue), with 
 
 ## :book: Documentation
 
-Please refer to the [upstream documentation](https://eslint.vuejs.org).
+Please refer to the [documentation](https://eslint-plugin-vuekit.sxzz.dev).
 
 ## :anchor: Versioning Policy
 
@@ -30,7 +30,7 @@ This project uses [GitHub Releases](https://github.com/sxzz/eslint-plugin-vuekit
 
 ## :beers: Contribution Guide
 
-Contributing is welcome! See the [ESLint Vue Plugin Developer Guide](https://eslint.vuejs.org/developer-guide).
+Contributing is welcome! See the [ESLint Vue Plugin Developer Guide](https://eslint-plugin-vuekit.sxzz.dev/developer-guide).
 
 ### Working With Rules
 

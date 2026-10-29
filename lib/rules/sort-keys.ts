@@ -71,7 +71,7 @@ const rule = {
       description:
         'enforce sort-keys in a manner that is compatible with order-in-components',
       categories: null,
-      url: 'https://eslint.vuejs.org/rules/sort-keys.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/sort-keys.html'
     },
     schema: [
       {

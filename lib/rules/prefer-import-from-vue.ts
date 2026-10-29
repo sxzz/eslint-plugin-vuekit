@@ -48,7 +48,7 @@ const rule = {
     docs: {
       description: "enforce import from 'vue' instead of import from '@vue/*'",
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/prefer-import-from-vue.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/prefer-import-from-vue.html'
     },
     fixable: 'code',
     schema: [],

@@ -31,7 +31,7 @@ const rule = {
     docs: {
       description: 'disallow passing multiple objects in an array to class',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-multiple-objects-in-class.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-multiple-objects-in-class.html'
     },
     schema: [],
     messages: {

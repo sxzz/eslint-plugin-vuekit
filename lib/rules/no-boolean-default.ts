@@ -40,7 +40,7 @@ const rule = {
     docs: {
       description: 'disallow boolean defaults',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-boolean-default.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-boolean-default.html'
     },
     schema: [
       {

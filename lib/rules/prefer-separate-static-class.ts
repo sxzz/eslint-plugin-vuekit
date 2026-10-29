@@ -139,7 +139,7 @@ const rule = {
       description:
         'require static class names in template to be in a separate `class` attribute',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/prefer-separate-static-class.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/prefer-separate-static-class.html'
     },
     fixable: 'code',
     schema: [],

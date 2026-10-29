@@ -41,7 +41,7 @@ const rule = {
     docs: {
       description: 'disallow unused refs',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-unused-refs.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-unused-refs.html'
     },
     schema: [],
     messages: {

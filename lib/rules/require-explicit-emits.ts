@@ -66,7 +66,7 @@ const rule = {
     docs: {
       description: 'require `emits` option with name triggered by `$emit()`',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/require-explicit-emits.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/require-explicit-emits.html'
     },
     hasSuggestions: true,
     schema: [

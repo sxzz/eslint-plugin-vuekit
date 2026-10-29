@@ -94,7 +94,7 @@ const rule = {
     docs: {
       description: 'require or disallow padding lines in component definition',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/padding-lines-in-component-definition.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/padding-lines-in-component-definition.html'
     },
     fixable: 'whitespace',
     schema: [

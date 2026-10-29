@@ -28,7 +28,7 @@ const rule = {
       description:
         'disallow using deprecated `destroyed` and `beforeDestroy` lifecycle hooks (in Vue.js 3.0.0+)',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-deprecated-destroyed-lifecycle.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-deprecated-destroyed-lifecycle.html'
     },
     fixable: 'code',
     schema: [],

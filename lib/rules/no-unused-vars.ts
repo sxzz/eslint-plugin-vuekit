@@ -76,7 +76,7 @@ const rule = {
       description:
         'disallow unused variable definitions of v-for directives or scope attributes',
       categories: ['vue3-essential'],
-      url: 'https://eslint.vuejs.org/rules/no-unused-vars.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-unused-vars.html'
     },
     hasSuggestions: true,
     schema: [

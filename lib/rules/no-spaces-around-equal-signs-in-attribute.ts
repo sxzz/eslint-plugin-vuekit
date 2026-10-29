@@ -13,7 +13,7 @@ const rule = {
     docs: {
       description: 'disallow spaces around equal signs in attribute',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/no-spaces-around-equal-signs-in-attribute.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-spaces-around-equal-signs-in-attribute.html'
     },
     fixable: 'whitespace',
     schema: [],

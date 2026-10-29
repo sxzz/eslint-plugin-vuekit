@@ -52,7 +52,7 @@ const rule = {
     docs: {
       description: 'require default value for props',
       categories: ['vue3-strongly-recommended'],
-      url: 'https://eslint.vuejs.org/rules/require-default-prop.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/require-default-prop.html'
     },
     schema: [],
     messages: {

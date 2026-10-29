@@ -103,7 +103,7 @@ const rule = {
     type: 'problem',
     docs: {
       description: 'disallow specific classes in Vue components',
-      url: 'https://eslint.vuejs.org/rules/no-restricted-class.html',
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-restricted-class.html',
       categories: undefined
     },
     schema: {

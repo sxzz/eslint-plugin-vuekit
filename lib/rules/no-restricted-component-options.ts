@@ -102,7 +102,7 @@ const rule = {
     docs: {
       description: 'disallow specific component option',
       categories: undefined,
-      url: 'https://eslint.vuejs.org/rules/no-restricted-component-options.html'
+      url: 'https://eslint-plugin-vuekit.sxzz.dev/rules/no-restricted-component-options.html'
     },
     schema: {
       type: 'array',
